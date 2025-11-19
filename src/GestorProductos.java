@@ -1,73 +1,65 @@
-import java.util.List;
+import java.util.ArrayList;
 
 public class GestorProductos {
 
-    private Almacen almacen;
-    private String archivoJSON;
+    private ArrayList<Producto> listaProductos;
+    private int idActual = 1;  // ID autoincremental
 
-    public GestorProductos(Almacen almacen, String archivoJSON) {
-        this.almacen = almacen;
-        this.archivoJSON = archivoJSON;
+    public GestorProductos() {
+        listaProductos = new ArrayList<>();
+
+        // Puedes cargar datos iniciales si querés:
+        // agregarProducto("Gaseosa", "Bebidas", 500, 15);
+        // agregarProducto("Yerba Mate", "Almacén", 1200, 25);
     }
 
-    // ==========================================
+    // ==============================
+    // GET LISTA COMPLETA
+    // ==============================
+    public ArrayList<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    // ==============================
     // AGREGAR PRODUCTO
-    // ==========================================
+    // ==============================
     public void agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
-        Producto p = new Producto(nombre, categoria, precio, stock);
-        almacen.agregarProducto(p);
-        guardar();
+        Producto p = new Producto( nombre, categoria, precio, stock);
+        listaProductos.add(p);
     }
 
-    // ==========================================
-    // MODIFICAR PRODUCTO
-    // ==========================================
-    public boolean modificarProducto(int id, String nombre, double precio, int stock) {
-        Producto p = almacen.buscarPorId(id);
-        if (p != null) {
-            p.setNombre(nombre);
-            p.setPrecio(precio);
-            p.setStock(stock);
-            guardar();
-            return true;
+    // ==============================
+    // BUSCAR POR ID
+    // ==============================
+    public Producto buscarPorId(int id) {
+        for (Producto p : listaProductos) {
+            if (p.getId() == id) return p;
         }
-        return false;
+        return null;
     }
 
-    // ==========================================
-    // ELIMINAR LÓGICAMENTE
-    // ==========================================
+    // ==============================
+    // MODIFICAR PRODUCTO
+    // ==============================
+    public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
+        Producto p = buscarPorId(id);
+        if (p == null) return false;
+
+        p.setNombre(nombre);
+        p.setCategoria(categoria);
+        p.setPrecio(precio);
+        p.setStock(stock);
+        return true;
+    }
+
+    // ==============================
+    // ELIMINAR PRODUCTO
+    // ==============================
     public boolean eliminarProducto(int id) {
-        boolean ok = almacen.eliminarProducto(id);
-        if (ok) guardar();
-        return ok;
-    }
+        Producto p = buscarPorId(id);
+        if (p == null) return false;
 
-    // ==========================================
-    // BUSCAR
-    // ==========================================
-    public Producto buscar(int id) {
-        return almacen.buscarPorId(id);
-    }
-
-    public List<Producto> listar() {
-        return almacen.getProductos();
-    }
-
-    // ==========================================
-    // JSON GUARDAR
-    // ==========================================
-    public void guardar() {
-        JSONGestora.guardarProductos(almacen.getProductos(), archivoJSON);
-    }
-
-    // ==========================================
-    // JSON CARGAR
-    // ==========================================
-    public void cargar() {
-        List<Producto> lista = JSONGestora.cargarProductos(archivoJSON);
-        almacen = new Almacen(lista);
+        return listaProductos.remove(p);
     }
 }
-
 

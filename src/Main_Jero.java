@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
 
-public class Main {
+public class Main_Jero {
     public static void main(String[] args) {
 
         GestorProductos gestor = new GestorProductos();
@@ -8,6 +9,7 @@ public class Main {
         InicioVisual login = new InicioVisual(gestor);
         login.setVisible(true);
 
+        /*
         ArrayList<Producto> productos = new ArrayList<>();
 
         // ---- Carne ----
@@ -50,6 +52,15 @@ public class Main {
         JSONGestora.guardarProductos(productos, "data/productos.json");
 
         System.out.println("Productos guardados correctamente en data/productos.json");
+
+         */
+
+        List<Administrador> admins = new ArrayList<>();
+
+        admins.add(new Administrador("Juan", "Gomez", "admin1", "admin1@gmail.com", "1234"));
+        admins.add(new Administrador("Ana", "Perez", "admin2", "ana@gmail.com", "abcd"));
+
+        JSONGestoraAdmins.guardarAdmins(admins, "data/admins.json");
     }
 }
 
