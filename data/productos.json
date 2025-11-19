@@ -1,0 +1,194 @@
+[
+    {
+        "precio": 5500,
+        "categoria": "Carne",
+        "id": 1,
+        "stock": 20,
+        "nombre": "Asado",
+        "activo": true
+    },
+    {
+        "precio": 4800,
+        "categoria": "Carne",
+        "id": 2,
+        "stock": 30,
+        "nombre": "Milanesa",
+        "activo": true
+    },
+    {
+        "precio": 4200,
+        "categoria": "Carne",
+        "id": 3,
+        "stock": 25,
+        "nombre": "Carne Picada",
+        "activo": true
+    },
+    {
+        "precio": 6000,
+        "categoria": "Carne",
+        "id": 4,
+        "stock": 15,
+        "nombre": "Costillas",
+        "activo": true
+    },
+    {
+        "precio": 1200,
+        "categoria": "Lacteos",
+        "id": 5,
+        "stock": 100,
+        "nombre": "Leche",
+        "activo": true
+    },
+    {
+        "precio": 2800,
+        "categoria": "Lacteos",
+        "id": 6,
+        "stock": 40,
+        "nombre": "Queso",
+        "activo": true
+    },
+    {
+        "precio": 900,
+        "categoria": "Lacteos",
+        "id": 7,
+        "stock": 60,
+        "nombre": "Yogur",
+        "activo": true
+    },
+    {
+        "precio": 1500,
+        "categoria": "Lacteos",
+        "id": 8,
+        "stock": 30,
+        "nombre": "Manteca",
+        "activo": true
+    },
+    {
+        "precio": 1700,
+        "categoria": "Bebidas",
+        "id": 9,
+        "stock": 50,
+        "nombre": "Coca-Cola",
+        "activo": true
+    },
+    {
+        "precio": 900,
+        "categoria": "Bebidas",
+        "id": 10,
+        "stock": 80,
+        "nombre": "Agua",
+        "activo": true
+    },
+    {
+        "precio": 1300,
+        "categoria": "Bebidas",
+        "id": 11,
+        "stock": 40,
+        "nombre": "Jugo",
+        "activo": true
+    },
+    {
+        "precio": 2200,
+        "categoria": "Bebidas",
+        "id": 12,
+        "stock": 25,
+        "nombre": "Energizante",
+        "activo": true
+    },
+    {
+        "precio": 1400,
+        "categoria": "Snacks",
+        "id": 13,
+        "stock": 70,
+        "nombre": "Papas Fritas",
+        "activo": true
+    },
+    {
+        "precio": 1100,
+        "categoria": "Snacks",
+        "id": 14,
+        "stock": 50,
+        "nombre": "Maní",
+        "activo": true
+    },
+    {
+        "precio": 900,
+        "categoria": "Snacks",
+        "id": 15,
+        "stock": 60,
+        "nombre": "Galletitas",
+        "activo": true
+    },
+    {
+        "precio": 2000,
+        "categoria": "Snacks",
+        "id": 16,
+        "stock": 40,
+        "nombre": "Chocolate",
+        "activo": true
+    },
+    {
+        "precio": 800,
+        "categoria": "Limpieza",
+        "id": 17,
+        "stock": 50,
+        "nombre": "Lavandina",
+        "activo": true
+    },
+    {
+        "precio": 900,
+        "categoria": "Limpieza",
+        "id": 18,
+        "stock": 45,
+        "nombre": "Detergente",
+        "activo": true
+    },
+    {
+        "precio": 2500,
+        "categoria": "Limpieza",
+        "id": 19,
+        "stock": 30,
+        "nombre": "Jabón en Polvo",
+        "activo": true
+    },
+    {
+        "precio": 1500,
+        "categoria": "Limpieza",
+        "id": 20,
+        "stock": 35,
+        "nombre": "Desodorante",
+        "activo": true
+    },
+    {
+        "precio": 700,
+        "categoria": "Frutas",
+        "id": 21,
+        "stock": 80,
+        "nombre": "Manzana",
+        "activo": true
+    },
+    {
+        "precio": 650,
+        "categoria": "Frutas",
+        "id": 22,
+        "stock": 90,
+        "nombre": "Banana",
+        "activo": true
+    },
+    {
+        "precio": 600,
+        "categoria": "Frutas",
+        "id": 23,
+        "stock": 70,
+        "nombre": "Naranja",
+        "activo": true
+    },
+    {
+        "precio": 750,
+        "categoria": "Frutas",
+        "id": 24,
+        "stock": 60,
+        "nombre": "Pera",
+        "activo": true
+    }
+]
