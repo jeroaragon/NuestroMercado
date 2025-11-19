@@ -1,0 +1,18 @@
+[
+    {
+        "password": "1234",
+        "apellido": "Gomez",
+        "nombre": "Juan",
+        "email": "admin1@gmail.com",
+        "username": "admin1",
+        "activo": true
+    },
+    {
+        "password": "abcd",
+        "apellido": "Perez",
+        "nombre": "Ana",
+        "email": "ana@gmail.com",
+        "username": "admin2",
+        "activo": true
+    }
+]
