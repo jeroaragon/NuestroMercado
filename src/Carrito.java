@@ -3,10 +3,17 @@ import java.util.Map;
 
 public class Carrito {
 
-    // Producto → cantidad
     private Map<Producto, Integer> items = new HashMap<>();
 
-    public void agregarProducto(Producto p, int cantidad) {
+    public void agregarProducto(Producto p, int cantidad) throws StockInsuficienteException {
+
+        if (cantidad > p.getStock()) {
+            throw new StockInsuficienteException(
+                    "Intentaste agregar " + cantidad + " unidades pero solo hay " + p.getStock()
+            );
+        }
+
+        // si pasa el control, agregamos
         items.put(p, items.getOrDefault(p, 0) + cantidad);
     }
 

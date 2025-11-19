@@ -4,8 +4,18 @@ public class Administrador extends Usuario {
         super(nombre, apellido, username, email, password);
     }
 
+    public Administrador(String username, String password, String nombre) {
+    }
+
+
+
     @Override
     public boolean esAdmin() {
         return true;
+    }
+
+    @Override
+    public String getTipoUsuario() {
+        return "Administrador";
     }
 }

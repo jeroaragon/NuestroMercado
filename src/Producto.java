@@ -16,7 +16,7 @@ public class Producto {
         this.activo = true;
     }
 
-    // Getters
+    // GETTERS
     public int getId() { return id; }
     public String getNombre() { return nombre; }
     public String getCategoria() { return categoria; }
@@ -24,11 +24,12 @@ public class Producto {
     public int getStock() { return stock; }
     public boolean isActivo() { return activo; }
 
-    // Setters
-    public void setActivo(boolean activo) { this.activo = activo; }
+    // SETTERS
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
     public void setPrecio(double precio) { this.precio = precio; }
+    public void setStock(int stock) { this.stock = stock; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 
     // Métodos de stock controlado
     public void reducirStock(int cantidad) throws StockInsuficienteException {
