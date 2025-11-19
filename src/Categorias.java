@@ -1,3 +1,3 @@
 public enum Categorias {
-    Carne,Lacteos,Bebidas,Snacks,Limpieza
+    Carne,Lacteos,Bebidas,Snacks,Limpieza,Frutas
 }

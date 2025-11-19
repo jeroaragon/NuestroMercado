@@ -1,0 +1,162 @@
+[
+    {
+        "precio": 5200,
+        "categoria": "Carne",
+        "id": 1,
+        "stock": 20,
+        "nombre": "Asado",
+        "activo": true
+    },
+    {
+        "precio": 4500,
+        "categoria": "Carne",
+        "id": 2,
+        "stock": 15,
+        "nombre": "Milanesa",
+        "activo": true
+    },
+    {
+        "precio": 6000,
+        "categoria": "Carne",
+        "id": 3,
+        "stock": 10,
+        "nombre": "Bife de chorizo",
+        "activo": true
+    },
+    {
+        "precio": 3500,
+        "categoria": "Carne",
+        "id": 4,
+        "stock": 25,
+        "nombre": "Pechuga de pollo",
+        "activo": true
+    },
+    {
+        "precio": 1000,
+        "categoria": "Lacteos",
+        "id": 5,
+        "stock": 50,
+        "nombre": "Leche entera",
+        "activo": true
+    },
+    {
+        "precio": 700,
+        "categoria": "Lacteos",
+        "id": 6,
+        "stock": 40,
+        "nombre": "Yogur firme",
+        "activo": true
+    },
+    {
+        "precio": 3800,
+        "categoria": "Lacteos",
+        "id": 7,
+        "stock": 30,
+        "nombre": "Queso cremoso",
+        "activo": true
+    },
+    {
+        "precio": 1200,
+        "categoria": "Lacteos",
+        "id": 8,
+        "stock": 20,
+        "nombre": "Manteca",
+        "activo": true
+    },
+    {
+        "precio": 1500,
+        "categoria": "Bebidas",
+        "id": 9,
+        "stock": 35,
+        "nombre": "Coca Cola 1.5L",
+        "activo": true
+    },
+    {
+        "precio": 900,
+        "categoria": "Bebidas",
+        "id": 10,
+        "stock": 60,
+        "nombre": "Agua mineral 2L",
+        "activo": true
+    },
+    {
+        "precio": 1400,
+        "categoria": "Bebidas",
+        "id": 11,
+        "stock": 30,
+        "nombre": "Sprite 1.5L",
+        "activo": true
+    },
+    {
+        "precio": 1100,
+        "categoria": "Bebidas",
+        "id": 12,
+        "stock": 25,
+        "nombre": "Jugo de naranja",
+        "activo": true
+    },
+    {
+        "precio": 900,
+        "categoria": "Snacks",
+        "id": 13,
+        "stock": 40,
+        "nombre": "Papas Lays",
+        "activo": true
+    },
+    {
+        "precio": 700,
+        "categoria": "Snacks",
+        "id": 14,
+        "stock": 35,
+        "nombre": "Maní salado",
+        "activo": true
+    },
+    {
+        "precio": 850,
+        "categoria": "Snacks",
+        "id": 15,
+        "stock": 20,
+        "nombre": "Galletitas Oreo",
+        "activo": true
+    },
+    {
+        "precio": 500,
+        "categoria": "Snacks",
+        "id": 16,
+        "stock": 50,
+        "nombre": "Chizitos",
+        "activo": true
+    },
+    {
+        "precio": 900,
+        "categoria": "Limpieza",
+        "id": 17,
+        "stock": 45,
+        "nombre": "Lavandina",
+        "activo": true
+    },
+    {
+        "precio": 750,
+        "categoria": "Limpieza",
+        "id": 18,
+        "stock": 30,
+        "nombre": "Detergente",
+        "activo": true
+    },
+    {
+        "precio": 2500,
+        "categoria": "Limpieza",
+        "id": 19,
+        "stock": 20,
+        "nombre": "Jabón en polvo",
+        "activo": true
+    },
+    {
+        "precio": 1300,
+        "categoria": "Limpieza",
+        "id": 20,
+        "stock": 25,
+        "nombre": "Desodorante de piso",
+        "activo": true
+    }
+]
