@@ -7,8 +7,11 @@ public class InicioVisual extends JFrame {
     private JPasswordField campoPassword;
     private JButton botonLogin;
     private JButton botonCliente;
+    private GestorProductos gestorProductos; // ← Guardamos el gestor aquí
 
-    public InicioVisual() {
+
+    public InicioVisual(GestorProductos gestorProductos) {
+        this.gestorProductos = gestorProductos; // ← lo recibimos del main
         setTitle("Inicio de Sesión");
         setSize(360, 250);
         setLocationRelativeTo(null);
@@ -63,6 +66,9 @@ public class InicioVisual extends JFrame {
         botonCliente.addActionListener(e -> entrarComoCliente());
     }
 
+    public InicioVisual() {
+    }
+
     private void procesarLoginAdministrador() {
         String usuario = campoUsuario.getText();
         String password = String.valueOf(campoPassword.getPassword());
@@ -70,7 +76,7 @@ public class InicioVisual extends JFrame {
         // Ejemplo: conectá esto con tu GestorUsuarios
         if (usuario.equals("eze") && password.equals("2112")) {
             // Abrir menú admin:
-            new MenuAdminVisual().setVisible(true);
+            new MenuAdminVisual(gestorProductos).setVisible(true);
             dispose();
 
         } else {
@@ -86,9 +92,9 @@ public class InicioVisual extends JFrame {
         // dispose();
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new InicioVisual().setVisible(true));
-    }
+    }*/
 }
 
 

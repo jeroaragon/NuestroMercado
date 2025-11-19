@@ -23,6 +23,9 @@ public class Producto {
     public Producto(int id, String nombre, Categorias categoria, double precio, int stock, boolean activo) {
     }
 
+    public Producto(int i, String nombre, String categoria, double precio, int stock) {
+    }
+
     // GETTERS
     public int getId() { return id; }
     public String getNombre() { return nombre; }

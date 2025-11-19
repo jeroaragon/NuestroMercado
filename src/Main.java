@@ -3,6 +3,11 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
+        GestorProductos gestor = new GestorProductos();
+        new MenuAdminVisual(gestor);
+        InicioVisual login = new InicioVisual(gestor);
+        login.setVisible(true);
+
         ArrayList<Producto> productos = new ArrayList<>();
 
         // ---- Carne ----

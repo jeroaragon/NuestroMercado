@@ -41,7 +41,7 @@ public class GestorProductos {
     // ==============================
     // MODIFICAR PRODUCTO
     // ==============================
-    public boolean modificarProducto(int id, String nombre, String categoria, double precio, int stock) {
+    public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
         Producto p = buscarPorId(id);
         if (p == null) return false;
 

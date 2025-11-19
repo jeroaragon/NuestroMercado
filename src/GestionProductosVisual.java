@@ -12,7 +12,10 @@ public class GestionProductosVisual extends JFrame {
     private JButton botonEliminar;
     private JButton botonVolver;
 
-    public GestionProductosVisual() {
+    private GestorProductos gestor;
+
+    public GestionProductosVisual(GestorProductos gestor) {
+        this.gestor = gestor;
         setTitle("Gestión de Productos");
         setSize(650, 400);
         setLocationRelativeTo(null);
@@ -60,20 +63,15 @@ public class GestionProductosVisual extends JFrame {
 
     private void cargarProductosEnTabla() {
         modeloTabla.setRowCount(0);
-
-        // ---------------------------------------------
-        // ACA CARGÁS LOS PRODUCTOS DESDE GestorProductos
-        //
-        // Ejemplo:
-        // for (Producto p : gestor.getLista()) {
-        //     modeloTabla.addRow(new Object[]{p.getId(), p.getNombre(), p.getCategoria(), p.getPrecio(), p.getStock()});
-        // }
-        //
-        // ---------------------------------------------
-
+        //se agregan los productos desde gestorProductos
+        for (Producto p : gestor.getListaProductos()) {
+            modeloTabla.addRow(new Object[]{
+                    p.getId(), p.getNombre(), p.getCategoria(), p.getPrecio(), p.getStock()
+            });
+        }
         // Ejemplo temporal:
-        modeloTabla.addRow(new Object[]{1, "Gaseosa", "Bebidas", 500.0, 15});
-        modeloTabla.addRow(new Object[]{2, "Yerba Mate", "Almacén", 1200.0, 25});
+        //modeloTabla.addRow(new Object[]{1, "Gaseosa", "Bebidas", 500.0, 15});
+        //modeloTabla.addRow(new Object[]{2, "Yerba Mate", "Almacén", 1200.0, 25});
     }
 
     private void abrirVentanaAgregar() {
@@ -116,12 +114,16 @@ public class GestionProductosVisual extends JFrame {
 
     private void volver() {
         dispose();
-        new MenuAdminVisual().setVisible(true);
+        new MenuAdminVisual(gestor).setVisible(true);
     }
 
     // Para actualizar tabla desde otras ventanas
     public void refrescar() {
         cargarProductosEnTabla();
     }
+
+    /*public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new GestionProductosVisual().setVisible(true));
+    }*/
 }
 

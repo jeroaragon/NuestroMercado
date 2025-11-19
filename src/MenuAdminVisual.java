@@ -5,9 +5,10 @@ public class MenuAdminVisual extends JFrame {
 
     private JButton botonGestionProductos;
     private JButton botonCerrarSesion;
-    public static GestorProductos gestorProductos = new GestorProductos();
+    private GestorProductos gestor;
 
-    public MenuAdminVisual() {
+    public MenuAdminVisual(GestorProductos gestor) {
+        this.gestor = gestor;
         setTitle("Menú Administrador");
         setSize(400, 300);
         setLocationRelativeTo(null);
@@ -47,7 +48,7 @@ public class MenuAdminVisual extends JFrame {
 
         // Listeners
         botonGestionProductos.addActionListener(e -> {
-            new GestionProductosVisual().setVisible(true);
+            new GestionProductosVisual(gestor).setVisible(true);
             dispose();
         });
         botonCerrarSesion.addActionListener(e -> cerrarSesion());
@@ -58,7 +59,7 @@ public class MenuAdminVisual extends JFrame {
         // Ejemplo:
         // new ModificarProducto().setVisible(true);
 
-        new GestionProductosVisual().setVisible(true);
+        new GestionProductosVisual(gestor).setVisible(true);
     }
 
     private void cerrarSesion() {
@@ -66,7 +67,7 @@ public class MenuAdminVisual extends JFrame {
         new InicioVisual().setVisible(true); // Vuelve al login
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MenuAdminVisual().setVisible(true));
-    }
+    }*/
 }
