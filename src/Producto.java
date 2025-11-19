@@ -9,18 +9,29 @@ public class Producto {
     private int stock;
     private boolean activo;
 
+    // Constructor normal (cuando creas un producto nuevo)
     public Producto(String nombre, Categorias categoria, double precio, int stock) {
-        this.id = contadorId++;   // asigna ID y luego incrementa
+        this.id = contadorId++;
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
         this.stock = stock;
         this.activo = true;
-
-
     }
 
+    // Constructor completo (para reconstruir desde JSON)
     public Producto(int id, String nombre, Categorias categoria, double precio, int stock, boolean activo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.precio = precio;
+        this.stock = stock;
+        this.activo = activo;
+
+        // IMPORTANTE: mantener sincronizado el contador
+        if (id >= contadorId) {
+            contadorId = id + 1;
+        }
     }
 
     public Producto(int i, String nombre, String categoria, double precio, int stock) {
@@ -54,4 +65,17 @@ public class Producto {
     public void aumentarStock(int cantidad) {
         stock += cantidad;
     }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", categoria=" + categoria +
+                ", precio=" + precio +
+                ", stock=" + stock +
+                ", activo=" + activo +
+                '}';
+    }
 }
+
