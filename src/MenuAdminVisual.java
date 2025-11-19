@@ -5,6 +5,7 @@ public class MenuAdminVisual extends JFrame {
 
     private JButton botonGestionProductos;
     private JButton botonCerrarSesion;
+    public static GestorProductos gestorProductos = new GestorProductos();
 
     public MenuAdminVisual() {
         setTitle("Menú Administrador");
@@ -45,7 +46,10 @@ public class MenuAdminVisual extends JFrame {
         add(panel);
 
         // Listeners
-        botonGestionProductos.addActionListener(e -> abrirGestionProductos());
+        botonGestionProductos.addActionListener(e -> {
+            new GestionProductosVisual().setVisible(true);
+            dispose();
+        });
         botonCerrarSesion.addActionListener(e -> cerrarSesion());
     }
 
@@ -54,8 +58,7 @@ public class MenuAdminVisual extends JFrame {
         // Ejemplo:
         // new ModificarProducto().setVisible(true);
 
-        JOptionPane.showMessageDialog(this,
-                "Abrir interfaz de gestión de productos (acá la agregás vos).");
+        new GestionProductosVisual().setVisible(true);
     }
 
     private void cerrarSesion() {
