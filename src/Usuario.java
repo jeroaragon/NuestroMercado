@@ -32,4 +32,5 @@ abstract class Usuario {
     // Método abstracto
     public abstract boolean esAdmin();
 
+    public abstract String getTipoUsuario();
 }
