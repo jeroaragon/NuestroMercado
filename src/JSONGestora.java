@@ -23,7 +23,7 @@ public class JSONGestora {
         JSONObject o = new JSONObject();
         o.put("id", p.getId());
         o.put("nombre", p.getNombre());
-        o.put("categoria", p.getCategoria().name()); // ENUM → String
+        o.put("categoria", p.getCategoria().name());   // ENUM a String
         o.put("precio", p.getPrecio());
         o.put("stock", p.getStock());
         o.put("activo", p.isActivo());
@@ -42,10 +42,8 @@ public class JSONGestora {
         int stock = o.getInt("stock");
         boolean activo = o.getBoolean("activo");
 
-        Producto p = new Producto(id, nombre, categoria, precio, stock);
-        p.setActivo(activo);
-
-        return p;
+        // ⚠ Usa el constructor ESPECIAL para reconstruir objetos almacenados
+        return new Producto(id, nombre, categoria, precio, stock, activo);
     }
 
     // ------------------------------------------------------------
@@ -61,7 +59,9 @@ public class JSONGestora {
         try {
             crearArchivo(archivo);
             Files.write(Paths.get(archivo), arr.toString(4).getBytes());
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // ------------------------------------------------------------
@@ -73,6 +73,7 @@ public class JSONGestora {
 
         try {
             crearArchivo(archivo);
+
             String txt = Files.readString(Paths.get(archivo));
             JSONArray arr = new JSONArray(txt);
 
@@ -80,7 +81,9 @@ public class JSONGestora {
                 lista.add(jsonToProducto(arr.getJSONObject(i)));
             }
 
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return lista;
     }

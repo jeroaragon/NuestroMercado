@@ -1,32 +1,39 @@
 public class Producto {
 
+    private static int contadorId = 1; // ID autoincrementable
+
     private int id;
     private String nombre;
-    private Categorias categoria;  // Tipo correcto
+    private Categorias categoria;
     private double precio;
     private int stock;
     private boolean activo;
 
-    public Producto(int id, String nombre, Categorias categoria, double precio, int stock) {
-        this.id = id;
+    public Producto(String nombre, Categorias categoria, double precio, int stock) {
+        this.id = contadorId++;   // asigna ID y luego incrementa
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
         this.stock = stock;
         this.activo = true;
+
+
+    }
+
+    public Producto(int id, String nombre, Categorias categoria, double precio, int stock, boolean activo) {
     }
 
     // GETTERS
     public int getId() { return id; }
     public String getNombre() { return nombre; }
-    public Categorias getCategoria() { return categoria; }  // Devuelve tipo Categorias
+    public Categorias getCategoria() { return categoria; }
     public double getPrecio() { return precio; }
     public int getStock() { return stock; }
     public boolean isActivo() { return activo; }
 
     // SETTERS
     public void setNombre(String nombre) { this.nombre = nombre; }
-    public void setCategoria(Categorias categoria) { this.categoria = categoria; } // Recibe Categorias
+    public void setCategoria(Categorias categoria) { this.categoria = categoria; }
     public void setPrecio(double precio) { this.precio = precio; }
     public void setStock(int stock) { this.stock = stock; }
     public void setActivo(boolean activo) { this.activo = activo; }
