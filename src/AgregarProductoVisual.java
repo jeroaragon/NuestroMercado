@@ -1,65 +1,62 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class AgregarProductoVisual extends JFrame {
+public class AgregarProductoVisual extends JDialog {
 
-    private JTextField txtNombre, txtCategoria, txtPrecio, txtStock;
-    private JButton botonGuardar, botonCancelar;
-    private GestionProductosVisual padre;
+    private JTextField campoNombre, campoPrecio, campoStock;
+    private JComboBox<Categorias> comboCategoria;
 
-    public AgregarProductoVisual(GestionProductosVisual padre) {
-        this.padre = padre;
+    public AgregarProductoVisual(JFrame parent, GestorProductos gestor) {
+        super(parent, "Agregar Producto", true);
 
-        setTitle("Agregar Producto");
-        setSize(300, 300);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setResizable(false);
-
+        setSize(350, 300);
         setLayout(new GridLayout(6, 2, 5, 5));
+        setLocationRelativeTo(parent);
 
+        // CAMPOS
         add(new JLabel("Nombre:"));
-        txtNombre = new JTextField();
-        add(txtNombre);
+        campoNombre = new JTextField();
+        add(campoNombre);
 
         add(new JLabel("Categoría:"));
-        txtCategoria = new JTextField();
-        add(txtCategoria);
+        comboCategoria = new JComboBox<>(Categorias.values());
+        add(comboCategoria);
 
         add(new JLabel("Precio:"));
-        txtPrecio = new JTextField();
-        add(txtPrecio);
+        campoPrecio = new JTextField();
+        add(campoPrecio);
 
         add(new JLabel("Stock:"));
-        txtStock = new JTextField();
-        add(txtStock);
+        campoStock = new JTextField();
+        add(campoStock);
 
-        botonGuardar = new JButton("Guardar");
-        botonCancelar = new JButton("Cancelar");
-
+        // BOTÓN
+        JButton botonGuardar = new JButton("Guardar");
         add(botonGuardar);
+
+        JButton botonCancelar = new JButton("Cancelar");
         add(botonCancelar);
 
-        botonGuardar.addActionListener(e -> guardar());
+        // EVENTO GUARDAR
+        botonGuardar.addActionListener(e -> {
+            try {
+                String nombre = campoNombre.getText();
+                Categorias categoria = (Categorias) comboCategoria.getSelectedItem();
+                double precio = Double.parseDouble(campoPrecio.getText());
+                int stock = Integer.parseInt(campoStock.getText());
+
+                gestor.agregarProducto(nombre, categoria, precio, stock);
+
+                JOptionPane.showMessageDialog(this, "Producto agregado correctamente");
+                dispose();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Datos inválidos");
+            }
+        });
+
         botonCancelar.addActionListener(e -> dispose());
     }
-
-    private void guardar() {
-
-        // -------- TOMAR DATOS ----------
-        String nombre = txtNombre.getText();
-        String categoria = txtCategoria.getText();
-        double precio = Double.parseDouble(txtPrecio.getText());
-        int stock = Integer.parseInt(txtStock.getText());
-
-        // ------------------------------
-        // ACÁ LLAMÁS A gestor.agregarProducto(...)
-        // ------------------------------
-
-        JOptionPane.showMessageDialog(this, "Producto agregado");
-
-        padre.refrescar();
-        dispose();
-    }
 }
+
 

@@ -7,11 +7,13 @@ public class MenuAdminVisual extends JFrame {
     private JButton botonCerrarSesion;
     private GestorProductos gestor;
 
-    // Gestor de productos cargado una sola vez (lee productos.json)
+    // Gestor cargado una vez
     public static GestorProductos gestorProductos = new GestorProductos();
 
+    // --- CONSTRUCTOR PRINCIPAL ---
     public MenuAdminVisual(GestorProductos gestor) {
         this.gestor = gestor;
+
         setTitle("Menú Administrador");
         setSize(400, 300);
         setLocationRelativeTo(null);
@@ -58,22 +60,19 @@ public class MenuAdminVisual extends JFrame {
         botonCerrarSesion.addActionListener(e -> cerrarSesion());
     }
 
-    private void abrirGestionProductos() {
-        // ACÁ ES DONDE VOS VAS A PONER TU INTERFAZ DE PRODUCTOS
-        // Ejemplo:
-        // new ModificarProducto().setVisible(true);
-
-        new GestionProductosVisual(gestor).setVisible(true);
-    }
-
+    // --- MÉTODOS ---
     private void cerrarSesion() {
         dispose();
         new InicioVisual().setVisible(true);
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MenuAdminVisual().setVisible(true));
-    }*/
+    // --- MAIN CORRECTO ---
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() ->
+                new MenuAdminVisual(gestorProductos).setVisible(true)
+        );
+    }
 }
+
 
 

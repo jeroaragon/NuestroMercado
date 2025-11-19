@@ -28,13 +28,23 @@ public class Producto {
         this.stock = stock;
         this.activo = activo;
 
-        // IMPORTANTE: mantener sincronizado el contador
         if (id >= contadorId) {
             contadorId = id + 1;
         }
     }
 
-    public Producto(int i, String nombre, String categoria, double precio, int stock) {
+    // ESTE ERA EL PROBLEMA → ahora lo arreglo:
+    public Producto(int id, String nombre, String categoria, double precio, int stock) {
+        this.id = id;
+        this.nombre = nombre;
+        this.categoria = Categorias.valueOf(categoria.toUpperCase()); // convierte String a enum
+        this.precio = precio;
+        this.stock = stock;
+        this.activo = true;
+
+        if (id >= contadorId) {
+            contadorId = id + 1;
+        }
     }
 
     // GETTERS
@@ -52,20 +62,6 @@ public class Producto {
     public void setStock(int stock) { this.stock = stock; }
     public void setActivo(boolean activo) { this.activo = activo; }
 
-    // Métodos de stock controlado
-    public void reducirStock(int cantidad) throws StockInsuficienteException {
-        if (cantidad > stock) {
-            throw new StockInsuficienteException(
-                    "No hay stock suficiente para el producto: " + nombre
-            );
-        }
-        stock -= cantidad;
-    }
-
-    public void aumentarStock(int cantidad) {
-        stock += cantidad;
-    }
-
     @Override
     public String toString() {
         return "Producto{" +
@@ -78,4 +74,5 @@ public class Producto {
                 '}';
     }
 }
+
 

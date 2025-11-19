@@ -1,36 +1,31 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestorProductos {
 
     private ArrayList<Producto> listaProductos;
-    private int idActual = 1;  // ID autoincremental
+    private final String ARCHIVO = "data/productos.json";
 
     public GestorProductos() {
-        listaProductos = new ArrayList<>();
-
-        // Puedes cargar datos iniciales si querés:
-        // agregarProducto("Gaseosa", "Bebidas", 500, 15);
-        // agregarProducto("Yerba Mate", "Almacén", 1200, 25);
+        // Cargar productos del JSON
+        List<Producto> cargados = JSONGestora.cargarProductos(ARCHIVO);
+        listaProductos = new ArrayList<>(cargados);
     }
 
-    // ==============================
-    // GET LISTA COMPLETA
-    // ==============================
     public ArrayList<Producto> getListaProductos() {
         return listaProductos;
     }
 
-    // ==============================
-    // AGREGAR PRODUCTO
-    // ==============================
-    public void agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
-        Producto p = new Producto( nombre, categoria, precio, stock);
-        listaProductos.add(p);
+    public void guardar() {
+        JSONGestora.guardarProductos(listaProductos, ARCHIVO);
     }
 
-    // ==============================
-    // BUSCAR POR ID
-    // ==============================
+    public void agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
+        Producto p = new Producto(nombre, categoria, precio, stock);
+        listaProductos.add(p);
+        guardar();
+    }
+
     public Producto buscarPorId(int id) {
         for (Producto p : listaProductos) {
             if (p.getId() == id) return p;
@@ -38,9 +33,6 @@ public class GestorProductos {
         return null;
     }
 
-    // ==============================
-    // MODIFICAR PRODUCTO
-    // ==============================
     public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
         Producto p = buscarPorId(id);
         if (p == null) return false;
@@ -49,17 +41,23 @@ public class GestorProductos {
         p.setCategoria(categoria);
         p.setPrecio(precio);
         p.setStock(stock);
+        guardar();
         return true;
     }
 
-    // ==============================
-    // ELIMINAR PRODUCTO
-    // ==============================
     public boolean eliminarProducto(int id) {
         Producto p = buscarPorId(id);
         if (p == null) return false;
 
-        return listaProductos.remove(p);
+        listaProductos.remove(p);
+        guardar();
+        return true;
+    }
+
+    public void agregarProducto(String nombre, String categoria, double precio, int stock) {
     }
 }
+
+
+
 

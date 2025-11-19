@@ -1,67 +1,66 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class ModificarProductoVisual extends JFrame {
+public class ModificarProductoVisual extends JDialog {
 
-    private JTextField txtNombre, txtCategoria, txtPrecio, txtStock;
-    private JButton botonGuardar, botonCancelar;
-    private GestionProductosVisual padre;
+    private JTextField campoNombre, campoPrecio, campoStock;
+    private JComboBox<Categorias> comboCategoria;
 
-    private int id;
+    public ModificarProductoVisual(JFrame parent, GestorProductos gestor,
+                                   int id, String nombre, String categoria,
+                                   double precio, int stock) {
 
-    public ModificarProductoVisual(GestionProductosVisual padre, int id, String nombre, String categoria, double precio, int stock) {
-        this.padre = padre;
-        this.id = id;
+        super(parent, "Modificar Producto", true);
 
-        setTitle("Modificar Producto");
-        setSize(300, 300);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setResizable(false);
-
+        setSize(350, 300);
         setLayout(new GridLayout(6, 2, 5, 5));
+        setLocationRelativeTo(parent);
 
+        // CAMPOS
         add(new JLabel("Nombre:"));
-        txtNombre = new JTextField(nombre);
-        add(txtNombre);
+        campoNombre = new JTextField(nombre);
+        add(campoNombre);
 
         add(new JLabel("Categoría:"));
-        txtCategoria = new JTextField(categoria);
-        add(txtCategoria);
+        comboCategoria = new JComboBox<>(Categorias.values());
+        comboCategoria.setSelectedItem(Categorias.valueOf(categoria));
+        add(comboCategoria);
 
         add(new JLabel("Precio:"));
-        txtPrecio = new JTextField(String.valueOf(precio));
-        add(txtPrecio);
+        campoPrecio = new JTextField(String.valueOf(precio));
+        add(campoPrecio);
 
         add(new JLabel("Stock:"));
-        txtStock = new JTextField(String.valueOf(stock));
-        add(txtStock);
+        campoStock = new JTextField(String.valueOf(stock));
+        add(campoStock);
 
-        botonGuardar = new JButton("Guardar Cambios");
-        botonCancelar = new JButton("Cancelar");
-
+        // BOTONES
+        JButton botonGuardar = new JButton("Guardar cambios");
         add(botonGuardar);
+
+        JButton botonCancelar = new JButton("Cancelar");
         add(botonCancelar);
 
-        botonGuardar.addActionListener(e -> modificar());
+        botonGuardar.addActionListener(e -> {
+            try {
+                String newNombre = campoNombre.getText();
+                Categorias newCategoria = (Categorias) comboCategoria.getSelectedItem();
+                double newPrecio = Double.parseDouble(campoPrecio.getText());
+                int newStock = Integer.parseInt(campoStock.getText());
+
+                gestor.modificarProducto(id, newNombre, newCategoria, newPrecio, newStock);
+
+                JOptionPane.showMessageDialog(this, "Producto modificado correctamente");
+                dispose();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Datos inválidos");
+            }
+        });
+
         botonCancelar.addActionListener(e -> dispose());
     }
-
-    private void modificar() {
-
-        String nuevoNombre = txtNombre.getText();
-        String nuevaCategoria = txtCategoria.getText();
-        double nuevoPrecio = Double.parseDouble(txtPrecio.getText());
-        int nuevoStock = Integer.parseInt(txtStock.getText());
-
-        // ---------------------------------------------
-        // ACÁ LLAMÁS A gestor.modificarProducto(id, ...)
-        // ---------------------------------------------
-
-        JOptionPane.showMessageDialog(this, "Producto modificado");
-
-        padre.refrescar();
-        dispose();
-    }
 }
+
+
 

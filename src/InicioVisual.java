@@ -9,9 +9,10 @@ public class InicioVisual extends JFrame {
     private JButton botonCliente;
     private GestorProductos gestorProductos; // ← Guardamos el gestor aquí
 
-
+    // --- CONSTRUCTOR PRINCIPAL ---
     public InicioVisual(GestorProductos gestorProductos) {
         this.gestorProductos = gestorProductos; // ← lo recibimos del main
+
         setTitle("Inicio de Sesión");
         setSize(360, 250);
         setLocationRelativeTo(null);
@@ -67,18 +68,21 @@ public class InicioVisual extends JFrame {
     }
 
     public InicioVisual() {
+
     }
+
+    // --- ESTE CONSTRUCTOR SE ELIMINA (causaba el error) ---
+    // public InicioVisual() { }
 
     private void procesarLoginAdministrador() {
         String usuario = campoUsuario.getText();
         String password = String.valueOf(campoPassword.getPassword());
 
-        // Ejemplo: conectá esto con tu GestorUsuarios
+        // Ejemplo: reemplazar con tu sistema real
         if (usuario.equals("eze") && password.equals("2112")) {
             // Abrir menú admin:
             new MenuAdminVisual(gestorProductos).setVisible(true);
             dispose();
-
         } else {
             JOptionPane.showMessageDialog(this, "Credenciales de administrador incorrectas");
         }
@@ -86,15 +90,20 @@ public class InicioVisual extends JFrame {
 
     private void entrarComoCliente() {
         JOptionPane.showMessageDialog(this, "Entrando como cliente...");
-
         // Abrir menú cliente real:
         // new MenuCliente().setVisible(true);
         // dispose();
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new InicioVisual().setVisible(true));
-    }*/
+    // --- MAIN CORREGIDO ---
+    public static void main(String[] args) {
+        GestorProductos gestor = new GestorProductos();
+
+        SwingUtilities.invokeLater(() ->
+                new InicioVisual(gestor).setVisible(true)
+        );
+    }
 }
+
 
 

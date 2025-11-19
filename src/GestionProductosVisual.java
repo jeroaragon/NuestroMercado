@@ -16,6 +16,7 @@ public class GestionProductosVisual extends JFrame {
 
     public GestionProductosVisual(GestorProductos gestor) {
         this.gestor = gestor;
+
         setTitle("Gestión de Productos");
         setSize(650, 400);
         setLocationRelativeTo(null);
@@ -27,15 +28,19 @@ public class GestionProductosVisual extends JFrame {
         // ---------- TABLA ----------
         modeloTabla = new DefaultTableModel(
                 new String[]{"ID", "Nombre", "Categoría", "Precio", "Stock"}, 0
-        );
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // No permitir edición directa
+            }
+        };
+
         tablaProductos = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tablaProductos);
-
         add(scroll, BorderLayout.CENTER);
 
         // ---------- BOTONES ----------
-        JPanel panelBotones = new JPanel();
-        panelBotones.setLayout(new FlowLayout());
+        JPanel panelBotones = new JPanel(new FlowLayout());
 
         botonAgregar = new JButton("Agregar");
         botonModificar = new JButton("Modificar");
@@ -55,47 +60,49 @@ public class GestionProductosVisual extends JFrame {
         botonEliminar.addActionListener(e -> eliminarProducto());
         botonVolver.addActionListener(e -> volver());
 
-        // Cargar productos en tabla (llamado a tu lógica)
         cargarProductosEnTabla();
     }
 
     // ============================== METODOS ==============================
 
-    private void cargarProductosEnTabla() {
+    public void cargarProductosEnTabla() {
         modeloTabla.setRowCount(0);
-        //se agregan los productos desde gestorProductos
+
         for (Producto p : gestor.getListaProductos()) {
             modeloTabla.addRow(new Object[]{
-                    p.getId(), p.getNombre(), p.getCategoria(), p.getPrecio(), p.getStock()
+                    p.getId(),
+                    p.getNombre(),
+                    p.getCategoria().toString(), // aseguramos texto limpio
+                    p.getPrecio(),
+                    p.getStock()
             });
         }
-        // Ejemplo temporal:
-        //modeloTabla.addRow(new Object[]{1, "Gaseosa", "Bebidas", 500.0, 15});
-        //modeloTabla.addRow(new Object[]{2, "Yerba Mate", "Almacén", 1200.0, 25});
     }
 
     private void abrirVentanaAgregar() {
-       new AgregarProductoVisual(this).setVisible(true);
+        new AgregarProductoVisual(this, gestor).setVisible(true);
     }
 
     private void abrirVentanaModificar() {
         int fila = tablaProductos.getSelectedRow();
+
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione un producto para modificar");
             return;
         }
 
         int id = (int) modeloTabla.getValueAt(fila, 0);
-        String nombre = (String) modeloTabla.getValueAt(fila, 1);
-        String categoria = (String) modeloTabla.getValueAt(fila, 2);
-        double precio = (double) modeloTabla.getValueAt(fila, 3);
-        int stock = (int) modeloTabla.getValueAt(fila, 4);
+        String nombre = modeloTabla.getValueAt(fila, 1).toString();
+        String categoria = modeloTabla.getValueAt(fila, 2).toString();
+        double precio = Double.parseDouble(modeloTabla.getValueAt(fila, 3).toString());
+        int stock = Integer.parseInt(modeloTabla.getValueAt(fila, 4).toString());
 
-        //new VentanaModificarProducto(this, id, nombre, categoria, precio, stock).setVisible(true);
+        new ModificarProductoVisual(this, gestor, id, nombre, categoria, precio, stock).setVisible(true);
     }
 
     private void eliminarProducto() {
         int fila = tablaProductos.getSelectedRow();
+
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar");
             return;
@@ -103,13 +110,14 @@ public class GestionProductosVisual extends JFrame {
 
         int id = (int) modeloTabla.getValueAt(fila, 0);
 
-        // ------------------------------
-        // ACÁ LLAMÁS A gestor.eliminarProducto(id)
-        // ------------------------------
+        boolean eliminado = gestor.eliminarProducto(id);
 
-        JOptionPane.showMessageDialog(this, "Producto eliminado");
-
-        modeloTabla.removeRow(fila);
+        if (eliminado) {
+            modeloTabla.removeRow(fila);
+            JOptionPane.showMessageDialog(this, "Producto eliminado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el producto");
+        }
     }
 
     private void volver() {
@@ -117,13 +125,10 @@ public class GestionProductosVisual extends JFrame {
         new MenuAdminVisual(gestor).setVisible(true);
     }
 
-    // Para actualizar tabla desde otras ventanas
     public void refrescar() {
         cargarProductosEnTabla();
     }
-
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GestionProductosVisual().setVisible(true));
-    }*/
 }
+
+
 
