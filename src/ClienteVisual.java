@@ -1,7 +1,10 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ClienteVisual extends JFrame {
 
@@ -13,8 +16,8 @@ public class ClienteVisual extends JFrame {
     private JButton botonAgregarCarrito;
     private JButton botonVerCarrito;
 
-    // Carrito → Mapa: Producto → Cantidad
-    private Map<Producto, Integer> carrito = new LinkedHashMap<>();
+    // Carrito → LinkedHashMap obligatorio
+    private LinkedHashMap<Producto, Integer> carrito = new LinkedHashMap<>();
 
     public ClienteVisual(GestorProductos gestor) {
         this.gestor = gestor;
@@ -121,11 +124,12 @@ public class ClienteVisual extends JFrame {
         carrito.put(producto, carrito.getOrDefault(producto, 0) + 1);
 
         JOptionPane.showMessageDialog(this,
-                "Producto agregado al carrito.\nCantidad: " + carrito.get(producto));
+                "Producto agregado.\nCantidad: " + carrito.get(producto));
     }
 
     private void abrirCarrito() {
         new CarritoVisual(carrito).setVisible(true);
     }
 }
+
 

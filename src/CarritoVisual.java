@@ -29,8 +29,7 @@ public class CarritoVisual extends JFrame {
         listaProductos.setFont(new Font("Arial", Font.PLAIN, 16));
         add(new JScrollPane(listaProductos), BorderLayout.CENTER);
 
-        actualizarLista();
-
+        // PANEL DE BOTONES DERECHA
         JPanel panelBotones = new JPanel(new GridLayout(4, 1, 5, 5));
 
         JButton btnVolver = new JButton("Volver");
@@ -54,6 +53,7 @@ public class CarritoVisual extends JFrame {
 
         add(panelBotones, BorderLayout.EAST);
 
+        // PANEL INFERIOR
         JPanel panelInferior = new JPanel(new BorderLayout());
 
         labelTotal = new JLabel("Total: $0.00");
@@ -68,7 +68,8 @@ public class CarritoVisual extends JFrame {
 
         add(panelInferior, BorderLayout.SOUTH);
 
-        actualizarTotal();
+        // 🔥 AHORA SI → después de crear todo
+        actualizarLista();
     }
 
     private void actualizarLista() {
@@ -97,7 +98,6 @@ public class CarritoVisual extends JFrame {
         }
 
         Producto seleccionado = (Producto) carrito.keySet().toArray()[index];
-
         int cantidad = carrito.get(seleccionado);
 
         if (cantidad > 1) {
@@ -129,11 +129,11 @@ public class CarritoVisual extends JFrame {
         }
 
         JOptionPane.showMessageDialog(this,
-                "Procesando pago...\n(Después programamos qué hacer aquí)");
-
-        // Aquí podrás agregar: guardar venta, restar stock, escribir en JSON, etc.
+                "Procesando pago...\n(Luego programamos esta parte)");
     }
 }
+
+
 
 
 
