@@ -75,7 +75,7 @@ public class InicioVisual extends JFrame {
     }
 
 
-    // --- MÉTODOS ---
+    // --- MÉTODOS para las acciones de los botones ---
     private void procesarLoginAdministrador() {
         String usuario = campoUsuario.getText();
         String password = String.valueOf(campoPassword.getPassword());
