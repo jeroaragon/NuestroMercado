@@ -30,7 +30,7 @@ public class AgregarProductoVisual extends JDialog {
         campoStock = new JTextField();
         add(campoStock);
 
-        // BOTÓN
+        // BOTONES
         JButton botonGuardar = new JButton("Guardar");
         add(botonGuardar);
 
@@ -40,23 +40,48 @@ public class AgregarProductoVisual extends JDialog {
         // EVENTO GUARDAR
         botonGuardar.addActionListener(e -> {
             try {
-                String nombre = campoNombre.getText();
-                Categorias categoria = (Categorias) comboCategoria.getSelectedItem();
-                double precio = Double.parseDouble(campoPrecio.getText());
-                int stock = Integer.parseInt(campoStock.getText());
+                String nombre = campoNombre.getText().trim();
+                String precioTxt = campoPrecio.getText().trim();
+                String stockTxt = campoStock.getText().trim();
 
-                gestor.agregarProducto(nombre, categoria, precio, stock);
+                // VALIDACIÓN BÁSICA
+                if (nombre.isEmpty() || precioTxt.isEmpty() || stockTxt.isEmpty()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Todos los campos son obligatorios.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                double precio = Double.parseDouble(precioTxt);
+                int stock = Integer.parseInt(stockTxt);
+                Categorias categoria = (Categorias) comboCategoria.getSelectedItem();
+
+                // VALIDAR PRODUCTO REPETIDO
+                boolean agregado = gestor.agregarProducto(nombre, categoria, precio, stock);
+
+                if (!agregado) {
+                    JOptionPane.showMessageDialog(this,
+                            "El producto ya existe. No se puede agregar.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente");
                 dispose();
 
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Datos inválidos");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Precio y Stock deben ser números válidos.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
         botonCancelar.addActionListener(e -> dispose());
     }
 }
+
 
 
