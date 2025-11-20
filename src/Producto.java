@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Producto {
 
     private static int contadorId = 1; // ID autoincrementable
@@ -33,7 +35,7 @@ public class Producto {
         }
     }
 
-    // ESTE ERA EL PROBLEMA → ahora lo arreglo:
+    // Constructor desde String categoría
     public Producto(int id, String nombre, String categoria, double precio, int stock) {
         this.id = id;
         this.nombre = nombre;
@@ -47,7 +49,7 @@ public class Producto {
         }
     }
 
-    // GETTERS
+    // ================== GETTERS ==================
     public int getId() { return id; }
     public String getNombre() { return nombre; }
     public Categorias getCategoria() { return categoria; }
@@ -55,13 +57,14 @@ public class Producto {
     public int getStock() { return stock; }
     public boolean isActivo() { return activo; }
 
-    // SETTERS
+    // ================== SETTERS ==================
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setCategoria(Categorias categoria) { this.categoria = categoria; }
     public void setPrecio(double precio) { this.precio = precio; }
     public void setStock(int stock) { this.stock = stock; }
     public void setActivo(boolean activo) { this.activo = activo; }
 
+    // ================== toString ==================
     @Override
     public String toString() {
         return "Producto{" +
@@ -73,6 +76,23 @@ public class Producto {
                 ", activo=" + activo +
                 '}';
     }
+
+    // ======================================================
+    // 🔥 NECESARIO para que el carrito funcione PERFECTO
+    // ======================================================
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Producto)) return false;
+        Producto p = (Producto) o;
+        return id == p.id; // un producto es igual si tiene el mismo ID
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
+
 
 

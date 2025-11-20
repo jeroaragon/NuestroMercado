@@ -89,7 +89,8 @@ public class InicioVisual extends JFrame {
     }
 
     private void entrarComoCliente() {
-        JOptionPane.showMessageDialog(this, "Entrando como cliente...");
+       new ClienteVisual(gestorProductos).setVisible(true);
+       dispose();
     }
 
     // --- MAIN CORRECTO ---
