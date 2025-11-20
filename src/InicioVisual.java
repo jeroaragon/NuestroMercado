@@ -101,7 +101,7 @@ public class InicioVisual extends JFrame {
 
         SwingUtilities.invokeLater(() ->
                 new InicioVisual(gestor).setVisible(true)
-        );
+                );
     }
 }
 
