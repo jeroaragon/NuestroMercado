@@ -1,102 +1,140 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CarritoVisual extends JFrame {
 
-    private Map<Producto, Integer> carrito;
-
+    private LinkedHashMap<Producto, Integer> carrito;
     private DefaultListModel<String> modeloLista;
-    private JList<String> lista;
+    private JList<String> listaProductos;
+    private JLabel labelTotal;
 
-    private JButton btnEliminar1;
-    private JButton btnEliminarTodo;
-    private JButton btnVaciar;
-
-    public CarritoVisual(Map<Producto, Integer> carrito) {
+    public CarritoVisual(LinkedHashMap<Producto, Integer> carrito) {
         this.carrito = carrito;
 
         setTitle("Carrito de Compras");
-        setSize(450, 420);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(500, 450);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        JLabel titulo = new JLabel("Carrito", SwingConstants.CENTER);
+        titulo.setFont(new Font("Arial", Font.BOLD, 22));
+        add(titulo, BorderLayout.NORTH);
+
         modeloLista = new DefaultListModel<>();
-        lista = new JList<>(modeloLista);
+        listaProductos = new JList<>(modeloLista);
+        listaProductos.setFont(new Font("Arial", Font.PLAIN, 16));
+        add(new JScrollPane(listaProductos), BorderLayout.CENTER);
 
-        add(new JScrollPane(lista), BorderLayout.CENTER);
+        actualizarLista();
 
-        // --- BOTONES ---
-        btnEliminar1 = new JButton("Eliminar 1 unidad");
-        btnEliminarTodo = new JButton("Eliminar producto completo");
-        btnVaciar = new JButton("Vaciar carrito");
+        JPanel panelBotones = new JPanel(new GridLayout(4, 1, 5, 5));
 
-        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 10, 10));
-        panelBotones.add(btnEliminar1);
-        panelBotones.add(btnEliminarTodo);
+        JButton btnVolver = new JButton("Volver");
+        btnVolver.addActionListener(e -> dispose());
+        panelBotones.add(btnVolver);
+
+        JButton btnEliminarUno = new JButton("Eliminar 1 unidad");
+        btnEliminarUno.addActionListener(this::eliminarUnaUnidad);
+        panelBotones.add(btnEliminarUno);
+
+        JButton btnEliminarTodos = new JButton("Eliminar producto completo");
+        btnEliminarTodos.addActionListener(this::eliminarProductoCompleto);
+        panelBotones.add(btnEliminarTodos);
+
+        JButton btnVaciar = new JButton("Vaciar carrito");
+        btnVaciar.addActionListener(e -> {
+            carrito.clear();
+            actualizarLista();
+        });
         panelBotones.add(btnVaciar);
 
-        add(panelBotones, BorderLayout.SOUTH);
+        add(panelBotones, BorderLayout.EAST);
 
-        // Acciones
-        btnEliminar1.addActionListener(e -> eliminarUnaUnidad());
-        btnEliminarTodo.addActionListener(e -> eliminarProductoCompleto());
-        btnVaciar.addActionListener(e -> vaciarCarrito());
+        JPanel panelInferior = new JPanel(new BorderLayout());
 
-        refrescar();
+        labelTotal = new JLabel("Total: $0.00");
+        labelTotal.setFont(new Font("Arial", Font.BOLD, 18));
+        labelTotal.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        panelInferior.add(labelTotal, BorderLayout.WEST);
+
+        JButton btnPagar = new JButton("Pagar");
+        btnPagar.setFont(new Font("Arial", Font.BOLD, 16));
+        btnPagar.addActionListener(e -> pagar());
+        panelInferior.add(btnPagar, BorderLayout.EAST);
+
+        add(panelInferior, BorderLayout.SOUTH);
+
+        actualizarTotal();
     }
 
-    // ------------------------------------------------
-    // MÉTODOS
-    // ------------------------------------------------
-
-    private void refrescar() {
+    private void actualizarLista() {
         modeloLista.clear();
-
-        for (Producto p : carrito.keySet()) {
-            modeloLista.addElement(p.getNombre() + "  x" + carrito.get(p));
+        for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
+            Producto p = entry.getKey();
+            int cantidad = entry.getValue();
+            modeloLista.addElement(p.getNombre() + " x" + cantidad + " - $" + p.getPrecio());
         }
+        actualizarTotal();
     }
 
-    private Producto obtenerProductoSeleccionado() {
-        int index = lista.getSelectedIndex();
-        if (index == -1) return null;
-
-        int i = 0;
-        for (Producto p : carrito.keySet()) {
-            if (i == index) return p;
-            i++;
+    private void actualizarTotal() {
+        double total = 0;
+        for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
+            total += entry.getKey().getPrecio() * entry.getValue();
         }
-        return null;
+        labelTotal.setText("Total: $" + String.format("%.2f", total));
     }
 
-    // Eliminar UNA unidad
-    private void eliminarUnaUnidad() {
-        Producto p = obtenerProductoSeleccionado();
-        if (p == null) return;
+    private void eliminarUnaUnidad(ActionEvent e) {
+        int index = listaProductos.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un producto");
+            return;
+        }
 
-        int cant = carrito.get(p);
-        if (cant > 1) carrito.put(p, cant - 1);
-        else carrito.remove(p);
+        Producto seleccionado = (Producto) carrito.keySet().toArray()[index];
 
-        refrescar();
+        int cantidad = carrito.get(seleccionado);
+
+        if (cantidad > 1) {
+            carrito.put(seleccionado, cantidad - 1);
+        } else {
+            carrito.remove(seleccionado);
+        }
+
+        actualizarLista();
     }
 
-    // Eliminar TODAS las unidades del producto
-    private void eliminarProductoCompleto() {
-        Producto p = obtenerProductoSeleccionado();
-        if (p == null) return;
+    private void eliminarProductoCompleto(ActionEvent e) {
+        int index = listaProductos.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un producto");
+            return;
+        }
 
-        carrito.remove(p);
-        refrescar();
+        Producto seleccionado = (Producto) carrito.keySet().toArray()[index];
+        carrito.remove(seleccionado);
+
+        actualizarLista();
     }
 
-    private void vaciarCarrito() {
-        carrito.clear();
-        refrescar();
+    private void pagar() {
+        if (carrito.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El carrito está vacío.");
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this,
+                "Procesando pago...\n(Después programamos qué hacer aquí)");
+
+        // Aquí podrás agregar: guardar venta, restar stock, escribir en JSON, etc.
     }
 }
+
+
 
 
