@@ -63,7 +63,7 @@ public class MenuAdminVisual extends JFrame {
     // --- MÉTODOS ---
     private void cerrarSesion() {
         dispose();
-        new InicioVisual().setVisible(true);
+        new InicioVisual(gestor).setVisible(true);
     }
 
     // --- MAIN CORRECTO ---

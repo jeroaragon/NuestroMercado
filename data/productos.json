@@ -176,10 +176,10 @@
         "activo": true
     },
     {
-        "precio": 600,
+        "precio": 700,
         "categoria": "Frutas",
         "id": 23,
-        "stock": 70,
+        "stock": 72,
         "nombre": "Naranja",
         "activo": true
     },
