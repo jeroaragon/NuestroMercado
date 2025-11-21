@@ -128,9 +128,16 @@ public class CarritoVisual extends JFrame {
             return;
         }
 
-        JOptionPane.showMessageDialog(this,
-                "Procesando pago...\n(Luego programamos esta parte)");
+        // Se pasa el carrito y un gestor para actualizar los stocks
+        GestorProductos gestor = new GestorProductos();
+
+        PagoVisual pv = new PagoVisual(carrito, gestor);
+        pv.setVisible(true);
+
+        // Cerrar carrito al abrir pago
+        dispose();
     }
+
 }
 
 

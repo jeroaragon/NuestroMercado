@@ -109,6 +109,10 @@ public class GestorProductos {
         return null;
     }
 
+    public void guardarEnJSONexterno() {
+        JSONGestora.guardarProductos(repo.listar(), archivoJSON);
+    }
+
 
 }
 
