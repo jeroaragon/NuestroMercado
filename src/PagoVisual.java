@@ -35,41 +35,64 @@ public class PagoVisual extends JFrame {
         add(btnVolver);
     }
 
-    private void procesarPago(String metodo) {
-        // 1) Actualizar stock en el repo del GestorProductos (usando buscarPorId)
+    /**
+     * Procesa el pago, verificando stock y generando ticket.
+     */
+    private void procesarPago(String metodoPago) {
+        try {
+            validarStock();
+            descontarStock();
+            gestor.guardarEnJSONexterno();
+
+            // Copia para generar ticket sin afectar el carrito real
+            LinkedHashMap<Producto, Integer> copia = new LinkedHashMap<>(carrito);
+
+            new TicketVisual(copia, metodoPago).setVisible(true);
+            carrito.clear();
+
+            JOptionPane.showMessageDialog(this, "Pago realizado con éxito por " + metodoPago + "!");
+            dispose();
+
+        } catch (StockInsuficienteException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Stock insuficiente", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Verifica que todos los productos tengan stock suficiente.
+     */
+    private void validarStock() throws StockInsuficienteException {
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
-            Producto pEnCarrito = entry.getKey();
+            Producto p = entry.getKey();
             int cantidad = entry.getValue();
 
-            // Buscar el producto en el gestor por ID para asegurarnos de modificar la instancia correcta
-            Producto pRepo = gestor.buscarPorId(pEnCarrito.getId());
-            if (pRepo != null) {
-                int nuevoStock = pRepo.getStock() - cantidad;
-                if (nuevoStock < 0) nuevoStock = 0; // evita stock negativo
-                pRepo.setStock(nuevoStock);
-            } else {
-                // Si no se encuentra (caso raro), intentamos actualizar la instancia del carrito igualmente
-                int nuevoStock = pEnCarrito.getStock() - cantidad;
-                if (nuevoStock < 0) nuevoStock = 0;
-                pEnCarrito.setStock(nuevoStock);
+            if (cantidad > p.getStock()) {
+                throw new StockInsuficienteException(
+                        "No hay suficiente stock del producto: " + p.getNombre()
+                );
             }
         }
+    }
 
-        // 2) Guardar cambios en JSON (usar el método público del gestor)
-        gestor.guardarEnJSONexterno();
+    /**
+     * Descuenta el stock en el repositorio del gestor.
+     */
+    private void descontarStock() {
+        for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
+            Producto pCarrito = entry.getKey();
+            int cantidad = entry.getValue();
 
-        // 3) Crear ticket (pasamos una copia para que el ticket muestre lo comprado incluso si vaciamos el carrito)
-        LinkedHashMap<Producto, Integer> copiaCarrito = new LinkedHashMap<>(carrito);
-        TicketVisual ticket = new TicketVisual(copiaCarrito, metodo);
-        ticket.setVisible(true);
+            Producto pRepo = gestor.buscarPorId(pCarrito.getId());
 
-        // 4) Vaciar carrito
-        carrito.clear();
-
-        JOptionPane.showMessageDialog(this, "Pago realizado con éxito por " + metodo + "!");
-
-        dispose();
+            if (pRepo != null) {
+                pRepo.setStock(pRepo.getStock() - cantidad);
+            } else {
+                // Caso improbable, se descuenta en la instancia del carrito igual
+                pCarrito.setStock(pCarrito.getStock() - cantidad);
+            }
+        }
     }
 }
+
 
 
