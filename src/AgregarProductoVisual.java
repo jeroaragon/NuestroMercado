@@ -6,14 +6,20 @@ public class AgregarProductoVisual extends JDialog {
     private JTextField campoNombre, campoPrecio, campoStock;
     private JComboBox<Categorias> comboCategoria;
 
-    public AgregarProductoVisual(JFrame parent, GestorProductos gestor) {
+    private GestionProductosVisual padre;
+    private GestorProductos gestor;
+
+    public AgregarProductoVisual(GestionProductosVisual parent, GestorProductos gestor) {
         super(parent, "Agregar Producto", true);
+
+        this.padre = parent;
+        this.gestor = gestor;
 
         setSize(350, 300);
         setLayout(new GridLayout(6, 2, 5, 5));
         setLocationRelativeTo(parent);
 
-        // CAMPOS
+        // ------------------ CAMPOS ------------------
         add(new JLabel("Nombre:"));
         campoNombre = new JTextField();
         add(campoNombre);
@@ -30,14 +36,14 @@ public class AgregarProductoVisual extends JDialog {
         campoStock = new JTextField();
         add(campoStock);
 
-        // BOTONES
+        // ------------------ BOTONES ------------------
         JButton botonGuardar = new JButton("Guardar");
-        add(botonGuardar);
-
         JButton botonCancelar = new JButton("Cancelar");
+
+        add(botonGuardar);
         add(botonCancelar);
 
-        // EVENTO GUARDAR
+        // ------------------ EVENTO GUARDAR ------------------
         botonGuardar.addActionListener(e -> {
             try {
                 String nombre = campoNombre.getText().trim();
@@ -69,6 +75,10 @@ public class AgregarProductoVisual extends JDialog {
                 }
 
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente");
+
+                // REFRESCA TABLA DEL PADRE
+                padre.refrescar();
+
                 dispose();
 
             } catch (NumberFormatException ex) {
@@ -79,9 +89,11 @@ public class AgregarProductoVisual extends JDialog {
             }
         });
 
+        // ------------------ BOTÓN CANCELAR ------------------
         botonCancelar.addActionListener(e -> dispose());
     }
 }
+
 
 
 

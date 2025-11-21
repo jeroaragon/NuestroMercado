@@ -1,94 +1,115 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GestorProductos {
 
-    private ArrayList<Producto> listaProductos;
-    private final String ARCHIVO = "data/productos.json";
+    private RepositorioGenerico<Producto> repo = new RepositorioGenerico<>();
+    private String archivoJSON = "data/productos.json";
 
     public GestorProductos() {
-        // Cargar productos del JSON
-        List<Producto> cargados = JSONGestora.cargarProductos(ARCHIVO);
-        listaProductos = new ArrayList<>(cargados);
+        cargarDesdeJSON();
     }
 
-    public ArrayList<Producto> getListaProductos() {
-        return listaProductos;
-    }
-
-    public void guardar() {
-        JSONGestora.guardarProductos(listaProductos, ARCHIVO);
-    }
-
-    // ===============================================================
-    // AGREGAR PRODUCTO CON VALIDACIÓN DE DUPLICADOS
-    // ===============================================================
-    public boolean agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
-
-        // Verificar si ya existe el nombre
-        for (Producto p : listaProductos) {
-            if (p.getNombre().equalsIgnoreCase(nombre)) {
-                return false; // producto repetido
+    // =====================================================
+    // 🔥 Obtener el menor ID disponible (para reutilizar huecos)
+    // =====================================================
+    private int obtenerMenorIDDisponible() {
+        boolean[] usado = new boolean[10000]; // límite, suficiente para un super
+        for (Producto p : repo.listar()) {
+            if (p.getId() < usado.length) {
+                usado[p.getId()] = true;
             }
         }
 
-        // Crear y agregar
-        Producto nuevo = new Producto(nombre, categoria, precio, stock);
-        listaProductos.add(nuevo);
-        guardar();
-        return true;
+        for (int i = 1; i < usado.length; i++) {
+            if (!usado[i]) return i;
+        }
+        return usado.length;
     }
 
-    // Para cuando recibís la categoría como String (por ejemplo en interfaz vieja)
-    public boolean agregarProducto(String nombre, String categoriaStr, double precio, int stock) {
-        Categorias categoria = Categorias.valueOf(categoriaStr.toUpperCase());
-        return agregarProducto(nombre, categoria, precio, stock);
+    // =====================================================
+    // 🔥 Crear producto con ID menor disponible
+    // =====================================================
+    // =====================================================
+// 🔥 Crear producto con ID menor disponible (ahora devuelve boolean)
+// =====================================================
+    public boolean agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
+
+        // Verificar si ya existe un producto con ese nombre
+        for (Producto p : repo.listar()) {
+            if (p.getNombre().equalsIgnoreCase(nombre)) {
+                return false; // Producto repetido
+            }
+        }
+
+        int id = obtenerMenorIDDisponible();
+        Producto nuevo = new Producto(id, nombre, categoria, precio, stock, true);
+
+        repo.agregar(nuevo);
+        guardarEnJSON();
+        return true; // Se agregó correctamente
     }
 
-    // ===============================================================
-    // BUSCAR POR ID
-    // ===============================================================
+
+    // =====================================================
+    // 🔥 Modificar producto
+    // =====================================================
+    public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
+        for (Producto p : repo.listar()) {
+            if (p.getId() == id) {
+                p.setNombre(nombre);
+                p.setCategoria(categoria);
+                p.setPrecio(precio);
+                p.setStock(stock);
+                guardarEnJSON();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // =====================================================
+    // 🔥 Eliminar producto
+    // =====================================================
+    public boolean eliminarProducto(int id) {
+        for (Producto p : repo.listar()) {
+            if (p.getId() == id) {
+                repo.eliminar(p);
+                guardarEnJSON();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // =====================================================
+    // 🔥 Obtener lista
+    // =====================================================
+    public List<Producto> getListaProductos() {
+        return repo.listar();
+    }
+
+    // =====================================================
+    // 🔥 Persistencia con JSON
+    // =====================================================
+    private void cargarDesdeJSON() {
+        List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
+        repo.listar().addAll(cargados);
+    }
+
+    private void guardarEnJSON() {
+        JSONGestora.guardarProductos(repo.listar(), archivoJSON);
+    }
+
     public Producto buscarPorId(int id) {
-        for (Producto p : listaProductos) {
-            if (p.getId() == id) return p;
+        for (Producto p : repo.listar()) {
+            if (p.getId() == id) {
+                return p;
+            }
         }
         return null;
     }
 
-    // ===============================================================
-    // MODIFICAR PRODUCTO
-    // ===============================================================
-    public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
-        Producto p = buscarPorId(id);
-        if (p == null) return false;
 
-        // Validar nombre repetido con otro producto
-        for (Producto prod : listaProductos) {
-            if (prod.getNombre().equalsIgnoreCase(nombre) && prod.getId() != id) {
-                return false; // nombre en uso por otro producto
-            }
-        }
-
-        p.setNombre(nombre);
-        p.setCategoria(categoria);
-        p.setPrecio(precio);
-        p.setStock(stock);
-
-        guardar();
-        return true;
-    }
-
-    // ===============================================================
-    // ELIMINAR PRODUCTO
-    // ===============================================================
-    public boolean eliminarProducto(int id) {
-        Producto p = buscarPorId(id);
-        if (p == null) return false;
-
-        listaProductos.remove(p);
-        guardar();
-        return true;
-    }
 }
 
 

@@ -11,22 +11,21 @@ public class GestionProductosVisual extends JFrame {
     private JButton botonModificar;
     private JButton botonEliminar;
     private JButton botonVolver;
-    private JButton botonRefrescar; // ← NUEVO
+    private JButton botonRefrescar;
 
-    private GestorProductos gestor;
+    private GestorProductos gestor; // ← USAMOS GESTORPRODUCTOS
 
     public GestionProductosVisual(GestorProductos gestor) {
-        this.gestor = gestor;
+        this.gestor = gestor; // ← INYECTADO POR EL MENU ADMIN
 
         setTitle("Gestión de Productos");
         setSize(700, 430);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
-
         setLayout(new BorderLayout());
 
-        // ---------- TABLA ----------
+        // ================= TABLA =================
         modeloTabla = new DefaultTableModel(
                 new String[]{"ID", "Nombre", "Categoría", "Precio", "Stock"}, 0
         ) {
@@ -37,16 +36,15 @@ public class GestionProductosVisual extends JFrame {
         };
 
         tablaProductos = new JTable(modeloTabla);
-        JScrollPane scroll = new JScrollPane(tablaProductos);
-        add(scroll, BorderLayout.CENTER);
+        add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
 
-        // ---------- BOTONES ----------
+        // ================= BOTONES =================
         JPanel panelBotones = new JPanel(new FlowLayout());
 
         botonAgregar = new JButton("Agregar");
         botonModificar = new JButton("Modificar");
         botonEliminar = new JButton("Eliminar");
-        botonRefrescar = new JButton("Refrescar"); // ← NUEVO
+        botonRefrescar = new JButton("Refrescar");
         botonVolver = new JButton("Volver");
 
         panelBotones.add(botonAgregar);
@@ -57,18 +55,20 @@ public class GestionProductosVisual extends JFrame {
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        // Eventos
+        // ================= EVENTOS =================
         botonAgregar.addActionListener(e -> abrirVentanaAgregar());
         botonModificar.addActionListener(e -> abrirVentanaModificar());
         botonEliminar.addActionListener(e -> eliminarProducto());
-        botonRefrescar.addActionListener(e -> refrescar()); // ← NUEVO
+        botonRefrescar.addActionListener(e -> refrescar());
         botonVolver.addActionListener(e -> volver());
 
+        // Cargar los datos iniciales
         cargarProductosEnTabla();
     }
 
-    // ============================== METODOS ==============================
-
+    // ===============================================================
+    // CARGAR TABLA
+    // ===============================================================
     public void cargarProductosEnTabla() {
         modeloTabla.setRowCount(0);
 
@@ -76,17 +76,23 @@ public class GestionProductosVisual extends JFrame {
             modeloTabla.addRow(new Object[]{
                     p.getId(),
                     p.getNombre(),
-                    p.getCategoria().toString(),
+                    (p.getCategoria() != null ? p.getCategoria().toString() : "SIN CATEGORÍA"),
                     p.getPrecio(),
                     p.getStock()
             });
         }
     }
 
+    // ===============================================================
+    // ABRIR VENTANA AGREGAR
+    // ===============================================================
     private void abrirVentanaAgregar() {
         new AgregarProductoVisual(this, gestor).setVisible(true);
     }
 
+    // ===============================================================
+    // ABRIR VENTANA MODIFICAR
+    // ===============================================================
     private void abrirVentanaModificar() {
         int fila = tablaProductos.getSelectedRow();
 
@@ -104,6 +110,9 @@ public class GestionProductosVisual extends JFrame {
         new ModificarProductoVisual(this, gestor, id, nombre, categoria, precio, stock).setVisible(true);
     }
 
+    // ===============================================================
+    // ELIMINAR
+    // ===============================================================
     private void eliminarProducto() {
         int fila = tablaProductos.getSelectedRow();
 
@@ -114,41 +123,30 @@ public class GestionProductosVisual extends JFrame {
 
         int id = (int) modeloTabla.getValueAt(fila, 0);
 
-        boolean eliminado = gestor.eliminarProducto(id);
-
-        if (eliminado) {
+        if (gestor.eliminarProducto(id)) {
             modeloTabla.removeRow(fila);
             JOptionPane.showMessageDialog(this, "Producto eliminado correctamente");
         } else {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el producto");
+            JOptionPane.showMessageDialog(this, "Error al eliminar producto");
         }
     }
 
+    // ===============================================================
+    // VOLVER
+    // ===============================================================
     private void volver() {
         dispose();
         new MenuAdminVisual(gestor).setVisible(true);
     }
 
+    // ===============================================================
+    // REFRESCAR TABLA
+    // ===============================================================
     public void refrescar() {
         cargarProductosEnTabla();
     }
-
-    // ============================================
-    // MAIN DE PRUEBA — PARA VER DIRECTAMENTE ESTA VENTANA
-    // ============================================
-    /*public static void main(String[] args) {
-        GestorProductos gestor = new GestorProductos();
-
-        // CARGA DE PRUEBA
-        gestor.agregarProducto(new Producto(1, "Pan", Categoria.ALIMENTOS, 800, 20));
-        gestor.agregarProducto(new Producto(2, "Coca-Cola", Categoria.BEBIDAS, 1200, 10));
-        gestor.agregarProducto(new Producto(3, "Lavandina", Categoria.LIMPIEZA, 950, 15));
-
-        SwingUtilities.invokeLater(() -> {
-            new GestionProductosVisual(gestor).setVisible(true);
-        });
-    }*/
 }
+
 
 
 

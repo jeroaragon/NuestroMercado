@@ -190,5 +190,21 @@
         "stock": 60,
         "nombre": "Pera",
         "activo": true
+    },
+    {
+        "precio": 400,
+        "categoria": "Snacks",
+        "id": 26,
+        "stock": 120,
+        "nombre": "chisitos",
+        "activo": true
+    },
+    {
+        "precio": 700,
+        "categoria": "Carne",
+        "id": 25,
+        "stock": 50,
+        "nombre": "morcilla",
+        "activo": true
     }
 ]
