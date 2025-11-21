@@ -128,15 +128,17 @@ public class CarritoVisual extends JFrame {
             return;
         }
 
-        // Se pasa el carrito y un gestor para actualizar los stocks
+        // Reutilizamos el GestorProductos para que PagoVisual pueda actualizar el repo correcto
         GestorProductos gestor = new GestorProductos();
 
         PagoVisual pv = new PagoVisual(carrito, gestor);
         pv.setVisible(true);
 
-        // Cerrar carrito al abrir pago
+        // no cerramos inmediatamente si preferís volver al carrito;
+        // en tu código original cerrabas, así lo mantengo:
         dispose();
     }
+
 
 }
 

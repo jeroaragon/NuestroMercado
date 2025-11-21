@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,18 +36,32 @@ public class PagoVisual extends JFrame {
     }
 
     private void procesarPago(String metodo) {
-        // 1) Actualizar stock
+        // 1) Actualizar stock en el repo del GestorProductos (usando buscarPorId)
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
-            Producto p = entry.getKey();
+            Producto pEnCarrito = entry.getKey();
             int cantidad = entry.getValue();
-            p.setStock(p.getStock() - cantidad);
+
+            // Buscar el producto en el gestor por ID para asegurarnos de modificar la instancia correcta
+            Producto pRepo = gestor.buscarPorId(pEnCarrito.getId());
+            if (pRepo != null) {
+                int nuevoStock = pRepo.getStock() - cantidad;
+                if (nuevoStock < 0) nuevoStock = 0; // evita stock negativo
+                pRepo.setStock(nuevoStock);
+            } else {
+                // Si no se encuentra (caso raro), intentamos actualizar la instancia del carrito igualmente
+                int nuevoStock = pEnCarrito.getStock() - cantidad;
+                if (nuevoStock < 0) nuevoStock = 0;
+                pEnCarrito.setStock(nuevoStock);
+            }
         }
 
-        // 2) Guardar cambios en JSON
+        // 2) Guardar cambios en JSON (usar el método público del gestor)
         gestor.guardarEnJSONexterno();
 
-        // 3) Crear ticket
-        new TicketVisual(carrito, metodo).setVisible(true);
+        // 3) Crear ticket (pasamos una copia para que el ticket muestre lo comprado incluso si vaciamos el carrito)
+        LinkedHashMap<Producto, Integer> copiaCarrito = new LinkedHashMap<>(carrito);
+        TicketVisual ticket = new TicketVisual(copiaCarrito, metodo);
+        ticket.setVisible(true);
 
         // 4) Vaciar carrito
         carrito.clear();
@@ -58,4 +71,5 @@ public class PagoVisual extends JFrame {
         dispose();
     }
 }
+
 
