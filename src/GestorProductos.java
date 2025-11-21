@@ -10,10 +10,20 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Obtener el menor ID disponible (para reutilizar huecos)
+    // 🔥 Nuevo setLista corregido (sin romper el repo)
+    // =====================================================
+    public void setLista(List<Producto> nuevaLista) {
+        repo.listar().clear();
+        if (nuevaLista != null) {
+            repo.listar().addAll(nuevaLista);
+        }
+    }
+
+    // =====================================================
+    // 🔥 Obtener el menor ID disponible
     // =====================================================
     private int obtenerMenorIDDisponible() {
-        boolean[] usado = new boolean[10000]; // límite, suficiente para un super
+        boolean[] usado = new boolean[10000];
         for (Producto p : repo.listar()) {
             if (p.getId() < usado.length) {
                 usado[p.getId()] = true;
@@ -27,17 +37,13 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Crear producto con ID menor disponible
+    // 🔥 Crear producto
     // =====================================================
-    // =====================================================
-// 🔥 Crear producto con ID menor disponible (ahora devuelve boolean)
-// =====================================================
     public boolean agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
 
-        // Verificar si ya existe un producto con ese nombre
         for (Producto p : repo.listar()) {
             if (p.getNombre().equalsIgnoreCase(nombre)) {
-                return false; // Producto repetido
+                return false; // repetido
             }
         }
 
@@ -46,9 +52,8 @@ public class GestorProductos {
 
         repo.agregar(nuevo);
         guardarEnJSON();
-        return true; // Se agregó correctamente
+        return true;
     }
-
 
     // =====================================================
     // 🔥 Modificar producto
@@ -93,13 +98,38 @@ public class GestorProductos {
     // =====================================================
     private void cargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
-        repo.listar().addAll(cargados);
+
+        repo.listar().clear();
+
+        if (cargados != null) {
+            repo.listar().addAll(cargados);
+        }
     }
 
     private void guardarEnJSON() {
         JSONGestora.guardarProductos(repo.listar(), archivoJSON);
     }
 
+    public void guardarEnJSONexterno() {
+        JSONGestora.guardarProductos(repo.listar(), archivoJSON);
+    }
+
+    // =====================================================
+    // 🔥 Recargar desde JSON (llamado por ClienteVisual)
+    // =====================================================
+    public void recargarDesdeJSON() {
+        List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
+
+        repo.listar().clear();
+
+        if (cargados != null) {
+            repo.listar().addAll(cargados);
+        }
+    }
+
+    // =====================================================
+    // 🔥 Buscar por ID
+    // =====================================================
     public Producto buscarPorId(int id) {
         for (Producto p : repo.listar()) {
             if (p.getId() == id) {
@@ -108,13 +138,9 @@ public class GestorProductos {
         }
         return null;
     }
-
-    public void guardarEnJSONexterno() {
-        JSONGestora.guardarProductos(repo.listar(), archivoJSON);
-    }
-
-
 }
+
+
 
 
 

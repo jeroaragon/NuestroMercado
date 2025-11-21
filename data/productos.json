@@ -83,7 +83,7 @@
         "precio": 1300,
         "categoria": "Bebidas",
         "id": 11,
-        "stock": 38,
+        "stock": 36,
         "nombre": "Jugo",
         "activo": true
     },
@@ -91,7 +91,7 @@
         "precio": 2200,
         "categoria": "Bebidas",
         "id": 12,
-        "stock": 23,
+        "stock": 25,
         "nombre": "Energizante",
         "activo": true
     },

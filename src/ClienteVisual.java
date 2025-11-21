@@ -22,6 +22,8 @@ public class ClienteVisual extends JFrame {
     public ClienteVisual(GestorProductos gestor) {
         this.gestor = gestor;
 
+        gestor.recargarDesdeJSON();
+
         setTitle("Catálogo de Productos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(650, 380);
@@ -53,7 +55,7 @@ public class ClienteVisual extends JFrame {
         tablaProductos = new JTable(modeloTabla);
         add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
 
-        // ---------- BOTONES INFERIORES ----------
+        // ---------- BOTONES ----------
         JPanel panelInferior = new JPanel(new FlowLayout());
 
         botonAgregarCarrito = new JButton("Agregar al Carrito");
@@ -75,6 +77,8 @@ public class ClienteVisual extends JFrame {
     // ====================== CATEGORÍAS ======================
 
     private void cargarCategorias() {
+        comboCategorias.removeAllItems(); // importante
+
         Set<String> categorias = new TreeSet<>();
 
         for (Producto p : gestor.getListaProductos()) {
@@ -84,11 +88,18 @@ public class ClienteVisual extends JFrame {
         for (String cat : categorias) {
             comboCategorias.addItem(cat);
         }
+
+        if (comboCategorias.getItemCount() > 0) {
+            comboCategorias.setSelectedIndex(0);
+            cargarProductosPorCategoria();
+        }
     }
 
     private void cargarProductosPorCategoria() {
         String seleccion = (String) comboCategorias.getSelectedItem();
         modeloTabla.setRowCount(0);
+
+        if (seleccion == null) return;
 
         for (Producto p : gestor.getListaProductos()) {
             if (p.getCategoria().toString().equals(seleccion)) {
@@ -113,7 +124,6 @@ public class ClienteVisual extends JFrame {
         }
 
         int id = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
-
         Producto producto = gestor.buscarPorId(id);
 
         if (producto == null) {
@@ -127,9 +137,26 @@ public class ClienteVisual extends JFrame {
                 "Producto agregado.\nCantidad: " + carrito.get(producto));
     }
 
+    // ====================== REFRESCAR LISTA LUEGO DE PAGAR ======================
+
+    public void refrescarDatos() {
+        gestor.recargarDesdeJSON();   // método nuevo en GestorProductos
+        cargarCategorias();
+    }
+
     private void abrirCarrito() {
-        new CarritoVisual(carrito).setVisible(true);
+        CarritoVisual cv = new CarritoVisual(carrito, gestor);
+
+        cv.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                refrescarDatos();  // se actualiza stock correctamente
+            }
+        });
+
+        cv.setVisible(true);
     }
 }
+
 
 

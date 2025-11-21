@@ -10,9 +10,12 @@ public class CarritoVisual extends JFrame {
     private DefaultListModel<String> modeloLista;
     private JList<String> listaProductos;
     private JLabel labelTotal;
+    private GestorProductos gestor;  // 🔥 agregado
 
-    public CarritoVisual(LinkedHashMap<Producto, Integer> carrito) {
+    // 🔥 Ahora recibe el gestor REAL (no crea uno nuevo)
+    public CarritoVisual(LinkedHashMap<Producto, Integer> carrito, GestorProductos gestor) {
         this.carrito = carrito;
+        this.gestor = gestor;
 
         setTitle("Carrito de Compras");
         setSize(500, 450);
@@ -68,7 +71,6 @@ public class CarritoVisual extends JFrame {
 
         add(panelInferior, BorderLayout.SOUTH);
 
-        // 🔥 AHORA SI → después de crear todo
         actualizarLista();
     }
 
@@ -128,19 +130,17 @@ public class CarritoVisual extends JFrame {
             return;
         }
 
-        // Reutilizamos el GestorProductos para que PagoVisual pueda actualizar el repo correcto
-        GestorProductos gestor = new GestorProductos();
-
+        // 🔥 Ahora PagoVisual recibe el gestor REAL
         PagoVisual pv = new PagoVisual(carrito, gestor);
         pv.setVisible(true);
 
-        // no cerramos inmediatamente si preferís volver al carrito;
-        // en tu código original cerrabas, así lo mantengo:
         dispose();
+
+        // 🔥 Guarda el stock actualizado después del pago
+        gestor.guardarEnJSONexterno();
     }
-
-
 }
+
 
 
 
