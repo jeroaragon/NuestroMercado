@@ -11,7 +11,7 @@ public class JSONGestoraAdmins {
             if (path.getParent() != null)
                 Files.createDirectories(path.getParent());
 
-            Files.write(path, "[]".getBytes()); // JSON vacío
+            Files.write(path, "[]".getBytes());
         }
     }
 
@@ -87,10 +87,9 @@ public class JSONGestoraAdmins {
     }
 
     // -----------------------------------------
-    // LOGIN → lee JSON y valida usuario/clave
+    // LOGIN → usa UsuarioNoEncontradoException
     // -----------------------------------------
-    public static Administrador login(String username, String password, String archivo)
-            throws Exception {
+    public static Administrador login(String username, String password, String archivo) {
 
         List<Administrador> admins = cargarAdmins(archivo);
 
@@ -98,16 +97,16 @@ public class JSONGestoraAdmins {
             if (a.getUsername().equals(username)) {
 
                 if (!a.getPassword().equals(password))
-                    throw new Exception("Contraseña incorrecta.");
+                    throw new UsuarioNoEncontradoException("Contraseña incorrecta.");
 
                 if (!a.isActivo())
-                    throw new Exception("El administrador está inactivo.");
+                    throw new UsuarioNoEncontradoException("El administrador está inactivo.");
 
                 return a;
             }
         }
 
-        throw new Exception("El usuario no existe.");
+        throw new UsuarioNoEncontradoException("El usuario no existe.");
     }
 
     // -----------------------------------------
@@ -123,14 +122,13 @@ public class JSONGestoraAdmins {
 
     // -----------------------------------------
     // Agrega un admin si no existe y guarda
-    // Devuelve true si se agregó, false si ya existía
     // -----------------------------------------
     public static boolean agregarAdmin(Administrador nuevo, String archivo) {
         List<Administrador> admins = cargarAdmins(archivo);
 
         for (Administrador a : admins) {
             if (a.getUsername().equalsIgnoreCase(nuevo.getUsername())) {
-                return false; // ya existe
+                return false;
             }
         }
 
@@ -139,4 +137,5 @@ public class JSONGestoraAdmins {
         return true;
     }
 }
+
 

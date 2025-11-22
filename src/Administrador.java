@@ -4,7 +4,9 @@ public class Administrador extends Usuario {
         super(nombre, apellido, username, email, password);
     }
 
+    // ❌ Este constructor vacío ROMPÍA TODO → ahora está implementado correctamente
     public Administrador(String username, String password, String nombre) {
+        super(nombre, "", username, "", password);
     }
 
     @Override
