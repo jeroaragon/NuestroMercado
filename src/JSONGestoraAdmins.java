@@ -40,7 +40,7 @@ public class JSONGestoraAdmins {
                 o.getString("email"),
                 o.getString("password")
         );
-        a.setActivo(o.getBoolean("activo"));
+        a.setActivo(o.optBoolean("activo", true));
         return a;
     }
 
@@ -72,6 +72,7 @@ public class JSONGestoraAdmins {
             crearArchivo(archivo);
 
             String txt = Files.readString(Paths.get(archivo));
+            if (txt == null || txt.trim().isEmpty()) txt = "[]";
             JSONArray arr = new JSONArray(txt);
 
             for (int i = 0; i < arr.length(); i++) {
@@ -108,4 +109,34 @@ public class JSONGestoraAdmins {
 
         throw new Exception("El usuario no existe.");
     }
+
+    // -----------------------------------------
+    // Comprueba si existe username
+    // -----------------------------------------
+    public static boolean existeUsername(String username, String archivo) {
+        List<Administrador> admins = cargarAdmins(archivo);
+        for (Administrador a : admins) {
+            if (a.getUsername().equalsIgnoreCase(username)) return true;
+        }
+        return false;
+    }
+
+    // -----------------------------------------
+    // Agrega un admin si no existe y guarda
+    // Devuelve true si se agregó, false si ya existía
+    // -----------------------------------------
+    public static boolean agregarAdmin(Administrador nuevo, String archivo) {
+        List<Administrador> admins = cargarAdmins(archivo);
+
+        for (Administrador a : admins) {
+            if (a.getUsername().equalsIgnoreCase(nuevo.getUsername())) {
+                return false; // ya existe
+            }
+        }
+
+        admins.add(nuevo);
+        guardarAdmins(admins, archivo);
+        return true;
+    }
 }
+

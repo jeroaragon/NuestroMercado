@@ -67,7 +67,7 @@
         "precio": 1700,
         "categoria": "Bebidas",
         "id": 9,
-        "stock": 50,
+        "stock": 47,
         "nombre": "Coca-Cola",
         "activo": true
     },
@@ -96,7 +96,7 @@
         "activo": true
     },
     {
-        "precio": 1400,
+        "precio": 1300,
         "categoria": "Snacks",
         "id": 13,
         "stock": 70,

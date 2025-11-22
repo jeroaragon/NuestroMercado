@@ -12,6 +12,7 @@ public class InicioVisual extends JFrame {
     private JButton botonLogin;
     private JButton botonCliente;
     private GestorProductos gestorProductos;
+    private final String archivoAdmins = "data/admins.json";
 
     public InicioVisual(GestorProductos gestorProductos) {
         this.gestorProductos = gestorProductos;
@@ -71,47 +72,28 @@ public class InicioVisual extends JFrame {
 
     // ---------------- VALIDACIÓN CONTRA /data/admins.json ----------------
     private void procesarLoginAdministrador() {
-        String usuarioIngresado = campoUsuario.getText();
+        String usuarioIngresado = campoUsuario.getText().trim();
         String passwordIngresada = String.valueOf(campoPassword.getPassword());
 
         try {
-            if (validarCredenciales(usuarioIngresado, passwordIngresada)) {
-                new MenuAdminVisual(gestorProductos).setVisible(true);
-                dispose();
-            }
-        } catch (UsuarioNoEncontradoException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al leer data/admins.json");
-        }
-    }
+            Administrador a = JSONGestoraAdmins.login(usuarioIngresado, passwordIngresada, archivoAdmins);
+            // Si no lanza excepción, login OK
+            new MenuAdminVisual(gestorProductos).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            // Si falla, ofrecer registrarse
+            int opcion = JOptionPane.showConfirmDialog(this,
+                    ex.getMessage() + "\n¿Desea registrarse como administrador?",
+                    "Login fallido",
+                    JOptionPane.YES_NO_OPTION);
 
-    private boolean validarCredenciales(String username, String password) throws IOException {
-
-        // → Ruta corregida
-        String rutaJSON = "data/admins.json";
-
-        if (!Files.exists(Paths.get(rutaJSON))) {
-            throw new IOException("No se encontró el archivo: " + rutaJSON);
-        }
-
-        String jsonTexto = Files.readString(Paths.get(rutaJSON));
-
-        JSONArray arreglo = new JSONArray(jsonTexto);
-
-        for (int i = 0; i < arreglo.length(); i++) {
-            JSONObject obj = arreglo.getJSONObject(i);
-
-            String user = obj.getString("username");
-            String pass = obj.getString("password");
-            boolean activo = obj.getBoolean("activo");
-
-            if (user.equals(username) && pass.equals(password) && activo) {
-                return true;
+            if (opcion == JOptionPane.YES_OPTION) {
+                // abrir diálogo de registro
+                RegistroVisual dialog = new RegistroVisual(this, gestorProductos);
+                // al cerrar el dialog, si se registró, podés autocompletar el usuario
+                // (no sabemos si autocompletó, así que simplemente dejamos los campos)
             }
         }
-
-        throw new UsuarioNoEncontradoException("Usuario o contraseña incorrectos.");
     }
 
     private void entrarComoCliente() {
@@ -127,6 +109,7 @@ public class InicioVisual extends JFrame {
         );
     }
 }
+
 
 
 
