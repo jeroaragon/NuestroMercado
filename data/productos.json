@@ -203,7 +203,7 @@
         "precio": 700,
         "categoria": "Carne",
         "id": 25,
-        "stock": 50,
+        "stock": 45,
         "nombre": "morcilla",
         "activo": true
     }

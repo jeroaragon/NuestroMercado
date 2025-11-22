@@ -14,5 +14,13 @@
         "email": "ana@gmail.com",
         "username": "admin2",
         "activo": true
-    }
+    },
+  {
+    "password": "2112",
+    "apellido": "vicente",
+    "nombre": "eze",
+    "email": "ana@gmail.com",
+    "username": "eze",
+    "activo": true
+  }
 ]

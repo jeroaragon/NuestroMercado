@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.*;
+import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class InicioVisual extends JFrame {
 
@@ -9,7 +13,6 @@ public class InicioVisual extends JFrame {
     private JButton botonCliente;
     private GestorProductos gestorProductos;
 
-    // --- CONSTRUCTOR PRINCIPAL FIXEADO ---
     public InicioVisual(GestorProductos gestorProductos) {
         this.gestorProductos = gestorProductos;
 
@@ -17,16 +20,14 @@ public class InicioVisual extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        // Panel principal con padding para evitar problemas en diferentes PCs
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // margen universal
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setBackground(new Color(230, 230, 250));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // ───────── Usuario ─────────
         JLabel lblUsuario = new JLabel("Usuario administrador:");
         lblUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 0; gbc.gridy = 0;
@@ -36,7 +37,6 @@ public class InicioVisual extends JFrame {
         gbc.gridx = 1;
         panel.add(campoUsuario, gbc);
 
-        // ───────── Contraseña ─────────
         JLabel lblPass = new JLabel("Contraseña:");
         lblPass.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 0; gbc.gridy = 1;
@@ -46,7 +46,6 @@ public class InicioVisual extends JFrame {
         gbc.gridx = 1;
         panel.add(campoPassword, gbc);
 
-        // ───────── Botón Login Admin ─────────
         botonLogin = new JButton("Iniciar Sesión (Admin)");
         botonLogin.setBackground(new Color(152, 251, 152));
         botonLogin.setFont(new Font("Arial", Font.BOLD, 13));
@@ -55,7 +54,6 @@ public class InicioVisual extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(botonLogin, gbc);
 
-        // ───────── Botón Cliente ─────────
         botonCliente = new JButton("Soy Cliente");
         botonCliente.setBackground(new Color(135, 206, 250));
         botonCliente.setFont(new Font("Arial", Font.BOLD, 13));
@@ -64,36 +62,63 @@ public class InicioVisual extends JFrame {
         panel.add(botonCliente, gbc);
 
         add(panel);
-
-        // AUTOMÁTICAMENTE ajusta ventana al contenido → evita cortes
         pack();
-        setLocationRelativeTo(null); // centrar siempre
+        setLocationRelativeTo(null);
 
-        // Acciones
         botonLogin.addActionListener(e -> procesarLoginAdministrador());
         botonCliente.addActionListener(e -> entrarComoCliente());
     }
 
-
-    // --- MÉTODOS para las acciones de los botones ---
+    // ---------------- VALIDACIÓN CONTRA /data/admins.json ----------------
     private void procesarLoginAdministrador() {
-        String usuario = campoUsuario.getText();
-        String password = String.valueOf(campoPassword.getPassword());
+        String usuarioIngresado = campoUsuario.getText();
+        String passwordIngresada = String.valueOf(campoPassword.getPassword());
 
-        if (usuario.equals("eze") && password.equals("2112")) {
-            new MenuAdminVisual(gestorProductos).setVisible(true);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Credenciales de administrador incorrectas");
+        try {
+            if (validarCredenciales(usuarioIngresado, passwordIngresada)) {
+                new MenuAdminVisual(gestorProductos).setVisible(true);
+                dispose();
+            }
+        } catch (UsuarioNoEncontradoException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al leer data/admins.json");
         }
     }
 
-    private void entrarComoCliente() {
-       new ClienteVisual(gestorProductos).setVisible(true);
-       dispose();
+    private boolean validarCredenciales(String username, String password) throws IOException {
+
+        // → Ruta corregida
+        String rutaJSON = "data/admins.json";
+
+        if (!Files.exists(Paths.get(rutaJSON))) {
+            throw new IOException("No se encontró el archivo: " + rutaJSON);
+        }
+
+        String jsonTexto = Files.readString(Paths.get(rutaJSON));
+
+        JSONArray arreglo = new JSONArray(jsonTexto);
+
+        for (int i = 0; i < arreglo.length(); i++) {
+            JSONObject obj = arreglo.getJSONObject(i);
+
+            String user = obj.getString("username");
+            String pass = obj.getString("password");
+            boolean activo = obj.getBoolean("activo");
+
+            if (user.equals(username) && pass.equals(password) && activo) {
+                return true;
+            }
+        }
+
+        throw new UsuarioNoEncontradoException("Usuario o contraseña incorrectos.");
     }
 
-    // --- MAIN CORRECTO ---
+    private void entrarComoCliente() {
+        new ClienteVisual(gestorProductos).setVisible(true);
+        dispose();
+    }
+
     public static void main(String[] args) {
         GestorProductos gestor = new GestorProductos();
 
@@ -102,6 +127,8 @@ public class InicioVisual extends JFrame {
         );
     }
 }
+
+
 
 
 

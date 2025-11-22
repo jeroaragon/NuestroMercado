@@ -1,25 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class AgregarProductoVisual extends JDialog {
+public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
     private JTextField campoNombre, campoPrecio, campoStock;
     private JComboBox<Categorias> comboCategoria;
 
-    private GestionProductosVisual padre;
     private GestorProductos gestor;
 
-    public AgregarProductoVisual(GestionProductosVisual parent, GestorProductos gestor) {
+    public AgregarProductoVisual(JFrame parent, GestorProductos gestor) {
         super(parent, "Agregar Producto", true);
-
-        this.padre = parent;
         this.gestor = gestor;
 
         setSize(350, 300);
         setLayout(new GridLayout(6, 2, 5, 5));
         setLocationRelativeTo(parent);
 
-        // ------------------ CAMPOS ------------------
         add(new JLabel("Nombre:"));
         campoNombre = new JTextField();
         add(campoNombre);
@@ -36,61 +32,45 @@ public class AgregarProductoVisual extends JDialog {
         campoStock = new JTextField();
         add(campoStock);
 
-        // ------------------ BOTONES ------------------
-        JButton botonGuardar = new JButton("Guardar");
+        JButton botonAgregar = new JButton("Agregar");
         JButton botonCancelar = new JButton("Cancelar");
 
-        add(botonGuardar);
+        add(botonAgregar);
         add(botonCancelar);
 
-        // ------------------ EVENTO GUARDAR ------------------
-        botonGuardar.addActionListener(e -> {
-            try {
-                String nombre = campoNombre.getText().trim();
-                String precioTxt = campoPrecio.getText().trim();
-                String stockTxt = campoStock.getText().trim();
-
-                // VALIDACIÓN BÁSICA
-                if (nombre.isEmpty() || precioTxt.isEmpty() || stockTxt.isEmpty()) {
-                    JOptionPane.showMessageDialog(this,
-                            "Todos los campos son obligatorios.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                double precio = Double.parseDouble(precioTxt);
-                int stock = Integer.parseInt(stockTxt);
-                Categorias categoria = (Categorias) comboCategoria.getSelectedItem();
-
-                // VALIDAR PRODUCTO REPETIDO
-                boolean agregado = gestor.agregarProducto(nombre, categoria, precio, stock);
-
-                if (!agregado) {
-                    JOptionPane.showMessageDialog(this,
-                            "El producto ya existe. No se puede agregar.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
+        botonAgregar.addActionListener(e -> {
+            if (validarDatos()) {
+                cargarDatosProducto();
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente");
-
-                // REFRESCA TABLA DEL PADRE
-                padre.refrescar();
-
                 dispose();
-
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this,
-                        "Precio y Stock deben ser números válidos.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Datos inválidos");
             }
         });
 
-        // ------------------ BOTÓN CANCELAR ------------------
         botonCancelar.addActionListener(e -> dispose());
+    }
+
+    @Override
+    public void cargarDatosProducto() {
+        String nombre = campoNombre.getText();
+        Categorias categoria = (Categorias) comboCategoria.getSelectedItem();
+        double precio = Double.parseDouble(campoPrecio.getText());
+        int stock = Integer.parseInt(campoStock.getText());
+
+        gestor.agregarProducto(nombre, categoria, precio, stock);
+    }
+
+    @Override
+    public boolean validarDatos() {
+        try {
+            if (campoNombre.getText().trim().isEmpty()) return false;
+            Double.parseDouble(campoPrecio.getText());
+            Integer.parseInt(campoStock.getText());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 
