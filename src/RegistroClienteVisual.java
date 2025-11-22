@@ -1,90 +1,77 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Set;
 
 public class RegistroClienteVisual extends JDialog {
 
-    private JTextField campoNombre, campoApellido, campoUsername, campoEmail;
-    private JPasswordField campoPass, campoConfPass;
+    private JTextField campoNombre, campoApellido, campoUser, campoEmail;
+    private JPasswordField campoPassword;
+
     private final String archivoClientes = "data/clientes.json";
-    private GestorProductos gestorProductos;
 
-    public RegistroClienteVisual(Window parent, GestorProductos gestorProductos) {
-        super(parent, "Registro de Cliente", ModalityType.APPLICATION_MODAL);
-        this.gestorProductos = gestorProductos;
+    public RegistroClienteVisual(JFrame parent, GestorProductos gestorProductos) {
+        super(parent, "Registrar Cliente", true);
 
-        setSize(380, 360);
-        setLayout(new GridLayout(8, 2, 8, 8));
-        setLocationRelativeTo(parent);
+        setLayout(new GridLayout(6, 2, 10, 10));
+
+        campoNombre = new JTextField();
+        campoApellido = new JTextField();
+        campoUser = new JTextField();
+        campoEmail = new JTextField();
+        campoPassword = new JPasswordField();
 
         add(new JLabel("Nombre:"));
-        campoNombre = new JTextField();
         add(campoNombre);
 
         add(new JLabel("Apellido:"));
-        campoApellido = new JTextField();
         add(campoApellido);
 
-        add(new JLabel("Username:"));
-        campoUsername = new JTextField();
-        add(campoUsername);
+        add(new JLabel("Usuario:"));
+        add(campoUser);
 
         add(new JLabel("Email:"));
-        campoEmail = new JTextField();
         add(campoEmail);
 
         add(new JLabel("Contraseña:"));
-        campoPass = new JPasswordField();
-        add(campoPass);
+        add(campoPassword);
 
-        add(new JLabel("Confirmar contraseña:"));
-        campoConfPass = new JPasswordField();
-        add(campoConfPass);
+        JButton registrar = new JButton("Registrar");
+        add(registrar);
 
-        JButton btnRegistrar = new JButton("Registrar");
-        JButton btnCancelar = new JButton("Cancelar");
-        add(btnRegistrar);
-        add(btnCancelar);
+        registrar.addActionListener(e -> registrarCliente());
 
-        btnRegistrar.addActionListener(e -> registrar());
-        btnCancelar.addActionListener(e -> dispose());
-
+        pack();
+        setLocationRelativeTo(parent);
         setVisible(true);
     }
 
-    private void registrar() {
-        String nombre = campoNombre.getText().trim();
-        String apellido = campoApellido.getText().trim();
-        String username = campoUsername.getText().trim();
-        String email = campoEmail.getText().trim();
-        String pass = new String(campoPass.getPassword()).trim();
-        String conf = new String(campoConfPass.getPassword()).trim();
+    private void registrarCliente() {
 
-        if (nombre.isEmpty() || apellido.isEmpty() || username.isEmpty() ||
-                email.isEmpty() || pass.isEmpty() || conf.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        String nom = campoNombre.getText();
+        String ape = campoApellido.getText();
+        String user = campoUser.getText();
+        String email = campoEmail.getText();
+        String pass = String.valueOf(campoPassword.getPassword());
+
+        Cliente nuevo = new Cliente(nom, ape, user, email, pass);
+
+        Set<Cliente> lista = JSONGestoraClientes.cargarClientes(archivoClientes);
+
+        if (lista.contains(nuevo)) {
+            JOptionPane.showMessageDialog(this,
+                    "El usuario ya existe",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (!pass.equals(conf)) {
-            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        lista.add(nuevo);
+        JSONGestoraClientes.guardarClientes(lista, archivoClientes);
 
-        if (JSONGestoraClientes.existeUsername(username, "data/clientes.json")) {
-            JOptionPane.showMessageDialog(this, "El username ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        Cliente nuevo = new Cliente(nombre, apellido, username, email, pass);
-
-        boolean ok = JSONGestoraClientes.agregarCliente(nuevo, "data/clientes.json");
-
-        if (ok) {
-            JOptionPane.showMessageDialog(this, "Registro exitoso.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al registrar usuario.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(this, "Cliente registrado con éxito");
+        dispose();
     }
 }
+
+
 

@@ -77,6 +77,7 @@ public class InicioVisual extends JFrame {
             Administrador admin = JSONGestoraAdmins.login(user, pass, archivoAdmins);
             new MenuAdminVisual(gestorProductos).setVisible(true);
             dispose();
+
         } catch (Exception e) {
             int opcion = JOptionPane.showConfirmDialog(this,
                     e.getMessage() + "\n¿Desea registrarse como administrador?",
@@ -84,7 +85,7 @@ public class InicioVisual extends JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (opcion == JOptionPane.YES_OPTION) {
-                new RegistroVisual(this, gestorProductos); // tu ventana de registro de admins
+                new RegistroVisual(this, gestorProductos);
             }
         }
     }
@@ -98,6 +99,7 @@ public class InicioVisual extends JFrame {
             Cliente cliente = JSONGestoraClientes.login(user, pass, archivoClientes);
             new ClienteVisual(gestorProductos).setVisible(true);
             dispose();
+
         } catch (Exception e) {
             int opcion = JOptionPane.showConfirmDialog(this,
                     e.getMessage() + "\n¿Desea registrarse como cliente?",
@@ -110,6 +112,7 @@ public class InicioVisual extends JFrame {
         }
     }
 }
+
 
 
 
