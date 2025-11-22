@@ -1,18 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.*;
-import java.io.IOException;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class InicioVisual extends JFrame {
 
     private JTextField campoUsuario;
     private JPasswordField campoPassword;
-    private JButton botonLogin;
-    private JButton botonCliente;
+    private JButton botonLoginAdmin;
+    private JButton botonLoginCliente;
     private GestorProductos gestorProductos;
+
     private final String archivoAdmins = "data/admins.json";
+    private final String archivoClientes = "data/clientes.json";
 
     public InicioVisual(GestorProductos gestorProductos) {
         this.gestorProductos = gestorProductos;
@@ -29,7 +27,7 @@ public class InicioVisual extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        JLabel lblUsuario = new JLabel("Usuario administrador:");
+        JLabel lblUsuario = new JLabel("Usuario:");
         lblUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(lblUsuario, gbc);
@@ -47,68 +45,72 @@ public class InicioVisual extends JFrame {
         gbc.gridx = 1;
         panel.add(campoPassword, gbc);
 
-        botonLogin = new JButton("Iniciar Sesión (Admin)");
-        botonLogin.setBackground(new Color(152, 251, 152));
-        botonLogin.setFont(new Font("Arial", Font.BOLD, 13));
+        botonLoginAdmin = new JButton("Iniciar Sesión (Admin)");
+        botonLoginAdmin.setBackground(new Color(152, 251, 152));
+        botonLoginAdmin.setFont(new Font("Arial", Font.BOLD, 13));
 
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(botonLogin, gbc);
+        panel.add(botonLoginAdmin, gbc);
 
-        botonCliente = new JButton("Soy Cliente");
-        botonCliente.setBackground(new Color(135, 206, 250));
-        botonCliente.setFont(new Font("Arial", Font.BOLD, 13));
+        botonLoginCliente = new JButton("Iniciar Sesión (Cliente)");
+        botonLoginCliente.setBackground(new Color(135, 206, 250));
+        botonLoginCliente.setFont(new Font("Arial", Font.BOLD, 13));
 
         gbc.gridy = 3;
-        panel.add(botonCliente, gbc);
+        panel.add(botonLoginCliente, gbc);
 
         add(panel);
         pack();
         setLocationRelativeTo(null);
 
-        botonLogin.addActionListener(e -> procesarLoginAdministrador());
-        botonCliente.addActionListener(e -> entrarComoCliente());
+        botonLoginAdmin.addActionListener(e -> procesarLoginAdministrador());
+        botonLoginCliente.addActionListener(e -> procesarLoginCliente());
     }
 
-    // ---------------- VALIDACIÓN CONTRA /data/admins.json ----------------
+    // ---------------- LOGIN ADMIN ----------------
     private void procesarLoginAdministrador() {
-        String usuarioIngresado = campoUsuario.getText().trim();
-        String passwordIngresada = String.valueOf(campoPassword.getPassword());
+        String user = campoUsuario.getText().trim();
+        String pass = String.valueOf(campoPassword.getPassword());
 
         try {
-            Administrador a = JSONGestoraAdmins.login(usuarioIngresado, passwordIngresada, archivoAdmins);
-            // Si no lanza excepción, login OK
+            Administrador admin = JSONGestoraAdmins.login(user, pass, archivoAdmins);
             new MenuAdminVisual(gestorProductos).setVisible(true);
             dispose();
-        } catch (Exception ex) {
-            // Si falla, ofrecer registrarse
+        } catch (Exception e) {
             int opcion = JOptionPane.showConfirmDialog(this,
-                    ex.getMessage() + "\n¿Desea registrarse como administrador?",
-                    "Login fallido",
+                    e.getMessage() + "\n¿Desea registrarse como administrador?",
+                    "Error de inicio",
                     JOptionPane.YES_NO_OPTION);
 
             if (opcion == JOptionPane.YES_OPTION) {
-                // abrir diálogo de registro
-                RegistroVisual dialog = new RegistroVisual(this, gestorProductos);
-                // al cerrar el dialog, si se registró, podés autocompletar el usuario
-                // (no sabemos si autocompletó, así que simplemente dejamos los campos)
+                new RegistroVisual(this, gestorProductos); // tu ventana de registro de admins
             }
         }
     }
 
-    private void entrarComoCliente() {
-        new ClienteVisual(gestorProductos).setVisible(true);
-        dispose();
-    }
+    // ---------------- LOGIN CLIENTE ----------------
+    private void procesarLoginCliente() {
+        String user = campoUsuario.getText().trim();
+        String pass = String.valueOf(campoPassword.getPassword());
 
-    public static void main(String[] args) {
-        GestorProductos gestor = new GestorProductos();
+        try {
+            Cliente cliente = JSONGestoraClientes.login(user, pass, archivoClientes);
+            new ClienteVisual(gestorProductos).setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            int opcion = JOptionPane.showConfirmDialog(this,
+                    e.getMessage() + "\n¿Desea registrarse como cliente?",
+                    "Error de inicio",
+                    JOptionPane.YES_NO_OPTION);
 
-        SwingUtilities.invokeLater(() ->
-                new InicioVisual(gestor).setVisible(true)
-        );
+            if (opcion == JOptionPane.YES_OPTION) {
+                new RegistroClienteVisual(this, gestorProductos);
+            }
+        }
     }
 }
+
 
 
 

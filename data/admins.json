@@ -18,17 +18,9 @@
     {
         "password": "2112",
         "apellido": "vicente",
-        "nombre": "eze",
-        "email": "ana@gmail.com",
+        "nombre": "ezequiel",
+        "email": "ezepiola",
         "username": "eze",
-        "activo": true
-    },
-    {
-        "password": "1212",
-        "apellido": "ogas",
-        "nombre": "david",
-        "email": "negropiola@gmail.com",
-        "username": "negro",
         "activo": true
     }
 ]
