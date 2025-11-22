@@ -1,66 +1,51 @@
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 public class Main_Jero {
     public static void main(String[] args) {
 
         GestorProductos gestor = new GestorProductos();
-        new MenuAdminVisual(gestor);
+        // inicializar UI
+        SwingUtilities.invokeLater(() -> {
+            new MenuAdminVisual(gestor); // si MenuAdminVisual crea ventana, ok (no .setVisible aquí ya que se usa abajo)
+        });
+
         InicioVisual login = new InicioVisual(gestor);
         login.setVisible(true);
 
-        /*
-        ArrayList<Producto> productos = new ArrayList<>();
+        // Sólo guardar admins por defecto si el archivo no existe o está vacío.
+        String adminsPath = "data/admins.json";
+        boolean guardarPorDefecto = false;
+        try {
+            if (!Files.exists(Paths.get(adminsPath))) {
+                guardarPorDefecto = true;
+            } else {
+                // si existe pero está vacío o contiene sólo espacios/brackets vacíos -> permitir escribir defaults
+                String contenido = Files.readString(Paths.get(adminsPath));
+                if (contenido == null || contenido.trim().isEmpty() || contenido.trim().equals("[]")) {
+                    guardarPorDefecto = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // En caso de error con el archivo, evitamos sobrescribir
+            guardarPorDefecto = false;
+        }
 
-        // ---- Carne ----
-        productos.add(new Producto("Asado", Categorias.Carne, 5500, 20));
-        productos.add(new Producto("Milanesa", Categorias.Carne, 4800, 30));
-        productos.add(new Producto("Carne Picada", Categorias.Carne, 4200, 25));
-        productos.add(new Producto("Costillas", Categorias.Carne, 6000, 15));
+        if (guardarPorDefecto) {
+            List<Administrador> admins = new ArrayList<>();
+            admins.add(new Administrador("Juan", "Gomez", "admin1", "admin1@gmail.com", "1234"));
+            admins.add(new Administrador("Ana", "Perez", "admin2", "ana@gmail.com", "abcd"));
 
-        // ---- Lácteos ----
-        productos.add(new Producto("Leche", Categorias.Lacteos, 1200, 100));
-        productos.add(new Producto("Queso", Categorias.Lacteos, 2800, 40));
-        productos.add(new Producto("Yogur", Categorias.Lacteos, 900, 60));
-        productos.add(new Producto("Manteca", Categorias.Lacteos, 1500, 30));
-
-        // ---- Bebidas ----
-        productos.add(new Producto("Coca-Cola", Categorias.Bebidas, 1700, 50));
-        productos.add(new Producto("Agua", Categorias.Bebidas, 900, 80));
-        productos.add(new Producto("Jugo", Categorias.Bebidas, 1300, 40));
-        productos.add(new Producto("Energizante", Categorias.Bebidas, 2200, 25));
-
-        // ---- Snacks ----
-        productos.add(new Producto("Papas Fritas", Categorias.Snacks, 1400, 70));
-        productos.add(new Producto("Maní", Categorias.Snacks, 1100, 50));
-        productos.add(new Producto("Galletitas", Categorias.Snacks, 900, 60));
-        productos.add(new Producto("Chocolate", Categorias.Snacks, 2000, 40));
-
-        // ---- Limpieza ----
-        productos.add(new Producto("Lavandina", Categorias.Limpieza, 800, 50));
-        productos.add(new Producto("Detergente", Categorias.Limpieza, 900, 45));
-        productos.add(new Producto("Jabón en Polvo", Categorias.Limpieza, 2500, 30));
-        productos.add(new Producto("Desodorante", Categorias.Limpieza, 1500, 35));
-
-        // ---- Frutas ----
-        productos.add(new Producto("Manzana", Categorias.Frutas, 700, 80));
-        productos.add(new Producto("Banana", Categorias.Frutas, 650, 90));
-        productos.add(new Producto("Naranja", Categorias.Frutas, 600, 70));
-        productos.add(new Producto("Pera", Categorias.Frutas, 750, 60));
-
-        // GUARDAR EN JSON
-        JSONGestora.guardarProductos(productos, "data/productos.json");
-
-        System.out.println("Productos guardados correctamente en data/productos.json");
-
-         */
-
-        List<Administrador> admins = new ArrayList<>();
-
-        admins.add(new Administrador("Juan", "Gomez", "admin1", "admin1@gmail.com", "1234"));
-        admins.add(new Administrador("Ana", "Perez", "admin2", "ana@gmail.com", "abcd"));
-
-        JSONGestoraAdmins.guardarAdmins(admins, "data/admins.json");
+            JSONGestoraAdmins.guardarAdmins(admins, adminsPath);
+            System.out.println("Admins por defecto guardados en " + adminsPath);
+        } else {
+            System.out.println("Archivo de admins ya existe y tiene contenido — no se sobrescribe.");
+        }
     }
 }
+
 

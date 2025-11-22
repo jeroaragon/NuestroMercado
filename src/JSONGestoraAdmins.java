@@ -1,6 +1,7 @@
 import org.json.*;
 import java.nio.file.*;
 import java.util.*;
+import java.io.IOException;
 
 public class JSONGestoraAdmins {
 
@@ -10,7 +11,6 @@ public class JSONGestoraAdmins {
         if (!Files.exists(path)) {
             if (path.getParent() != null)
                 Files.createDirectories(path.getParent());
-
             Files.write(path, "[]".getBytes());
         }
     }
@@ -48,14 +48,33 @@ public class JSONGestoraAdmins {
     // GUARDAR LISTA DE ADMINS
     // -----------------------------------------
     public static void guardarAdmins(List<Administrador> lista, String archivo) {
-        JSONArray arr = new JSONArray();
-
-        for (Administrador a : lista) {
-            arr.put(adminToJSON(a));
-        }
-
         try {
-            crearArchivo(archivo);
+            // protección: no sobreescribir con lista vacía si ya existe un archivo con datos
+            Path path = Paths.get(archivo);
+            boolean fileExists = Files.exists(path);
+            boolean fileHasContent = false;
+            if (fileExists) {
+                try {
+                    fileHasContent = Files.size(path) > 0;
+                } catch (IOException ignore) { fileHasContent = true; }
+            }
+
+            if ((lista == null || lista.isEmpty()) && fileHasContent) {
+                // Si hay contenido en el archivo y la lista que intentamos guardar está vacía,
+                // evitamos sobreescribirlo accidentalmente.
+                System.err.println("JSONGestoraAdmins: intento de guardar lista vacía sobre archivo existente. Operación cancelada.");
+                return;
+            }
+
+            // Preparar JSONArray
+            JSONArray arr = new JSONArray();
+            if (lista != null) {
+                for (Administrador a : lista) {
+                    arr.put(adminToJSON(a));
+                }
+            }
+
+            crearArchivo(archivo); // asegura existencia
             Files.write(Paths.get(archivo), arr.toString(4).getBytes());
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,8 +91,22 @@ public class JSONGestoraAdmins {
             crearArchivo(archivo);
 
             String txt = Files.readString(Paths.get(archivo));
-            if (txt == null || txt.trim().isEmpty()) txt = "[]";
-            JSONArray arr = new JSONArray(txt);
+
+            // Si el archivo es vacío o contiene sólo espacios o "[]", devolvemos lista vacía.
+            if (txt == null || txt.trim().isEmpty() || txt.trim().equals("[]")) {
+                return lista;
+            }
+
+            // Intentar parsear
+            JSONArray arr;
+            try {
+                arr = new JSONArray(txt);
+            } catch (JSONException je) {
+                // No parseable: NO sobreescribir el archivo; informar y devolver lista vacía.
+                System.err.println("JSONGestoraAdmins: error al parsear admins JSON. Se evita sobrescribir el archivo.");
+                je.printStackTrace();
+                return lista;
+            }
 
             for (int i = 0; i < arr.length(); i++) {
                 lista.add(jsonToAdmin(arr.getJSONObject(i)));
@@ -137,5 +170,6 @@ public class JSONGestoraAdmins {
         return true;
     }
 }
+
 
 
