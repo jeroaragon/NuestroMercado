@@ -1,7 +1,7 @@
 import java.util.Objects;
 
 public class Producto {
-
+    // Contador estático que permite generar IDs automáticos y únicos
     private static int contadorId = 1; // ID autoincrementable
 
     private int id;
@@ -77,9 +77,7 @@ public class Producto {
                 '}';
     }
 
-    // ======================================================
     // NECESARIO para que el carrito funcione PERFECTO
-    // ======================================================
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

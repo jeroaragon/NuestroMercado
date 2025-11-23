@@ -5,9 +5,11 @@ import java.util.Map;
 
 public class PagoVisual extends JFrame {
 
+    // Carrito con productos y cantidades
     private LinkedHashMap<Producto, Integer> carrito;
+    // Referencia al gestor (para actualizar el stock en el JSON)
     private GestorProductos gestor;
-
+    // Constructor: recibe el carrito y el gestor
     public PagoVisual(LinkedHashMap<Producto, Integer> carrito, GestorProductos gestor) {
         this.carrito = carrito;
         this.gestor = gestor;

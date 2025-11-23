@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+
+
+  //Ventana principal del administrador. Desde aquí se puede acceder a la gestión de productoso cerrar sesión para volver al inicio.
+
 public class MenuAdminVisual extends JFrame {
 
     private JButton botonGestionProductos;

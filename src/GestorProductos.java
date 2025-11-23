@@ -1,12 +1,7 @@
 import java.util.*;
 
-/*
-  Clase que se encarga de manejar todos los productos:
-  - Agregar, modificar, eliminar
-  - Guardar y cargar desde JSON
-  - Manejar IDs disponibles
-  - Proveer la lista actual de productos
- */
+
+ // Clase que se encarga de manejar todos los productos  Agregar, modificar, eliminar  Guardar y cargar desde JSON Manejar IDs disponibles Proveer la lista actual de productos
 public class GestorProductos {
 
     // Repositorio genérico donde se guardan los productos en memoria

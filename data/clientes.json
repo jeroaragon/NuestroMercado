@@ -12,5 +12,12 @@
         "nombre": "pablo",
         "email": "asf",
         "username": "pablito"
+    },
+    {
+        "password": "manolo",
+        "apellido": "perez",
+        "nombre": "manolo",
+        "email": "gvnbjoawrbgviaw",
+        "username": "manolo"
     }
 ]
