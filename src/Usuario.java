@@ -29,7 +29,7 @@ abstract class Usuario {
     public boolean isActivo() { return activo; }
     public void setActivo(boolean activo) { this.activo = activo; }
 
-    // Método abstracto
+
     public abstract boolean esAdmin();
 
     public abstract String getTipoUsuario();

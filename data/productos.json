@@ -5,7 +5,7 @@
         "id": 1,
         "stock": 20,
         "nombre": "Asado",
-        "activo": false
+        "activo": true
     },
     {
         "precio": 4800,
@@ -13,7 +13,7 @@
         "id": 2,
         "stock": 30,
         "nombre": "Milanesa",
-        "activo": false
+        "activo": true
     },
     {
         "precio": 4200,
@@ -91,7 +91,7 @@
         "precio": 2200,
         "categoria": "Bebidas",
         "id": 12,
-        "stock": 25,
+        "stock": 23,
         "nombre": "Energizante",
         "activo": true
     },
@@ -211,7 +211,7 @@
         "precio": 300,
         "categoria": "Limpieza",
         "id": 27,
-        "stock": 53,
+        "stock": 1,
         "nombre": "jabon en polvo",
         "activo": true
     }

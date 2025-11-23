@@ -195,20 +195,16 @@ public class GestionProductosVisual extends JFrame {
                 "Estado actualizado: ahora está " + (p.isActivo() ? "Activo" : "Inactivo"));
     }
 
-    // ===============================================================
+
     // VOLVER AL MENÚ ADMIN
-    // ===============================================================
     private void volver() {
         dispose(); // Cierra esta ventana
         new MenuAdminVisual(gestor).setVisible(true); // Vuelve al menú
     }
 
-    // ===============================================================
     // REFRESCAR TABLA
-    // ===============================================================
-    /*
-      Recarga la tabla con los datos actuales del gestor.
-     */
+    //Recarga la tabla con los datos actuales del gestor.
+
     public void refrescarTabla() {
         cargarProductosEnTabla();
     }

@@ -19,16 +19,13 @@ public class GestorProductos {
         cargarDesdeJSON(); // Carga inicial al abrir la aplicación
     }
 
-    // =====================================================
-    // 🔥 NUEVO: método que tu GUI necesita
-    // =====================================================
+
     public void guardarProductos() {
-        guardarEnJSON(); // simplemente llama al método interno
+        guardarEnJSON();
     }
 
-    // =====================================================
-    // 🔥 NUEVO: activar / desactivar producto
-    // =====================================================
+
+    //  activar / desactivar producto
     public boolean toggleActivo(int id) {
         Producto p = buscarPorId(id);
 
@@ -39,9 +36,7 @@ public class GestorProductos {
         return true;
     }
 
-    // =====================================================
-    // 🔥 Reemplazar toda la lista de productos
-    // =====================================================
+    //  Reemplazar toda la lista de productos
     public void setLista(List<Producto> nuevaLista) {
         repositorio.listar().clear();
 
@@ -50,9 +45,7 @@ public class GestorProductos {
         }
     }
 
-    // =====================================================
     // Obtener el menor ID libre
-    // =====================================================
     private int obtenerMenorIDDisponible() {
         boolean[] usado = new boolean[10000];
 
@@ -68,9 +61,8 @@ public class GestorProductos {
         return usado.length;
     }
 
-    // =====================================================
+
     // Agregar un producto nuevo
-    // =====================================================
     public boolean agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
 
         // Validar nombre repetido
@@ -88,9 +80,8 @@ public class GestorProductos {
         return true;
     }
 
-    // =====================================================
     // Modificar un producto existente
-    // =====================================================
+
     public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
         for (Producto p : repositorio.listar()) {
             if (p.getId() == id) {
@@ -106,9 +97,7 @@ public class GestorProductos {
         return false;
     }
 
-    // =====================================================
     // Eliminar un producto por ID
-    // =====================================================
     public boolean eliminarProducto(int id) {
         for (Producto p : repositorio.listar()) {
             if (p.getId() == id) {
@@ -122,16 +111,13 @@ public class GestorProductos {
         return false;
     }
 
-    // =====================================================
     // Obtener lista completa de productos
-    // =====================================================
     public List<Producto> getListaProductos() {
         return repositorio.listar();
     }
 
-    // =====================================================
+
     // Cargar datos desde JSON al iniciar
-    // =====================================================
     private void cargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
 
@@ -142,9 +128,9 @@ public class GestorProductos {
         }
     }
 
-    // =====================================================
+
     // Guardar en JSON
-    // =====================================================
+
     private void guardarEnJSON() {
         JSONGestora.guardarProductos(repositorio.listar(), archivoJSON);
     }
@@ -154,9 +140,7 @@ public class GestorProductos {
         JSONGestora.guardarProductos(repositorio.listar(), archivoJSON);
     }
 
-    // =====================================================
     // Recargar desde JSON
-    // =====================================================
     public void recargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
 
@@ -167,9 +151,9 @@ public class GestorProductos {
         }
     }
 
-    // =====================================================
+
     // Buscar producto por ID
-    // =====================================================
+
     public Producto buscarPorId(int id) {
         for (Producto p : repositorio.listar()) {
             if (p.getId() == id) {
