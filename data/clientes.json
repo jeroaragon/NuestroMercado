@@ -19,5 +19,90 @@
         "nombre": "manolo",
         "email": "gvnbjoawrbgviaw",
         "username": "manolo"
-    }
+    },
+  {
+    "password": "lucas123",
+    "apellido": "gomez",
+    "nombre": "lucas",
+    "email": "lucasg@gmail.com",
+    "username": "lucu"
+  },
+  {
+    "password": "maria22",
+    "apellido": "rodriguez",
+    "nombre": "maria",
+    "email": "mariarodri22@mail.com",
+    "username": "mary"
+  },
+  {
+    "password": "tomi789",
+    "apellido": "sanchez",
+    "nombre": "tomas",
+    "email": "tomi_san@example.com",
+    "username": "tomasito"
+  },
+  {
+    "password": "vale45",
+    "apellido": "lopez",
+    "nombre": "valentina",
+    "email": "valelopez@correo.com",
+    "username": "valen"
+  },
+  {
+    "password": "niko77",
+    "apellido": "martinez",
+    "nombre": "nicolas",
+    "email": "nmartinez@mail.com",
+    "username": "niko"
+  },
+  {
+    "password": "sofi321",
+    "apellido": "diaz",
+    "nombre": "sofia",
+    "email": "sofia_dz@gmail.com",
+    "username": "sofii"
+  },
+  {
+    "password": "agus55",
+    "apellido": "fernandez",
+    "nombre": "agustin",
+    "email": "agustin.fdz@example.com",
+    "username": "agus"
+  },
+  {
+    "password": "cami88",
+    "apellido": "martin",
+    "nombre": "camila",
+    "email": "cami88@correo.com",
+    "username": "camilita"
+  },
+  {
+    "password": "leo999",
+    "apellido": "torres",
+    "nombre": "leonardo",
+    "email": "leotorres@mail.com",
+    "username": "leo"
+  },
+  {
+    "password": "flor11",
+    "apellido": "paz",
+    "nombre": "florencia",
+    "email": "florpaz@gmail.com",
+    "username": "flor"
+  },
+  {
+    "password": "juanito",
+    "apellido": "castro",
+    "nombre": "juan",
+    "email": "juancastro@mail.com",
+    "username": "juan123"
+  },
+  {
+    "password": "caro2025",
+    "apellido": "suarez",
+    "nombre": "carolina",
+    "email": "carosuarez@correo.com",
+    "username": "caro"
+  }
+
 ]
