@@ -1,30 +1,50 @@
 import java.util.*;
 
+/**
+ * Clase que se encarga de manejar todos los productos:
+ * - Agregar, modificar, eliminar
+ * - Guardar y cargar desde JSON
+ * - Manejar IDs disponibles
+ * - Proveer la lista actual de productos
+ */
 public class GestorProductos {
 
-    private RepositorioGenerico<Producto> repo = new RepositorioGenerico<>();
+    // Repositorio genérico donde se guardan los productos en memoria
+    private RepositorioGenerico<Producto> repositorio = new RepositorioGenerico<>();
+
+    // Ruta del archivo JSON donde se guardan los datos
     private String archivoJSON = "data/productos.json";
 
     public GestorProductos() {
-        cargarDesdeJSON();
+        cargarDesdeJSON(); // Carga inicial al abrir la aplicación
     }
 
     // =====================================================
-    // 🔥 Nuevo setLista corregido (sin romper el repo)
+    // 🔥 Reemplazar toda la lista de productos
     // =====================================================
+    /**
+     * Reemplaza la lista interna del repositorio por otra nueva.
+     * No crea un nuevo repositorio, solo limpia y vuelve a cargar.
+     */
     public void setLista(List<Producto> nuevaLista) {
-        repo.listar().clear();
+        repositorio.listar().clear();
+
         if (nuevaLista != null) {
-            repo.listar().addAll(nuevaLista);
+            repositorio.listar().addAll(nuevaLista);
         }
     }
 
     // =====================================================
-    // 🔥 Obtener el menor ID disponible
+    // 🔥 Obtener el menor ID libre
     // =====================================================
+    /**
+     * Busca de forma eficiente el ID más chico disponible.
+     * Ej: si existen 1, 2, 3, 5 → devuelve 4.
+     */
     private int obtenerMenorIDDisponible() {
         boolean[] usado = new boolean[10000];
-        for (Producto p : repo.listar()) {
+
+        for (Producto p : repositorio.listar()) {
             if (p.getId() < usado.length) {
                 usado[p.getId()] = true;
             }
@@ -37,34 +57,39 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Crear producto
+    // 🔥 Agregar un producto nuevo
     // =====================================================
+    /**
+     * Agrega un producto evitando que se repita el nombre.
+     */
     public boolean agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
 
-        for (Producto p : repo.listar()) {
+        // Validar nombre repetido
+        for (Producto p : repositorio.listar()) {
             if (p.getNombre().equalsIgnoreCase(nombre)) {
-                return false; // repetido
+                return false;
             }
         }
 
         int id = obtenerMenorIDDisponible();
         Producto nuevo = new Producto(id, nombre, categoria, precio, stock, true);
 
-        repo.agregar(nuevo);
+        repositorio.agregar(nuevo);
         guardarEnJSON();
         return true;
     }
 
     // =====================================================
-    // 🔥 Modificar producto
+    // 🔥 Modificar un producto existente
     // =====================================================
     public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
-        for (Producto p : repo.listar()) {
+        for (Producto p : repositorio.listar()) {
             if (p.getId() == id) {
                 p.setNombre(nombre);
                 p.setCategoria(categoria);
                 p.setPrecio(precio);
                 p.setStock(stock);
+
                 guardarEnJSON();
                 return true;
             }
@@ -73,13 +98,15 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Eliminar producto
+    // 🔥 Eliminar un producto por ID
     // =====================================================
     public boolean eliminarProducto(int id) {
-        for (Producto p : repo.listar()) {
+        for (Producto p : repositorio.listar()) {
             if (p.getId() == id) {
-                repo.eliminar(p);
+
+                repositorio.eliminar(p);
                 guardarEnJSON();
+
                 return true;
             }
         }
@@ -87,51 +114,55 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Obtener lista
+    // 🔥 Obtener lista completa de productos
     // =====================================================
     public List<Producto> getListaProductos() {
-        return repo.listar();
+        return repositorio.listar();
     }
 
     // =====================================================
-    // 🔥 Persistencia con JSON
+    // 🔥 Cargar datos desde JSON al iniciar
     // =====================================================
     private void cargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
 
-        repo.listar().clear();
+        repositorio.listar().clear();
 
         if (cargados != null) {
-            repo.listar().addAll(cargados);
+            repositorio.listar().addAll(cargados);
         }
     }
 
+    // =====================================================
+    // 🔥 Guardar en JSON
+    // =====================================================
     private void guardarEnJSON() {
-        JSONGestora.guardarProductos(repo.listar(), archivoJSON);
+        JSONGestora.guardarProductos(repositorio.listar(), archivoJSON);
     }
 
+    // Guardar desde afuera (no siempre se usa)
     public void guardarEnJSONexterno() {
-        JSONGestora.guardarProductos(repo.listar(), archivoJSON);
+        JSONGestora.guardarProductos(repositorio.listar(), archivoJSON);
     }
 
     // =====================================================
-    // 🔥 Recargar desde JSON (llamado por ClienteVisual)
+    // 🔥 Recargar desde JSON (ClienteVisual lo usa después de pagar)
     // =====================================================
     public void recargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
 
-        repo.listar().clear();
+        repositorio.listar().clear();
 
         if (cargados != null) {
-            repo.listar().addAll(cargados);
+            repositorio.listar().addAll(cargados);
         }
     }
 
     // =====================================================
-    // 🔥 Buscar por ID
+    // 🔥 Buscar producto por ID
     // =====================================================
     public Producto buscarPorId(int id) {
-        for (Producto p : repo.listar()) {
+        for (Producto p : repositorio.listar()) {
             if (p.getId() == id) {
                 return p;
             }
@@ -139,6 +170,7 @@ public class GestorProductos {
         return null;
     }
 }
+
 
 
 

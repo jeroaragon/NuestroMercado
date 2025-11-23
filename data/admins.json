@@ -22,5 +22,102 @@
         "email": "ezepiola",
         "username": "eze",
         "activo": true
-    }
+    },
+  {
+    "password": "a1b2",
+    "apellido": "Ramirez",
+    "nombre": "Lucia",
+    "email": "lucia@gmail.com",
+    "username": "lramirez",
+    "activo": true
+  },
+  {
+    "password": "pass12",
+    "apellido": "Martinez",
+    "nombre": "Carlos",
+    "email": "carlosm@gmail.com",
+    "username": "cmartinez",
+    "activo": true
+  },
+  {
+    "password": "qwerty",
+    "apellido": "Fernandez",
+    "nombre": "Sofia",
+    "email": "sofi@gmail.com",
+    "username": "sofi_f",
+    "activo": true
+  },
+  {
+    "password": "9876",
+    "apellido": "Lopez",
+    "nombre": "Matias",
+    "email": "matilo@gmail.com",
+    "username": "mati_lo",
+    "activo": true
+  },
+  {
+    "password": "zxcv",
+    "apellido": "Diaz",
+    "nombre": "Camila",
+    "email": "cami@gmail.com",
+    "username": "cami_d",
+    "activo": true
+  },
+  {
+    "password": "2211",
+    "apellido": "Santos",
+    "nombre": "Jorge",
+    "email": "jorge@gmail.com",
+    "username": "jsantos",
+    "activo": true
+  },
+  {
+    "password": "lkjh",
+    "apellido": "Silva",
+    "nombre": "Bianca",
+    "email": "bianca@gmail.com",
+    "username": "bsilva",
+    "activo": true
+  },
+  {
+    "password": "mnbv",
+    "apellido": "Cruz",
+    "nombre": "Tomas",
+    "email": "tomascruz@gmail.com",
+    "username": "tcruz",
+    "activo": true
+  },
+  {
+    "password": "p455",
+    "apellido": "Mendez",
+    "nombre": "Valentina",
+    "email": "valen@gmail.com",
+    "username": "valee",
+    "activo": true
+  },
+  {
+    "password": "4455",
+    "apellido": "Suarez",
+    "nombre": "Diego",
+    "email": "dsuarez@gmail.com",
+    "username": "diegos",
+    "activo": true
+  },
+  {
+    "password": "gg22",
+    "apellido": "Torres",
+    "nombre": "Julieta",
+    "email": "julit@gmail.com",
+    "username": "jtorres",
+    "activo": true
+  },
+  {
+    "password": "h0la",
+    "apellido": "Benitez",
+    "nombre": "Nicolas",
+    "email": "nico@gmail.com",
+    "username": "nbenitez",
+    "activo": true
+  }
+
 ]

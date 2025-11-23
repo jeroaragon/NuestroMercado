@@ -6,9 +6,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Ventana principal del cliente donde se muestran:
+ * - Categorías de productos
+ * - Tabla con productos
+ * - Botón para agregar al carrito
+ * - Botón para ver el carrito
+ */
 public class ClienteVisual extends JFrame {
 
     private GestorProductos gestor;
+
+    // Componentes de la interfaz
     private JComboBox<String> comboCategorias;
     private JTable tablaProductos;
     private DefaultTableModel modeloTabla;
@@ -16,12 +25,13 @@ public class ClienteVisual extends JFrame {
     private JButton botonAgregarCarrito;
     private JButton botonVerCarrito;
 
-    // Carrito → LinkedHashMap obligatorio
+    // Carrito de compras (Producto → Cantidad)
     private LinkedHashMap<Producto, Integer> carrito = new LinkedHashMap<>();
 
     public ClienteVisual(GestorProductos gestor) {
         this.gestor = gestor;
 
+        // Siempre cargar productos desde el archivo
         gestor.recargarDesdeJSON();
 
         setTitle("Catálogo de Productos");
@@ -31,7 +41,7 @@ public class ClienteVisual extends JFrame {
         setResizable(false);
         setLayout(new BorderLayout());
 
-        // ---------- PANEL SUPERIOR ----------
+        // ---------------- PANEL SUPERIOR ----------------
         JPanel panelSuperior = new JPanel();
         panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -40,22 +50,23 @@ public class ClienteVisual extends JFrame {
 
         panelSuperior.add(new JLabel("Categoría: "));
         panelSuperior.add(comboCategorias);
+
         add(panelSuperior, BorderLayout.NORTH);
 
-        // ---------- TABLA ----------
+        // ---------------- TABLA DE PRODUCTOS ----------------
         modeloTabla = new DefaultTableModel(
                 new String[]{"ID", "Nombre", "Precio", "Stock"}, 0
         ) {
             @Override
-            public boolean isCellEditable(int row, int col) {
-                return false;
+            public boolean isCellEditable(int fila, int columna) {
+                return false; // Ninguna celda se puede editar
             }
         };
 
         tablaProductos = new JTable(modeloTabla);
         add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
 
-        // ---------- BOTONES ----------
+        // ---------------- BOTONES INFERIORES ----------------
         JPanel panelInferior = new JPanel(new FlowLayout());
 
         botonAgregarCarrito = new JButton("Agregar al Carrito");
@@ -66,48 +77,56 @@ public class ClienteVisual extends JFrame {
 
         add(panelInferior, BorderLayout.SOUTH);
 
-        // Eventos
+        // Eventos de botones y combo
         comboCategorias.addActionListener(e -> cargarProductosPorCategoria());
-        botonAgregarCarrito.addActionListener(e -> agregarAlCarrito());
+        botonAgregarCarrito.addActionListener(e -> agregarProductoAlCarrito());
         botonVerCarrito.addActionListener(e -> abrirCarrito());
 
+        // Cargar la lista de categorías al iniciar
         cargarCategorias();
     }
 
-    // ====================== CATEGORÍAS ======================
+    // ====================== CARGAR CATEGORÍAS ======================
 
+    /**
+     * Llena el combo con categorías sin repetir.
+     */
     private void cargarCategorias() {
-        comboCategorias.removeAllItems(); // importante
+        comboCategorias.removeAllItems();
 
         Set<String> categorias = new TreeSet<>();
 
-        for (Producto p : gestor.getListaProductos()) {
-            categorias.add(p.getCategoria().toString());
+        for (Producto producto : gestor.getListaProductos()) {
+            categorias.add(producto.getCategoria().toString());
         }
 
-        for (String cat : categorias) {
-            comboCategorias.addItem(cat);
+        for (String categoria : categorias) {
+            comboCategorias.addItem(categoria);
         }
 
+        // Cargar productos de la primera categoría automáticamente
         if (comboCategorias.getItemCount() > 0) {
             comboCategorias.setSelectedIndex(0);
             cargarProductosPorCategoria();
         }
     }
 
+    /**
+     * Carga los productos filtrados según la categoría seleccionada.
+     */
     private void cargarProductosPorCategoria() {
-        String seleccion = (String) comboCategorias.getSelectedItem();
+        String categoriaSeleccionada = (String) comboCategorias.getSelectedItem();
         modeloTabla.setRowCount(0);
 
-        if (seleccion == null) return;
+        if (categoriaSeleccionada == null) return;
 
-        for (Producto p : gestor.getListaProductos()) {
-            if (p.getCategoria().toString().equals(seleccion)) {
+        for (Producto producto : gestor.getListaProductos()) {
+            if (producto.getCategoria().toString().equals(categoriaSeleccionada)) {
                 modeloTabla.addRow(new Object[]{
-                        p.getId(),
-                        p.getNombre(),
-                        p.getPrecio(),
-                        p.getStock()
+                        producto.getId(),
+                        producto.getNombre(),
+                        producto.getPrecio(),
+                        producto.getStock()
                 });
             }
         }
@@ -115,7 +134,10 @@ public class ClienteVisual extends JFrame {
 
     // ====================== CARRITO ======================
 
-    private void agregarAlCarrito() {
+    /**
+     * Agrega el producto seleccionado en la tabla al carrito.
+     */
+    private void agregarProductoAlCarrito() {
         int fila = tablaProductos.getSelectedRow();
 
         if (fila == -1) {
@@ -123,40 +145,50 @@ public class ClienteVisual extends JFrame {
             return;
         }
 
-        int id = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
-        Producto producto = gestor.buscarPorId(id);
+        int idProducto = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
+        Producto producto = gestor.buscarPorId(idProducto);
 
         if (producto == null) {
             JOptionPane.showMessageDialog(this, "Error al buscar el producto.");
             return;
         }
 
+        // Suma 1 al producto dentro del carrito
         carrito.put(producto, carrito.getOrDefault(producto, 0) + 1);
 
         JOptionPane.showMessageDialog(this,
-                "Producto agregado.\nCantidad: " + carrito.get(producto));
+                "Producto agregado.\nCantidad en carrito: " + carrito.get(producto));
     }
 
-    // ====================== REFRESCAR LISTA LUEGO DE PAGAR ======================
+    // ====================== REFRESCAR LUEGO DE PAGAR ======================
 
+    /**
+     * Se llama cuando se cierra la ventana del carrito luego de pagar.
+     * Vuelve a cargar lista y categorías actualizadas.
+     */
     public void refrescarDatos() {
-        gestor.recargarDesdeJSON();   // método nuevo en GestorProductos
+        gestor.recargarDesdeJSON();
         cargarCategorias();
     }
 
+    /**
+     * Abre la ventana del carrito.
+     */
     private void abrirCarrito() {
-        CarritoVisual cv = new CarritoVisual(carrito, gestor);
+        CarritoVisual ventanaCarrito = new CarritoVisual(carrito, gestor);
 
-        cv.addWindowListener(new java.awt.event.WindowAdapter() {
+        // Cuando el carrito se cierre, refrescar datos (stock)
+        ventanaCarrito.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-                refrescarDatos();  // se actualiza stock correctamente
+                refrescarDatos();
             }
         });
 
-        cv.setVisible(true);
+        ventanaCarrito.setVisible(true);
     }
 }
+
 
 
 

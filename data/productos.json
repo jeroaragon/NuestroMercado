@@ -107,7 +107,7 @@
         "precio": 1100,
         "categoria": "Snacks",
         "id": 14,
-        "stock": 50,
+        "stock": 47,
         "nombre": "Maní",
         "activo": true
     },
@@ -163,7 +163,7 @@
         "precio": 700,
         "categoria": "Frutas",
         "id": 21,
-        "stock": 80,
+        "stock": 79,
         "nombre": "Manzana",
         "activo": true
     },
@@ -171,7 +171,7 @@
         "precio": 650,
         "categoria": "Frutas",
         "id": 22,
-        "stock": 90,
+        "stock": 89,
         "nombre": "Banana",
         "activo": true
     },
@@ -179,7 +179,7 @@
         "precio": 700,
         "categoria": "Frutas",
         "id": 23,
-        "stock": 72,
+        "stock": 69,
         "nombre": "Naranja",
         "activo": true
     },
@@ -187,7 +187,7 @@
         "precio": 850,
         "categoria": "Frutas",
         "id": 24,
-        "stock": 60,
+        "stock": 59,
         "nombre": "Pera",
         "activo": true
     },
@@ -205,6 +205,14 @@
         "id": 25,
         "stock": 45,
         "nombre": "morcilla",
+        "activo": true
+    },
+    {
+        "precio": 300,
+        "categoria": "Limpieza",
+        "id": 27,
+        "stock": 53,
+        "nombre": "jabon en polvo",
         "activo": true
     }
 ]
