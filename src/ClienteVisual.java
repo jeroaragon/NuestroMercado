@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Ventana principal del cliente donde se muestran:
- * - Categorías de productos
- * - Tabla con productos
- * - Botón para agregar al carrito
- * - Botón para ver el carrito
+/*
+  Ventana principal del cliente donde se muestran:
+  - Categorías de productos
+  - Tabla con productos
+  - Botón para agregar al carrito
+  - Botón para ver el carrito
  */
 public class ClienteVisual extends JFrame {
 
@@ -88,8 +88,8 @@ public class ClienteVisual extends JFrame {
 
     // ====================== CARGAR CATEGORÍAS ======================
 
-    /**
-     * Llena el combo con categorías sin repetir.
+    /*
+      Llena el combo con categorías sin repetir.
      */
     private void cargarCategorias() {
         comboCategorias.removeAllItems();
@@ -111,8 +111,8 @@ public class ClienteVisual extends JFrame {
         }
     }
 
-    /**
-     * Carga los productos filtrados según la categoría seleccionada.
+    /*
+      Carga los productos filtrados según la categoría seleccionada.
      */
     private void cargarProductosPorCategoria() {
         String categoriaSeleccionada = (String) comboCategorias.getSelectedItem();
@@ -134,8 +134,8 @@ public class ClienteVisual extends JFrame {
 
     // ====================== CARRITO ======================
 
-    /**
-     * Agrega el producto seleccionado en la tabla al carrito.
+    /*
+      Agrega el producto seleccionado en la tabla al carrito.
      */
     private void agregarProductoAlCarrito() {
         int fila = tablaProductos.getSelectedRow();
@@ -162,17 +162,17 @@ public class ClienteVisual extends JFrame {
 
     // ====================== REFRESCAR LUEGO DE PAGAR ======================
 
-    /**
-     * Se llama cuando se cierra la ventana del carrito luego de pagar.
-     * Vuelve a cargar lista y categorías actualizadas.
+    /*
+      Se llama cuando se cierra la ventana del carrito luego de pagar.
+      Vuelve a cargar lista y categorías actualizadas.
      */
     public void refrescarDatos() {
         gestor.recargarDesdeJSON();
         cargarCategorias();
     }
 
-    /**
-     * Abre la ventana del carrito.
+    /*
+      Abre la ventana del carrito.
      */
     private void abrirCarrito() {
         CarritoVisual ventanaCarrito = new CarritoVisual(carrito, gestor);

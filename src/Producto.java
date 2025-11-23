@@ -78,7 +78,7 @@ public class Producto {
     }
 
     // ======================================================
-    // 🔥 NECESARIO para que el carrito funcione PERFECTO
+    // NECESARIO para que el carrito funcione PERFECTO
     // ======================================================
     @Override
     public boolean equals(Object o) {

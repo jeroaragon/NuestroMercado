@@ -35,8 +35,8 @@ public class PagoVisual extends JFrame {
         add(btnVolver);
     }
 
-    /**
-     * Procesa el pago, verificando stock y generando ticket.
+    /*
+      Procesa el pago, verificando stock y generando ticket.
      */
     private void procesarPago(String metodoPago) {
         try {
@@ -58,8 +58,8 @@ public class PagoVisual extends JFrame {
         }
     }
 
-    /**
-     * Verifica que todos los productos tengan stock suficiente.
+    /*
+      Verifica que todos los productos tengan stock suficiente.
      */
     private void validarStock() throws StockInsuficienteException {
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
@@ -74,8 +74,8 @@ public class PagoVisual extends JFrame {
         }
     }
 
-    /**
-     * Descuenta el stock en el repositorio del gestor.
+    /*
+      Descuenta el stock en el repositorio del gestor.
      */
     private void descontarStock() {
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {

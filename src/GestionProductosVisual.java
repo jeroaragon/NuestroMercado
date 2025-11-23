@@ -2,13 +2,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-/**
- * Ventana para que el administrador pueda:
- * - Ver todos los productos
- * - Agregar productos
- * - Modificar productos
- * - Eliminar productos
- * - Refrescar la tabla
+/*
+  Ventana para que el administrador pueda:
+  - Ver todos los productos
+  - Agregar productos
+  - Modificar productos
+  - Eliminar productos
+  - Refrescar la tabla
  */
 public class GestionProductosVisual extends JFrame {
 
@@ -87,8 +87,8 @@ public class GestionProductosVisual extends JFrame {
     // ===============================================================
     // CARGAR TABLA
     // ===============================================================
-    /**
-     * Llena la tabla con todos los productos del gestor.
+    /*
+      Llena la tabla con todos los productos del gestor.
      */
     public void cargarProductosEnTabla() {
         modeloTabla.setRowCount(0); // Borra filas existentes
@@ -165,8 +165,8 @@ public class GestionProductosVisual extends JFrame {
     // ===============================================================
     // REFRESCAR TABLA
     // ===============================================================
-    /**
-     * Recarga la tabla con los datos actuales del gestor.
+    /*
+      Recarga la tabla con los datos actuales del gestor.
      */
     public void refrescarTabla() {
         cargarProductosEnTabla();

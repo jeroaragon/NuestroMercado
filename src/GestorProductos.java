@@ -1,11 +1,11 @@
 import java.util.*;
 
-/**
- * Clase que se encarga de manejar todos los productos:
- * - Agregar, modificar, eliminar
- * - Guardar y cargar desde JSON
- * - Manejar IDs disponibles
- * - Proveer la lista actual de productos
+/*
+  Clase que se encarga de manejar todos los productos:
+  - Agregar, modificar, eliminar
+  - Guardar y cargar desde JSON
+  - Manejar IDs disponibles
+  - Proveer la lista actual de productos
  */
 public class GestorProductos {
 
@@ -22,9 +22,9 @@ public class GestorProductos {
     // =====================================================
     // 🔥 Reemplazar toda la lista de productos
     // =====================================================
-    /**
-     * Reemplaza la lista interna del repositorio por otra nueva.
-     * No crea un nuevo repositorio, solo limpia y vuelve a cargar.
+    /*
+      Reemplaza la lista interna del repositorio por otra nueva.
+      No crea un nuevo repositorio, solo limpia y vuelve a cargar.
      */
     public void setLista(List<Producto> nuevaLista) {
         repositorio.listar().clear();
@@ -35,11 +35,11 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Obtener el menor ID libre
+    // Obtener el menor ID libre
     // =====================================================
-    /**
-     * Busca de forma eficiente el ID más chico disponible.
-     * Ej: si existen 1, 2, 3, 5 → devuelve 4.
+    /*
+      Busca de forma eficiente el ID más chico disponible.
+      Ej: si existen 1, 2, 3, 5 → devuelve 4.
      */
     private int obtenerMenorIDDisponible() {
         boolean[] usado = new boolean[10000];
@@ -57,10 +57,10 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Agregar un producto nuevo
+    // Agregar un producto nuevo
     // =====================================================
-    /**
-     * Agrega un producto evitando que se repita el nombre.
+    /*
+      Agrega un producto evitando que se repita el nombre.
      */
     public boolean agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
 
@@ -80,7 +80,7 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Modificar un producto existente
+    // Modificar un producto existente
     // =====================================================
     public boolean modificarProducto(int id, String nombre, Categorias categoria, double precio, int stock) {
         for (Producto p : repositorio.listar()) {
@@ -98,7 +98,7 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Eliminar un producto por ID
+    // Eliminar un producto por ID
     // =====================================================
     public boolean eliminarProducto(int id) {
         for (Producto p : repositorio.listar()) {
@@ -114,14 +114,14 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Obtener lista completa de productos
+    // Obtener lista completa de productos
     // =====================================================
     public List<Producto> getListaProductos() {
         return repositorio.listar();
     }
 
     // =====================================================
-    // 🔥 Cargar datos desde JSON al iniciar
+    // Cargar datos desde JSON al iniciar
     // =====================================================
     private void cargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
@@ -134,7 +134,7 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Guardar en JSON
+    // Guardar en JSON
     // =====================================================
     private void guardarEnJSON() {
         JSONGestora.guardarProductos(repositorio.listar(), archivoJSON);
@@ -146,7 +146,7 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Recargar desde JSON (ClienteVisual lo usa después de pagar)
+    // Recargar desde JSON (ClienteVisual lo usa después de pagar)
     // =====================================================
     public void recargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
@@ -159,7 +159,7 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // 🔥 Buscar producto por ID
+    // Buscar producto por ID
     // =====================================================
     public Producto buscarPorId(int id) {
         for (Producto p : repositorio.listar()) {

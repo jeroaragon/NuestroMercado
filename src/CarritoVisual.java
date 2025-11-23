@@ -130,13 +130,13 @@ public class CarritoVisual extends JFrame {
             return;
         }
 
-        // 🔥 Ahora PagoVisual recibe el gestor REAL
+        // Ahora PagoVisual recibe el gestor REAL
         PagoVisual pv = new PagoVisual(carrito, gestor);
         pv.setVisible(true);
 
         dispose();
 
-        // 🔥 Guarda el stock actualizado después del pago
+        // Guarda el stock actualizado después del pago
         gestor.guardarEnJSONexterno();
     }
 }
