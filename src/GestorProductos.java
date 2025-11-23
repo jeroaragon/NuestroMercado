@@ -20,12 +20,28 @@ public class GestorProductos {
     }
 
     // =====================================================
+    // 🔥 NUEVO: método que tu GUI necesita
+    // =====================================================
+    public void guardarProductos() {
+        guardarEnJSON(); // simplemente llama al método interno
+    }
+
+    // =====================================================
+    // 🔥 NUEVO: activar / desactivar producto
+    // =====================================================
+    public boolean toggleActivo(int id) {
+        Producto p = buscarPorId(id);
+
+        if (p == null) return false;
+
+        p.setActivo(!p.isActivo());
+        guardarEnJSON();
+        return true;
+    }
+
+    // =====================================================
     // 🔥 Reemplazar toda la lista de productos
     // =====================================================
-    /*
-      Reemplaza la lista interna del repositorio por otra nueva.
-      No crea un nuevo repositorio, solo limpia y vuelve a cargar.
-     */
     public void setLista(List<Producto> nuevaLista) {
         repositorio.listar().clear();
 
@@ -37,10 +53,6 @@ public class GestorProductos {
     // =====================================================
     // Obtener el menor ID libre
     // =====================================================
-    /*
-      Busca de forma eficiente el ID más chico disponible.
-      Ej: si existen 1, 2, 3, 5 → devuelve 4.
-     */
     private int obtenerMenorIDDisponible() {
         boolean[] usado = new boolean[10000];
 
@@ -59,9 +71,6 @@ public class GestorProductos {
     // =====================================================
     // Agregar un producto nuevo
     // =====================================================
-    /*
-      Agrega un producto evitando que se repita el nombre.
-     */
     public boolean agregarProducto(String nombre, Categorias categoria, double precio, int stock) {
 
         // Validar nombre repetido
@@ -146,7 +155,7 @@ public class GestorProductos {
     }
 
     // =====================================================
-    // Recargar desde JSON (ClienteVisual lo usa después de pagar)
+    // Recargar desde JSON
     // =====================================================
     public void recargarDesdeJSON() {
         List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);

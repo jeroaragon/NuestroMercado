@@ -5,7 +5,7 @@
         "id": 1,
         "stock": 20,
         "nombre": "Asado",
-        "activo": true
+        "activo": false
     },
     {
         "precio": 4800,
@@ -13,7 +13,7 @@
         "id": 2,
         "stock": 30,
         "nombre": "Milanesa",
-        "activo": true
+        "activo": false
     },
     {
         "precio": 4200,

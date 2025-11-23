@@ -8,6 +8,7 @@ import java.awt.*;
   - Agregar productos
   - Modificar productos
   - Eliminar productos
+  - Activar / Desactivar productos
   - Refrescar la tabla
  */
 public class GestionProductosVisual extends JFrame {
@@ -22,6 +23,7 @@ public class GestionProductosVisual extends JFrame {
     private JButton botonEliminar;
     private JButton botonVolver;
     private JButton botonRefrescar;
+    private JButton botonToggleActivo; // NUEVO
 
     // Gestor que maneja la lista de productos (inyectado desde el menú)
     private GestorProductos gestor;
@@ -30,7 +32,7 @@ public class GestionProductosVisual extends JFrame {
         this.gestor = gestor;
 
         setTitle("Gestión de Productos");
-        setSize(700, 430);
+        setSize(750, 430);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -39,8 +41,10 @@ public class GestionProductosVisual extends JFrame {
         // -----------------------------------------------------------
         // TABLA
         // -----------------------------------------------------------
+
+        // Agregamos columna "Activo"
         modeloTabla = new DefaultTableModel(
-                new String[]{"ID", "Nombre", "Categoría", "Precio", "Stock"}, 0
+                new String[]{"ID", "Nombre", "Categoría", "Precio", "Stock", "Activo"}, 0
         ) {
             @Override
             public boolean isCellEditable(int fila, int columna) {
@@ -60,6 +64,7 @@ public class GestionProductosVisual extends JFrame {
         botonModificar = new JButton("Modificar");
         botonEliminar = new JButton("Eliminar");
         botonRefrescar = new JButton("Refrescar");
+        botonToggleActivo = new JButton("Activar/Desactivar"); // NUEVO
         botonVolver = new JButton("Volver");
 
         // Agregamos los botones al panel
@@ -67,6 +72,7 @@ public class GestionProductosVisual extends JFrame {
         panelBotones.add(botonModificar);
         panelBotones.add(botonEliminar);
         panelBotones.add(botonRefrescar);
+        panelBotones.add(botonToggleActivo); // NUEVO
         panelBotones.add(botonVolver);
 
         add(panelBotones, BorderLayout.SOUTH);
@@ -78,6 +84,7 @@ public class GestionProductosVisual extends JFrame {
         botonModificar.addActionListener(e -> abrirVentanaModificar());
         botonEliminar.addActionListener(e -> eliminarProducto());
         botonRefrescar.addActionListener(e -> refrescarTabla());
+        botonToggleActivo.addActionListener(e -> toggleActivo()); // NUEVO
         botonVolver.addActionListener(e -> volver());
 
         // Cargar la tabla apenas se abre la ventana
@@ -99,7 +106,8 @@ public class GestionProductosVisual extends JFrame {
                     producto.getNombre(),
                     (producto.getCategoria() != null ? producto.getCategoria().toString() : "SIN CATEGORÍA"),
                     producto.getPrecio(),
-                    producto.getStock()
+                    producto.getStock(),
+                    (producto.isActivo() ? "Activo" : "Inactivo") // NUEVO
             });
         }
     }
@@ -152,6 +160,39 @@ public class GestionProductosVisual extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Error al eliminar el producto.");
         }
+    }
+
+    // ===============================================================
+    // NUEVO: ACTIVAR / DESACTIVAR PRODUCTO
+    // ===============================================================
+    private void toggleActivo() {
+        int filaSeleccionada = tablaProductos.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+            return;
+        }
+
+        int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+
+        Producto p = gestor.buscarPorId(id);
+
+        if (p == null) {
+            JOptionPane.showMessageDialog(this, "Error: no se encontró el producto.");
+            return;
+        }
+
+        // Cambiamos el estado
+        p.setActivo(!p.isActivo());
+
+        // Guardamos cambios en archivo JSON (si tu Gestor lo soporta)
+        gestor.guardarProductos();
+
+        // Refrescamos tabla
+        refrescarTabla();
+
+        JOptionPane.showMessageDialog(this,
+                "Estado actualizado: ahora está " + (p.isActivo() ? "Activo" : "Inactivo"));
     }
 
     // ===============================================================

@@ -97,7 +97,7 @@ public class InicioVisual extends JFrame {
 
         try {
             Cliente cliente = JSONGestoraClientes.login(user, pass, archivoClientes);
-            new ClienteVisual(gestorProductos).setVisible(true);
+            new ClienteVisual(this, gestorProductos).setVisible(true); // ✔ SOLUCIONADO
             dispose();
 
         } catch (Exception e) {
@@ -111,6 +111,7 @@ public class InicioVisual extends JFrame {
             }
         }
     }
+
 }
 
 
