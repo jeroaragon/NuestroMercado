@@ -3,6 +3,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.io.IOException;
 
+//gestiona el archivo de admins
 public class JSONGestoraAdmins {
 
     private static void crearArchivo(String archivo) throws Exception {
@@ -15,9 +16,6 @@ public class JSONGestoraAdmins {
         }
     }
 
-    // -----------------------------------------
-    // Admin → JSON
-    // -----------------------------------------
     private static JSONObject adminToJSON(Administrador a) {
         JSONObject o = new JSONObject();
         o.put("nombre", a.getNombre());
@@ -29,9 +27,7 @@ public class JSONGestoraAdmins {
         return o;
     }
 
-    // -----------------------------------------
-    // JSON → Admin
-    // -----------------------------------------
+
     private static Administrador jsonToAdmin(JSONObject o) {
         Administrador a = new Administrador(
                 o.getString("nombre"),
@@ -120,7 +116,7 @@ public class JSONGestoraAdmins {
     }
 
     // -----------------------------------------
-    // LOGIN → usa UsuarioNoEncontradoException
+    // LOGIN -> usa UsuarioNoEncontradoException
     // -----------------------------------------
     public static Administrador login(String username, String password, String archivo) {
 

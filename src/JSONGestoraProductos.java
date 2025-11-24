@@ -2,7 +2,8 @@ import org.json.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class JSONGestora {
+//se encarga de gestionar el archivo de productos
+public class JSONGestoraProductos {
 
     private static void crearArchivo(String archivo) throws Exception {
         Path path = Paths.get(archivo);

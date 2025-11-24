@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+//ventana de pagos (da dos opciones, sin diferencias, solo elimina los productos del archivo y "resetea" el carrito
 public class PagoVisual extends JFrame {
 
     // Carrito con productos y cantidades

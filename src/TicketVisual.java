@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+//ventana del ticket que solo muentra los dettales de la "compra"
 public class TicketVisual extends JFrame {
 
     // Constructor: recibe el carrito con productos y metodo de pago

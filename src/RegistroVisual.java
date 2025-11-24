@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+//ventana para registrar los admins
 public class RegistroVisual extends JDialog {
 
     // Campos de texto para los datos del administrador

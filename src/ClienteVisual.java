@@ -15,7 +15,7 @@ import java.util.TreeSet;
 public class ClienteVisual extends JFrame {
 
     private GestorProductos gestor;
-    private InicioVisual ventanaInicio; // 🔥 referencia al inicio
+    private InicioVisual ventanaInicio; // referencia al inicio
 
     // Componentes de la interfaz
     private JComboBox<String> comboCategorias;
@@ -24,12 +24,12 @@ public class ClienteVisual extends JFrame {
 
     private JButton botonAgregarCarrito;
     private JButton botonVerCarrito;
-    private JButton botonVolver;   // 🔥 NUEVO BOTÓN
+    private JButton botonVolver;   // NUEVO BOTÓN
 
     // Carrito de compras (Producto → Cantidad)
     private LinkedHashMap<Producto, Integer> carrito = new LinkedHashMap<>();
 
-    // 🔥 CONSTRUCTOR NUEVO (recibe InicioVisual)
+    // CONSTRUCTOR NUEVO (recibe InicioVisual)
     public ClienteVisual(InicioVisual inicio, GestorProductos gestor) {
         this.ventanaInicio = inicio;
         this.gestor = gestor;
@@ -87,7 +87,7 @@ public class ClienteVisual extends JFrame {
         botonAgregarCarrito.addActionListener(e -> agregarProductoAlCarrito());
         botonVerCarrito.addActionListener(e -> abrirCarrito());
 
-        // 🔥 BOTÓN VOLVER → vuelve al inicio
+        // BOTÓN VOLVER → vuelve al inicio
         botonVolver.addActionListener(e -> {
             ventanaInicio.setVisible(true);
             dispose(); // cierra ClienteVisual
@@ -105,7 +105,7 @@ public class ClienteVisual extends JFrame {
 
         for (Producto producto : gestor.getListaProductos()) {
 
-            // 🔥 ignorar productos inactivos
+            // ignorar productos inactivos
             if (!producto.isActivo()) continue;
 
             categorias.add(producto.getCategoria().toString());

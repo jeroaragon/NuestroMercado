@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 
+//ventana para llenar datos del nuevo cliente
 public class RegistroClienteVisual extends JDialog {
 
     // Campos de texto para los datos del cliente

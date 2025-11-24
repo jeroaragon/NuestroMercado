@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+//clase generica que se usa en gestor productos
 public class RepositorioGenerico<T> {
 
     protected List<T> lista = new ArrayList<>();

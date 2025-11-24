@@ -1,3 +1,4 @@
+//clase abstracta que heredan los diferentes tipos de usuarios (admin/cliente)
 abstract class Usuario {
 
     // Atributos

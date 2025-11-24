@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Ventana para agregar un nuevo producto al sistema.
- * Implementa IGestionProducto para mantener la estructura del proyecto.
+/*
+  Ventana para agregar un nuevo producto al sistema.
+  Implementa IGestionProducto para mantener la estructura del proyecto.
  */
 public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
@@ -16,9 +16,7 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
     // Referencia al gestor de productos (donde realmente se guarda)
     private GestorProductos gestor;
 
-    /**
-     * Constructor de la ventana
-     */
+    //Constructor de la ventana
     public AgregarProductoVisual(JFrame parent, GestorProductos gestor) {
         super(parent, "Agregar Producto", true); // true = ventana modal
         this.gestor = gestor;
@@ -81,7 +79,7 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
                 return;
             }
 
-            // 4. Si todo salió bien
+            // 4. Si sale bien
             JOptionPane.showMessageDialog(this, "Producto agregado correctamente");
             dispose(); // cerrar ventana
         });
@@ -94,9 +92,9 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
     //  IMPLEMENTACIÓN DE LA INTERFAZ IGestionProducto
     // =====================================================
 
-    /**
-     * Método que carga los datos en el gestor.
-     * Ya no se usa directamente desde el botón, pero se mantiene por la interfaz.
+    /*
+      Método que carga los datos en el gestor.
+      Ya no se usa directamente desde el botón, pero se mantiene por la interfaz.
      */
     @Override
     public void cargarDatosProducto() {
@@ -108,11 +106,11 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
         gestor.agregarProducto(nombre, categoria, precio, stock);
     }
 
-    /**
-     * Valida que los datos ingresados sean correctos.
-     * - El nombre no debe estar vacío
-     * - Precio debe ser double
-     * - Stock debe ser int
+    /*
+      Valida que los datos ingresados sean correctos.
+      - El nombre no debe estar vacío
+      - Precio debe ser double
+      - Stock debe ser int
      */
     @Override
     public boolean validarDatos() {
@@ -123,7 +121,7 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
             Double.parseDouble(campoPrecio.getText());
             Integer.parseInt(campoStock.getText());
 
-            return true; // todo correcto
+            return true;
         } catch (Exception e) {
             return false; // algún dato no es válido
         }

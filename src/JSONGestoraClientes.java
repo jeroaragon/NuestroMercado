@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+//gestiona el archivo de clientes
 public class JSONGestoraClientes {
 
     // ---------------- CARGAR CLIENTES ----------------

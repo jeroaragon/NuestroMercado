@@ -114,7 +114,7 @@ public class GestorProductos {
 
     // Cargar datos desde JSON al iniciar
     private void cargarDesdeJSON() {
-        List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
+        List<Producto> cargados = JSONGestoraProductos.cargarProductos(archivoJSON);
 
         repositorio.listar().clear();
 
@@ -127,17 +127,17 @@ public class GestorProductos {
     // Guardar en JSON
 
     private void guardarEnJSON() {
-        JSONGestora.guardarProductos(repositorio.listar(), archivoJSON);
+        JSONGestoraProductos.guardarProductos(repositorio.listar(), archivoJSON);
     }
 
     // Guardar desde afuera (no siempre se usa)
     public void guardarEnJSONexterno() {
-        JSONGestora.guardarProductos(repositorio.listar(), archivoJSON);
+        JSONGestoraProductos.guardarProductos(repositorio.listar(), archivoJSON);
     }
 
     // Recargar desde JSON
     public void recargarDesdeJSON() {
-        List<Producto> cargados = JSONGestora.cargarProductos(archivoJSON);
+        List<Producto> cargados = JSONGestoraProductos.cargarProductos(archivoJSON);
 
         repositorio.listar().clear();
 

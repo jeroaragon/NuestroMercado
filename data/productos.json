@@ -21,7 +21,7 @@
         "id": 3,
         "stock": 25,
         "nombre": "Carne Picada",
-        "activo": true
+        "activo": false
     },
     {
         "precio": 6000,
@@ -213,6 +213,14 @@
         "id": 27,
         "stock": 1,
         "nombre": "jabon en polvo",
+        "activo": true
+    },
+    {
+        "precio": 10000,
+        "categoria": "Carne",
+        "id": 1,
+        "stock": 20,
+        "nombre": "asado",
         "activo": true
     }
 ]

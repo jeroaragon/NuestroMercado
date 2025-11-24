@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+//menu donde se accede a las cuentas cliente/admin, y si no existe da la posibilidad de registrarse
 public class InicioVisual extends JFrame {
 
     private JTextField campoUsuario;

@@ -1,5 +1,6 @@
 import java.util.Objects;
 
+//clase para los objetos "productos"
 public class Producto {
     // Contador estático que permite generar IDs automáticos y únicos
     private static int contadorId = 1; // ID autoincrementable

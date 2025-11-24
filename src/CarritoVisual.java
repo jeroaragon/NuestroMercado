@@ -4,15 +4,15 @@ import java.awt.event.ActionEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+//ventana del carrito (volver, eliminar productos, pagar)
 public class CarritoVisual extends JFrame {
 
     private LinkedHashMap<Producto, Integer> carrito;
     private DefaultListModel<String> modeloLista;
     private JList<String> listaProductos;
     private JLabel labelTotal;
-    private GestorProductos gestor;  // 🔥 agregado
+    private GestorProductos gestor;
 
-    // 🔥 Ahora recibe el gestor REAL (no crea uno nuevo)
     public CarritoVisual(LinkedHashMap<Producto, Integer> carrito, GestorProductos gestor) {
         this.carrito = carrito;
         this.gestor = gestor;
@@ -74,6 +74,7 @@ public class CarritoVisual extends JFrame {
         actualizarLista();
     }
 
+    //actualiza los productos de la lista
     private void actualizarLista() {
         modeloLista.clear();
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
@@ -84,6 +85,7 @@ public class CarritoVisual extends JFrame {
         actualizarTotal();
     }
 
+    //actualiza el total
     private void actualizarTotal() {
         double total = 0;
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {

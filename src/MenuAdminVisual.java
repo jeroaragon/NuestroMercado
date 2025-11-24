@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-
-
-  //Ventana principal del administrador. Desde aquí se puede acceder a la gestión de productoso cerrar sesión para volver al inicio.
+//Ventana principal del administrador. Desde aquí se puede acceder a la gestión de productoso cerrar sesión para volver al inicio.
 
 public class MenuAdminVisual extends JFrame {
 
@@ -70,7 +68,7 @@ public class MenuAdminVisual extends JFrame {
         new InicioVisual(gestor).setVisible(true);
     }
 
-    // --- MAIN CORRECTO ---
+    //chequeo de ventana
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() ->
                 new MenuAdminVisual(gestorProductos).setVisible(true)

@@ -1,11 +1,13 @@
 import java.util.Objects;
 
+//hereda de Usuario
 public class Cliente extends Usuario {
 
     public Cliente(String nombre, String apellido, String username, String email, String password) {
         super(nombre, apellido, username, email, password);
     }
 
+    //nunca esta de mas
     public Cliente() {}
 
     @Override
