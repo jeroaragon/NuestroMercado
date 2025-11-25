@@ -107,7 +107,7 @@ public class GestionProductosVisual extends JFrame {
                     (producto.getCategoria() != null ? producto.getCategoria().toString() : "SIN CATEGORÍA"),
                     producto.getPrecio(),
                     producto.getStock(),
-                    (producto.isActivo() ? "Activo" : "Inactivo") // NUEVO
+                    (producto.isActivo() ? "Activo" : "Inactivo")
             });
         }
     }
@@ -202,7 +202,6 @@ public class GestionProductosVisual extends JFrame {
         new MenuAdminVisual(gestor).setVisible(true); // Vuelve al menú
     }
 
-    // REFRESCAR TABLA
     //Recarga la tabla con los datos actuales del gestor.
 
     public void refrescarTabla() {
