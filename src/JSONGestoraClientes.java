@@ -2,12 +2,23 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 //gestiona el archivo de clientes
 public class JSONGestoraClientes {
+
+    private static void crearArchivo(String archivo) throws Exception {
+        Path path = Paths.get(archivo);
+
+        if (!Files.exists(path)) {
+            if (path.getParent() != null)
+                Files.createDirectories(path.getParent());
+            Files.write(path, "[]".getBytes());
+        }
+    }
 
     // CARGAR CLIENTES
     public static Set<Cliente> cargarClientes(String archivo) {

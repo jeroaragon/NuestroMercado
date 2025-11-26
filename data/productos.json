@@ -13,7 +13,7 @@
         "id": 2,
         "stock": 30,
         "nombre": "Milanesa",
-        "activo": false
+        "activo": true
     },
     {
         "precio": 4200,
@@ -21,7 +21,7 @@
         "id": 3,
         "stock": 25,
         "nombre": "Carne Picada",
-        "activo": false
+        "activo": true
     },
     {
         "precio": 6000,
@@ -29,7 +29,7 @@
         "id": 4,
         "stock": 15,
         "nombre": "Costillas",
-        "activo": false
+        "activo": true
     },
     {
         "precio": 1200,
@@ -37,7 +37,7 @@
         "id": 5,
         "stock": 100,
         "nombre": "Leche",
-        "activo": false
+        "activo": true
     },
     {
         "precio": 2800,

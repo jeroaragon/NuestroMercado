@@ -102,8 +102,8 @@ public class JSONGestoraAdmins {
             try {
                 arr = new JSONArray(txt);
             } catch (JSONException je) {
-                // No parseable: NO sobreescribir el archivo; informar y devolver lista vacía.
-                System.err.println("JSONGestoraAdmins: error al parsear admins JSON. Se evita sobrescribir el archivo.");
+                // NO sobreescribir el archivo; informar y devolver lista vacía.
+                System.err.println("  Se evita sobrescribir el archivo.");
                 je.printStackTrace();
                 return lista;
             }

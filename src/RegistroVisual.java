@@ -77,20 +77,20 @@ public class RegistroVisual extends JDialog {
         String pass = new String(campoPass.getPassword()).trim();
         String conf = new String(campoConfPass.getPassword()).trim();
 
-        // Validación: todos los campos deben estar completos
+        //todos los campos deben estar completos
         if (nombre.isEmpty() || apellido.isEmpty() || username.isEmpty() || email.isEmpty()
                 || pass.isEmpty() || conf.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validación: ambas contraseñas deben coincidir
+        // ambas contraseñas deben coincidir
         if (!pass.equals(conf)) {
             JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validación: el username no puede existir previamente
+        // el username no puede existir previamente
         if (JSONGestoraAdmins.existeUsername(username, archivoAdmins)) {
             JOptionPane.showMessageDialog(this, "El username ya existe. Elija otro.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -105,7 +105,7 @@ public class RegistroVisual extends JDialog {
         // Resultado del registro
         if (ok) {
             JOptionPane.showMessageDialog(this, "Registro exitoso. Ya puede iniciar sesión.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            dispose();  // Cerrar ventana al finalizar
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar el administrador.", "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -109,7 +109,7 @@ public class InicioVisual extends JFrame {
                     JOptionPane.YES_NO_OPTION);
 
             if (opcion == JOptionPane.YES_OPTION) {
-                new RegistroClienteVisual(this, gestorProductos);
+                new RegistroClienteVisual(this);
             }
         }
     }
