@@ -7,10 +7,10 @@ import java.awt.*;
 
 public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
-    // Campos de texto para ingresar los datos del producto
+
     private JTextField campoNombre, campoPrecio, campoStock;
 
-    // Combo para elegir la categoría del producto
+
     private JComboBox<Categorias> comboCategoria;
 
 
