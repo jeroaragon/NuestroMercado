@@ -5,6 +5,7 @@ import java.awt.*;
   Ventana para agregar un nuevo producto al sistema.
   Implementa IGestionProducto para mantener la estructura del proyecto.
  */
+
 public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
     // Campos de texto para ingresar los datos del producto
@@ -18,13 +19,12 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
     //Constructor de la ventana
     public AgregarProductoVisual(JFrame parent, GestorProductos gestor) {
-        super(parent, "Agregar Producto", true); // true = ventana modal
+        super(parent, "Agregar Producto", true);
         this.gestor = gestor;
 
-        // Configuración básica de la ventana
         setSize(350, 300);
         setLayout(new GridLayout(6, 2, 5, 5));
-        setLocationRelativeTo(parent); // centrar la ventana
+        setLocationRelativeTo(parent);
 
         // ================================
         //  CAMPOS DE INGRESO
@@ -59,13 +59,13 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
         botonAgregar.addActionListener(e -> {
 
-            // 1. Primero validamos que los datos estén correctos
+            // validamos que los datos estén correctos
             if (!validarDatos()) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos");
                 return;
             }
 
-            // 2. Intentamos agregar el producto al gestor
+            //  Intentamos agregar el producto al gestor
             boolean agregado = gestor.agregarProducto(
                     campoNombre.getText().trim(),
                     (Categorias) comboCategoria.getSelectedItem(),
@@ -73,13 +73,13 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
                     Integer.parseInt(campoStock.getText())
             );
 
-            // 3. Si el producto ya existe, mostramos el mensaje
+            //  Si el producto ya existe, mostramos el mensaje
             if (!agregado) {
                 JOptionPane.showMessageDialog(this, "Producto ya existente");
                 return;
             }
 
-            // 4. Si sale bien
+            //  Si sale bien
             JOptionPane.showMessageDialog(this, "Producto agregado correctamente");
             dispose(); // cerrar ventana
         });
@@ -92,10 +92,11 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
     //  IMPLEMENTACIÓN DE LA INTERFAZ IGestionProducto
     // =====================================================
 
-    /*
-      Método que carga los datos en el gestor.
-      Ya no se usa directamente desde el botón, pero se mantiene por la interfaz.
-     */
+    // =====================================================
+
+       //metodo que carga los datos en el gestor
+      //Ya no se usa directamente desde el botón, pero se mantiene por la interfaz.
+    // =====================================================
     @Override
     public void cargarDatosProducto() {
         String nombre = campoNombre.getText().trim();

@@ -17,13 +17,20 @@ public class JSONGestoraAdmins {
     }
 
     private static JSONObject adminToJSON(Administrador a) {
-        JSONObject o = new JSONObject();
-        o.put("nombre", a.getNombre());
-        o.put("apellido", a.getApellido());
-        o.put("username", a.getUsername());
-        o.put("email", a.getEmail());
-        o.put("password", a.getPassword());
-        o.put("activo", a.isActivo());
+        JSONObject o = null;
+        try {
+
+             o = new JSONObject();
+            o.put("nombre", a.getNombre());
+            o.put("apellido", a.getApellido());
+            o.put("username", a.getUsername());
+            o.put("email", a.getEmail());
+            o.put("password", a.getPassword());
+            o.put("activo", a.isActivo());
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
         return o;
     }
 
@@ -47,15 +54,15 @@ public class JSONGestoraAdmins {
         try {
             // protección: no sobreescribir con lista vacía si ya existe un archivo con datos
             Path path = Paths.get(archivo);
-            boolean fileExists = Files.exists(path);
-            boolean fileHasContent = false;
-            if (fileExists) {
+            boolean fileExiste = Files.exists(path);
+            boolean fileContenido = false;
+            if (fileExiste) {
                 try {
-                    fileHasContent = Files.size(path) > 0;
-                } catch (IOException ignore) { fileHasContent = true; }
+                    fileContenido= Files.size(path) > 0;
+                } catch (IOException ignore) { fileContenido = true; }
             }
 
-            if ((lista == null || lista.isEmpty()) && fileHasContent) {
+            if ((lista == null || lista.isEmpty()) && fileContenido) {
                 // Si hay contenido en el archivo y la lista que intentamos guardar está vacía,
                 // evitamos sobreescribirlo accidentalmente.
                 System.err.println("JSONGestoraAdmins: intento de guardar lista vacía sobre archivo existente. Operación cancelada.");
@@ -116,7 +123,7 @@ public class JSONGestoraAdmins {
     }
 
     // -----------------------------------------
-    // LOGIN -> usa UsuarioNoEncontradoException
+    // LOGIN
     // -----------------------------------------
     public static Administrador login(String username, String password, String archivo) {
 
