@@ -1,10 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
-/*
-  Ventana para agregar un nuevo producto al sistema.
-  Implementa IGestionProducto para mantener la estructura del proyecto.
- */
+
+ // Ventana para agregar un nuevo producto al sistema.
+
 
 public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
@@ -14,7 +13,7 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
     // Combo para elegir la categoría del producto
     private JComboBox<Categorias> comboCategoria;
 
-    // Referencia al gestor de productos (donde realmente se guarda)
+
     private GestorProductos gestor;
 
     //Constructor de la ventana
@@ -26,9 +25,8 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
         setLayout(new GridLayout(6, 2, 5, 5));
         setLocationRelativeTo(parent);
 
-        // ================================
+
         //  CAMPOS DE INGRESO
-        // ================================
 
         add(new JLabel("Nombre:"));
         campoNombre = new JTextField();
@@ -53,13 +51,13 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
         add(botonAgregar);
         add(botonCancelar);
 
-        // ================================
+
         //  ACCIÓN DEL BOTÓN AGREGAR
-        // ================================
+
 
         botonAgregar.addActionListener(e -> {
 
-            // validamos que los datos estén correctos
+            // validamos que los datos
             if (!validarDatos()) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos");
                 return;
@@ -88,15 +86,11 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
         botonCancelar.addActionListener(e -> dispose());
     }
 
-    // =====================================================
-    //  IMPLEMENTACIÓN DE LA INTERFAZ IGestionProducto
-    // =====================================================
 
-    // =====================================================
 
        //metodo que carga los datos en el gestor
       //Ya no se usa directamente desde el botón, pero se mantiene por la interfaz.
-    // =====================================================
+
     @Override
     public void cargarDatosProducto() {
         String nombre = campoNombre.getText().trim();
@@ -109,9 +103,9 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
 
     /*
       Valida que los datos ingresados sean correctos.
-      - El nombre no debe estar vacío
-      - Precio debe ser double
-      - Stock debe ser int
+       El nombre no debe estar vacío
+      Precio debe ser double
+       Stock debe ser int
      */
     @Override
     public boolean validarDatos() {
@@ -121,10 +115,9 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
             // Intentamos parsear para verificar que sean números válidos
             Double.parseDouble(campoPrecio.getText());
             Integer.parseInt(campoStock.getText());
-
             return true;
         } catch (Exception e) {
-            return false; // algún dato no es válido
+            return false;
         }
     }
 }

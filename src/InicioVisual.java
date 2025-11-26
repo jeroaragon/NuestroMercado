@@ -72,6 +72,7 @@ public class InicioVisual extends JFrame {
     // ---------------- LOGIN ADMIN ----------------
     private void procesarLoginAdministrador() {
         String user = campoUsuario.getText().trim();
+        //apuntes getText devuelve el texto y trim le saca los espacios
         String pass = String.valueOf(campoPassword.getPassword());
 
         try {
@@ -98,7 +99,7 @@ public class InicioVisual extends JFrame {
 
         try {
             Cliente cliente = JSONGestoraClientes.login(user, pass, archivoClientes);
-            new ClienteVisual(this, gestorProductos).setVisible(true); // ✔ SOLUCIONADO
+            new ClienteVisual(this, gestorProductos).setVisible(true);
             dispose();
 
         } catch (Exception e) {

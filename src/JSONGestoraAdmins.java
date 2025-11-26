@@ -19,7 +19,6 @@ public class JSONGestoraAdmins {
     private static JSONObject adminToJSON(Administrador a) {
         JSONObject o = null;
         try {
-
              o = new JSONObject();
             o.put("nombre", a.getNombre());
             o.put("apellido", a.getApellido());
@@ -47,12 +46,10 @@ public class JSONGestoraAdmins {
         return a;
     }
 
-    // -----------------------------------------
     // GUARDAR LISTA DE ADMINS
-    // -----------------------------------------
     public static void guardarAdmins(List<Administrador> lista, String archivo) {
         try {
-            // protección: no sobreescribir con lista vacía si ya existe un archivo con datos
+            //no sobreescribir con lista vacía si ya existe un archivo con datos
             Path path = Paths.get(archivo);
             boolean fileExiste = Files.exists(path);
             boolean fileContenido = false;
@@ -65,7 +62,8 @@ public class JSONGestoraAdmins {
             if ((lista == null || lista.isEmpty()) && fileContenido) {
                 // Si hay contenido en el archivo y la lista que intentamos guardar está vacía,
                 // evitamos sobreescribirlo accidentalmente.
-                System.err.println("JSONGestoraAdmins: intento de guardar lista vacía sobre archivo existente. Operación cancelada.");
+                // nos paso varias veces xD
+                System.err.println("intento de guardar lista vacía sobre archivo existente. Operación cancelada.");
                 return;
             }
 
@@ -84,9 +82,8 @@ public class JSONGestoraAdmins {
         }
     }
 
-    // -----------------------------------------
+
     // CARGAR LISTA DE ADMINS
-    // -----------------------------------------
     public static List<Administrador> cargarAdmins(String archivo) {
         List<Administrador> lista = new ArrayList<>();
 
@@ -122,9 +119,8 @@ public class JSONGestoraAdmins {
         return lista;
     }
 
-    // -----------------------------------------
+
     // LOGIN
-    // -----------------------------------------
     public static Administrador login(String username, String password, String archivo) {
 
         List<Administrador> admins = cargarAdmins(archivo);
@@ -145,9 +141,7 @@ public class JSONGestoraAdmins {
         throw new UsuarioNoEncontradoException("El usuario no existe.");
     }
 
-    // -----------------------------------------
     // Comprueba si existe username
-    // -----------------------------------------
     public static boolean existeUsername(String username, String archivo) {
         List<Administrador> admins = cargarAdmins(archivo);
         for (Administrador a : admins) {
@@ -156,9 +150,7 @@ public class JSONGestoraAdmins {
         return false;
     }
 
-    // -----------------------------------------
     // Agrega un admin si no existe y guarda
-    // -----------------------------------------
     public static boolean agregarAdmin(Administrador nuevo, String archivo) {
         List<Administrador> admins = cargarAdmins(archivo);
 

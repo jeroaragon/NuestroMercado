@@ -4,28 +4,29 @@ import java.awt.*;
 
 /*
   Ventana para que el administrador pueda:
-  - Ver todos los productos
-  - Agregar productos
-  - Modificar productos
-  - Eliminar productos
-  - Activar / Desactivar productos
-  - Refrescar la tabla
+   Ver todos los productos
+   Agregar productos
+   Modificar productos
+   Eliminar productos
+   Activar / Desactivar productos
+   Refrescar la tabla
  */
+
 public class GestionProductosVisual extends JFrame {
 
-    // Tabla y modelo
+
     private JTable tablaProductos;
     private DefaultTableModel modeloTabla;
 
-    // Botones
+
     private JButton botonAgregar;
     private JButton botonModificar;
     private JButton botonEliminar;
     private JButton botonVolver;
     private JButton botonRefrescar;
-    private JButton botonToggleActivo; // NUEVO
+    private JButton botonToggleActivo;
 
-    // Gestor que maneja la lista de productos (inyectado desde el menú)
+    // Gestor que maneja la lista de productos
     private GestorProductos gestor;
 
     public GestionProductosVisual(GestorProductos gestor) {
@@ -38,26 +39,24 @@ public class GestionProductosVisual extends JFrame {
         setResizable(false);
         setLayout(new BorderLayout());
 
-        // -----------------------------------------------------------
-        // TABLA
-        // -----------------------------------------------------------
 
-        // Agregamos columna "Activo"
+        // TABLA
+
         modeloTabla = new DefaultTableModel(
                 new String[]{"ID", "Nombre", "Categoría", "Precio", "Stock", "Activo"}, 0
         ) {
             @Override
             public boolean isCellEditable(int fila, int columna) {
-                return false; // Ninguna celda se puede editar
+                return false;
             }
         };
 
         tablaProductos = new JTable(modeloTabla);
         add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
 
-        // -----------------------------------------------------------
+
         // PANEL DE BOTONES
-        // -----------------------------------------------------------
+
         JPanel panelBotones = new JPanel(new FlowLayout());
 
         botonAgregar = new JButton("Agregar");
@@ -67,19 +66,18 @@ public class GestionProductosVisual extends JFrame {
         botonToggleActivo = new JButton("Activar/Desactivar"); // NUEVO
         botonVolver = new JButton("Volver");
 
-        // Agregamos los botones al panel
+
         panelBotones.add(botonAgregar);
         panelBotones.add(botonModificar);
         panelBotones.add(botonEliminar);
         panelBotones.add(botonRefrescar);
-        panelBotones.add(botonToggleActivo); // NUEVO
+        panelBotones.add(botonToggleActivo);
         panelBotones.add(botonVolver);
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        // -----------------------------------------------------------
         // EVENTOS DE LOS BOTONES
-        // -----------------------------------------------------------
+
         botonAgregar.addActionListener(e -> abrirVentanaAgregar());
         botonModificar.addActionListener(e -> abrirVentanaModificar());
         botonEliminar.addActionListener(e -> eliminarProducto());
@@ -91,14 +89,13 @@ public class GestionProductosVisual extends JFrame {
         cargarProductosEnTabla();
     }
 
-    // ===============================================================
+
     // CARGAR TABLA
-    // ===============================================================
-    /*
-      Llena la tabla con todos los productos del gestor.
-     */
+
+
+      // Llena la tabla con todos los productos del gestor.
     public void cargarProductosEnTabla() {
-        modeloTabla.setRowCount(0); // Borra filas existentes
+        modeloTabla.setRowCount(0);
 
         for (Producto producto : gestor.getListaProductos()) {
             modeloTabla.addRow(new Object[]{
@@ -112,16 +109,15 @@ public class GestionProductosVisual extends JFrame {
         }
     }
 
-    // ===============================================================
+
     // ABRIR VENTANA: AGREGAR PRODUCTO
-    // ===============================================================
+
     private void abrirVentanaAgregar() {
         new AgregarProductoVisual(this, gestor).setVisible(true);
     }
 
-    // ===============================================================
+
     // ABRIR VENTANA: MODIFICAR PRODUCTO
-    // ===============================================================
     private void abrirVentanaModificar() {
         int filaSeleccionada = tablaProductos.getSelectedRow();
 
@@ -141,9 +137,7 @@ public class GestionProductosVisual extends JFrame {
         new ModificarProductoVisual(this, gestor, id, nombre, categoria, precio, stock).setVisible(true);
     }
 
-    // ===============================================================
     // ELIMINAR PRODUCTO
-    // ===============================================================
     private void eliminarProducto() {
         int filaSeleccionada = tablaProductos.getSelectedRow();
 
@@ -162,9 +156,8 @@ public class GestionProductosVisual extends JFrame {
         }
     }
 
-    // ===============================================================
-    // NUEVO: ACTIVAR / DESACTIVAR PRODUCTO
-    // ===============================================================
+
+   // ACTIVAR / DESACTIVAR PRODUCTO
     private void toggleActivo() {
         int filaSeleccionada = tablaProductos.getSelectedRow();
 
@@ -185,7 +178,7 @@ public class GestionProductosVisual extends JFrame {
         // Cambiamos el estado
         p.setActivo(!p.isActivo());
 
-        // Guardamos cambios en archivo JSON (si tu Gestor lo soporta)
+        // Guardamos cambios en archivo JSON
         gestor.guardarProductos();
 
         // Refrescamos tabla
@@ -198,8 +191,8 @@ public class GestionProductosVisual extends JFrame {
 
     // VOLVER AL MENÚ ADMIN
     private void volver() {
-        dispose(); // Cierra esta ventana
-        new MenuAdminVisual(gestor).setVisible(true); // Vuelve al menú
+        dispose();
+        new MenuAdminVisual(gestor).setVisible(true);
     }
 
     //Recarga la tabla con los datos actuales del gestor.

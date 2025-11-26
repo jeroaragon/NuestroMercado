@@ -96,7 +96,7 @@ public class CarritoVisual extends JFrame {
 
     private void eliminarUnaUnidad(ActionEvent e) {
         int index = listaProductos.getSelectedIndex();
-        if (index == -1) {
+        if (index == -1) { // el -1 es por que no esta nada seleccionado aun
             JOptionPane.showMessageDialog(this, "Selecciona un producto");
             return;
         }

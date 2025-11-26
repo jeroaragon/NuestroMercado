@@ -7,15 +7,15 @@ import java.util.TreeSet;
 
 /*
   Ventana principal del cliente donde se muestran:
-  - Categorías de productos
-  - Tabla con productos
-  - Botón para agregar al carrito
-  - Botón para ver el carrito
+   Categorías de productos
+   Tabla con productos
+   Botón para agregar al carrito
+   Botón para ver el carrito
  */
 public class ClienteVisual extends JFrame {
 
     private GestorProductos gestor;
-    private InicioVisual ventanaInicio; // referencia al inicio
+    private InicioVisual ventanaInicio;
 
     // Componentes de la interfaz
     private JComboBox<String> comboCategorias;
@@ -24,12 +24,12 @@ public class ClienteVisual extends JFrame {
 
     private JButton botonAgregarCarrito;
     private JButton botonVerCarrito;
-    private JButton botonVolver;   // NUEVO BOTÓN
+    private JButton botonVolver;
 
-    // Carrito de compras (Producto → Cantidad)
+    // Carrito de compras
     private LinkedHashMap<Producto, Integer> carrito = new LinkedHashMap<>();
 
-    // CONSTRUCTOR NUEVO (recibe InicioVisual)
+
     public ClienteVisual(InicioVisual inicio, GestorProductos gestor) {
         this.ventanaInicio = inicio;
         this.gestor = gestor;
@@ -44,8 +44,7 @@ public class ClienteVisual extends JFrame {
         setResizable(false);
         setLayout(new BorderLayout());
 
-        // ---------------- PANEL SUPERIOR ----------------
-        JPanel panelSuperior = new JPanel();
+         JPanel panelSuperior = new JPanel();
         panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         comboCategorias = new JComboBox<>();
@@ -56,7 +55,7 @@ public class ClienteVisual extends JFrame {
 
         add(panelSuperior, BorderLayout.NORTH);
 
-        // ---------------- TABLA DE PRODUCTOS ----------------
+        //  TABLA DE PRODUCTOS
         modeloTabla = new DefaultTableModel(
                 new String[]{"ID", "Nombre", "Precio", "Stock"}, 0
         ) {
@@ -69,7 +68,7 @@ public class ClienteVisual extends JFrame {
         tablaProductos = new JTable(modeloTabla);
         add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
 
-        // ---------------- BOTONES INFERIORES ----------------
+
         JPanel panelInferior = new JPanel(new FlowLayout());
 
         botonAgregarCarrito = new JButton("Agregar al Carrito");
@@ -87,17 +86,17 @@ public class ClienteVisual extends JFrame {
         botonAgregarCarrito.addActionListener(e -> agregarProductoAlCarrito());
         botonVerCarrito.addActionListener(e -> abrirCarrito());
 
-        // BOTÓN VOLVER → vuelve al inicio
+
         botonVolver.addActionListener(e -> {
             ventanaInicio.setVisible(true);
-            dispose(); // cierra ClienteVisual
+            dispose();
         });
 
         cargarCategorias();
     }
 
 
-    // ====================== CARGAR CATEGORÍAS ======================
+    //  CARGAR CATEGORÍAS
     private void cargarCategorias() {
         comboCategorias.removeAllItems();
 
@@ -121,7 +120,7 @@ public class ClienteVisual extends JFrame {
         }
     }
 
-    // ====================== CARGAR PRODUCTOS ======================
+    //CARGAR PRODUCTOS
     private void cargarProductosPorCategoria() {
         String categoriaSeleccionada = (String) comboCategorias.getSelectedItem();
         modeloTabla.setRowCount(0);
@@ -143,7 +142,7 @@ public class ClienteVisual extends JFrame {
         }
     }
 
-    // ====================== CARRITO ======================
+    //  CARRITO
     private void agregarProductoAlCarrito() {
         int fila = tablaProductos.getSelectedRow();
 
@@ -173,10 +172,10 @@ public class ClienteVisual extends JFrame {
 
     private void abrirCarrito() {
         CarritoVisual ventanaCarrito = new CarritoVisual(carrito, gestor);
-
+        // sirve para detectar cosas en la ventana en tiempo real
         ventanaCarrito.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
+            public void windowClosed(java.awt.event.WindowEvent e) { //cuando la ventana se cierra refresca todo
                 refrescarDatos();
             }
         });

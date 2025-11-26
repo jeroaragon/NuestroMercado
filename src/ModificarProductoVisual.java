@@ -73,7 +73,6 @@ public class ModificarProductoVisual extends JDialog implements IGestionProducto
 
 
      // Guarda los cambios ingresados por el usuario   en el gestor de productos.
-
     @Override
     public void cargarDatosProducto() {
         String newNombre = campoNombre.getText();
@@ -87,7 +86,6 @@ public class ModificarProductoVisual extends JDialog implements IGestionProducto
 
 
       //Valida que los campos tengan datos correctos.El nombre no debe estar vacío.Precio debe ser número double.Stock debe ser entero.
-
     @Override
     public boolean validarDatos() {
         try {

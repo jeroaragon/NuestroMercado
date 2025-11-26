@@ -9,7 +9,7 @@ import java.util.Set;
 //gestiona el archivo de clientes
 public class JSONGestoraClientes {
 
-    // ---------------- CARGAR CLIENTES ----------------
+    // CARGAR CLIENTES
     public static Set<Cliente> cargarClientes(String archivo) {
         Set<Cliente> lista = new LinkedHashSet<>();
 
@@ -38,7 +38,7 @@ public class JSONGestoraClientes {
         return lista;
     }
 
-    // ---------------- GUARDAR CLIENTES ----------------
+    //  GUARDAR CLIENTES
     public static void guardarClientes(Set<Cliente> lista, String archivo) {
         JSONArray arr = new JSONArray();
 
@@ -59,7 +59,7 @@ public class JSONGestoraClientes {
         }
     }
 
-    // ---------------- LOGIN ----------------
+    // LOGIN
     public static Cliente login(String username, String password, String archivo)
             throws UsuarioNoEncontradoException {
 

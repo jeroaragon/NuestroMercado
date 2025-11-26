@@ -124,13 +124,12 @@ public class GestorProductos {
     }
 
 
-    // Guardar en JSON
-
+    // Guardar en JSON (la usamos en caso dentro de la gestion de productos )
     private void guardarEnJSON() {
         JSONGestoraProductos.guardarProductos(repositorio.listar(), archivoJSON);
     }
 
-    // Guardar desde afuera (no siempre se usa)
+    // Guardar desde afuera (es lo mismo pero mas ordenado , lo usamos en caso como pago visual)
     public void guardarEnJSONexterno() {
         JSONGestoraProductos.guardarProductos(repositorio.listar(), archivoJSON);
     }
@@ -148,7 +147,6 @@ public class GestorProductos {
 
 
     // Buscar producto por ID
-
     public Producto buscarPorId(int id) {
         for (Producto p : repositorio.listar()) {
             if (p.getId() == id) {

@@ -11,19 +11,19 @@ public class RegistroVisual extends JDialog {
     // Ruta del archivo donde se guardan los administradores registrados
     private final String archivoAdmins = "data/admins.json";
 
-    // Referencia opcional al gestor de productos (solo si se necesita utilizarlo)
+
     private GestorProductos gestorProductos;
 
-    // Constructor: recibe la ventana padre y el gestor (si se desea pasar)
+    // Constructor: recibe la ventana padre y el gestor
     public RegistroVisual(Window parent, GestorProductos gestorProductos) {
-        // Llamada al constructor de JDialog indicando título y modalidad
+
         super(parent, "Registro de Administrador", ModalityType.APPLICATION_MODAL);
         this.gestorProductos = gestorProductos;
 
-        // Configuración general de la ventana
+
         setSize(380, 360);
-        setLayout(new GridLayout(8, 2, 8, 8)); // Grid con 8 filas, 2 columnas y espaciado
-        setLocationRelativeTo(parent);         // Centrar respecto a la ventana padre
+        setLayout(new GridLayout(8, 2, 8, 8));
+        setLocationRelativeTo(parent);
 
         // Etiquetas y campos del formulario
         add(new JLabel("Nombre:"));
@@ -56,10 +56,10 @@ public class RegistroVisual extends JDialog {
         add(btnRegistrar);
         add(btnCancelar);
 
-        // Acción del botón Registrar
+
         btnRegistrar.addActionListener(e -> registrar());
 
-        // Acción del botón Cancelar
+
         btnCancelar.addActionListener(e -> dispose());
 
         // Mostrar la ventana

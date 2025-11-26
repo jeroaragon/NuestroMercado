@@ -30,14 +30,14 @@ public class MenuAdminVisual extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 10, 15, 10);
 
-        // Título
+
         JLabel titulo = new JLabel("Panel de Administración");
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(titulo, gbc);
 
-        // Botón gestionar productos
+
         botonGestionProductos = new JButton("Gestionar Productos");
         botonGestionProductos.setFont(new Font("Arial", Font.PLAIN, 16));
         botonGestionProductos.setPreferredSize(new Dimension(220, 40));
@@ -53,7 +53,6 @@ public class MenuAdminVisual extends JFrame {
 
         add(panel);
 
-        // --- LISTENERS ---
         botonGestionProductos.addActionListener(e -> {
             new GestionProductosVisual(gestor).setVisible(true);
             dispose();
