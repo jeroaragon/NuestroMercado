@@ -17,13 +17,18 @@ public class JSONGestoraProductos {
     }
 
     public static JSONObject productoToJSON(Producto p) {
-        JSONObject o = new JSONObject();
-        o.put("id", p.getId());
-        o.put("nombre", p.getNombre());
-        o.put("categoria", p.getCategoria().name());
-        o.put("precio", p.getPrecio());
-        o.put("stock", p.getStock());
-        o.put("activo", p.isActivo());
+        JSONObject o = null;
+        try {
+            o = new JSONObject();
+            o.put("id", p.getId());
+            o.put("nombre", p.getNombre());
+            o.put("categoria", p.getCategoria().name());
+            o.put("precio", p.getPrecio());
+            o.put("stock", p.getStock());
+            o.put("activo", p.isActivo());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return o;
     }
 
