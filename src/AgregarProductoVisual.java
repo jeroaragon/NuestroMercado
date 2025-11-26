@@ -82,7 +82,7 @@ public class AgregarProductoVisual extends JDialog implements IGestionProducto {
             dispose(); // cerrar ventana
         });
 
-        // Acción del botón cancelar
+
         botonCancelar.addActionListener(e -> dispose());
     }
 

@@ -196,7 +196,6 @@ public class GestionProductosVisual extends JFrame {
     }
 
     //Recarga la tabla con los datos actuales del gestor.
-
     public void refrescarTabla() {
         cargarProductosEnTabla();
     }

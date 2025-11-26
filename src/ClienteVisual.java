@@ -17,7 +17,7 @@ public class ClienteVisual extends JFrame {
     private GestorProductos gestor;
     private InicioVisual ventanaInicio;
 
-    // Componentes de la interfaz
+
     private JComboBox<String> comboCategorias;
     private JTable tablaProductos;
     private DefaultTableModel modeloTabla;

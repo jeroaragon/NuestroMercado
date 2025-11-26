@@ -61,7 +61,7 @@ public class RegistroClienteVisual extends JDialog {
         String pass = new String(campoPassword.getPassword()).trim();
         String conf = new String(campoConfPassword.getPassword()).trim();
 
-        // Validación: todos los campos completos
+        // todos los campos completos
         if (nom.isEmpty() || ape.isEmpty() || user.isEmpty() || email.isEmpty() ||
                 pass.isEmpty() || conf.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Complete todos los campos.",
@@ -69,14 +69,14 @@ public class RegistroClienteVisual extends JDialog {
             return;
         }
 
-        // Validación: contraseñas iguales
+        //  contraseñas iguales
         if (!pass.equals(conf)) {
             JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.",
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validación: username único
+        // username único
         Set<Cliente> lista = JSONGestoraClientes.cargarClientes(archivoClientes);
         Cliente nuevo = new Cliente(nom, ape, user, email, pass);
 
@@ -86,7 +86,7 @@ public class RegistroClienteVisual extends JDialog {
             return;
         }
 
-        // Si todo está OK → agregar y guardar
+
         lista.add(nuevo);
         JSONGestoraClientes.guardarClientes(lista, archivoClientes);
 
