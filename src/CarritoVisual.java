@@ -32,7 +32,7 @@ public class CarritoVisual extends JFrame {
         listaProductos.setFont(new Font("Arial", Font.PLAIN, 16));
         add(new JScrollPane(listaProductos), BorderLayout.CENTER);
 
-        // PANEL DE BOTONES DERECHA
+
         JPanel panelBotones = new JPanel(new GridLayout(4, 1, 5, 5));
 
         JButton btnVolver = new JButton("Volver");
@@ -56,7 +56,7 @@ public class CarritoVisual extends JFrame {
 
         add(panelBotones, BorderLayout.EAST);
 
-        // PANEL INFERIOR
+
         JPanel panelInferior = new JPanel(new BorderLayout());
 
         labelTotal = new JLabel("Total: $0.00");

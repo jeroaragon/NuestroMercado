@@ -25,9 +25,9 @@ public class TicketVisual extends JFrame {
 
         // Recorremos cada producto del carrito
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
-            Producto p = entry.getKey();              // Producto actual
-            int cant = entry.getValue();              // Cantidad comprada
-            double subtotal = p.getPrecio() * cant;   // Cálculo del subtotal
+            Producto p = entry.getKey();
+            int cant = entry.getValue();
+            double subtotal = p.getPrecio() * cant;
 
 
             sb.append(String.format("%-20s x%d   $%.2f\n", p.getNombre(), cant, subtotal));

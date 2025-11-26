@@ -8,7 +8,7 @@ public class PagoVisual extends JFrame {
 
     // Carrito con productos y cantidades
     private LinkedHashMap<Producto, Integer> carrito;
-    // Referencia al gestor (para actualizar el stock en el JSON)
+
     private GestorProductos gestor;
     // Constructor: recibe el carrito y el gestor
     public PagoVisual(LinkedHashMap<Producto, Integer> carrito, GestorProductos gestor) {
@@ -38,9 +38,9 @@ public class PagoVisual extends JFrame {
         add(btnVolver);
     }
 
-    /*
-      Procesa el pago, verificando stock y generando ticket.
-     */
+
+     // Procesa el pago, verificando stock y generando ticket.
+
     private void procesarPago(String metodoPago) {
         try {
             validarStock();
@@ -61,9 +61,9 @@ public class PagoVisual extends JFrame {
         }
     }
 
-    /*
-      Verifica que todos los productos tengan stock suficiente.
-     */
+
+     // Verifica que todos los productos tengan stock suficiente.
+
     private void validarStock() throws StockInsuficienteException {
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
             Producto p = entry.getKey();
@@ -77,9 +77,9 @@ public class PagoVisual extends JFrame {
         }
     }
 
-    /*
-      Descuenta el stock en el repositorio del gestor.
-     */
+
+     // Descuenta el stock en el repositorio del gestor.
+
     private void descontarStock() {
         for (Map.Entry<Producto, Integer> entry : carrito.entrySet()) {
             Producto pCarrito = entry.getKey();
@@ -90,7 +90,7 @@ public class PagoVisual extends JFrame {
             if (pRepo != null) {
                 pRepo.setStock(pRepo.getStock() - cantidad);
             } else {
-                // Caso improbable, se descuenta en la instancia del carrito igual
+
                 pCarrito.setStock(pCarrito.getStock() - cantidad);
             }
         }

@@ -4,10 +4,9 @@ import java.util.*;
  // Clase que se encarga de manejar todos los productos  Agregar, modificar, eliminar  Guardar y cargar desde JSON Manejar IDs disponibles Proveer la lista actual de productos
 public class GestorProductos {
 
-    // Repositorio genérico donde se guardan los productos en memoria
+
     private RepositorioGenerico<Producto> repositorio = new RepositorioGenerico<>();
 
-    // Ruta del archivo JSON donde se guardan los datos
     private String archivoJSON = "data/productos.json";
 
     public GestorProductos() {

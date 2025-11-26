@@ -8,7 +8,7 @@ public class RegistroVisual extends JDialog {
     private JTextField campoNombre, campoApellido, campoUsername, campoEmail;
     private JPasswordField campoPass, campoConfPass;
 
-    // Ruta del archivo donde se guardan los administradores registrados
+
     private final String archivoAdmins = "data/admins.json";
 
 

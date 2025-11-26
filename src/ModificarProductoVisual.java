@@ -1,25 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
-/*
- Ventana de diálogo para modificar un producto existente.
- Implementa la interfaz IGestionProducto para mantener un estándar
- con las demás ventanas que modifican o cargan productos.
- */
+
+// Ventana de diálogo para modificar un producto existente.
+
 public class ModificarProductoVisual extends JDialog implements IGestionProducto {
     // Campos de texto para editar los datos del producto
     private JTextField campoNombre, campoPrecio, campoStock;
     // ComboBox para seleccionar la categoría
     private JComboBox<Categorias> comboCategoria;
-    // Referencia al gestor para aplicar los cambios al JSON
+
     private GestorProductos gestor;
 
-    // ID del producto que se está modificando
+
     private int id;
 
 
 
     // Constructor de la ventana. Recibe el producto que será modificado para mostrar su información actual.
-
     public ModificarProductoVisual(JFrame parent, GestorProductos gestor,
                                    int id, String nombre, String categoria,
                                    double precio, int stock) {
@@ -32,7 +29,7 @@ public class ModificarProductoVisual extends JDialog implements IGestionProducto
         setLayout(new GridLayout(6, 2, 5, 5));
         setLocationRelativeTo(parent);
 
-        // Campos
+
         add(new JLabel("Nombre:"));
         campoNombre = new JTextField(nombre);
         add(campoNombre);
@@ -50,7 +47,7 @@ public class ModificarProductoVisual extends JDialog implements IGestionProducto
         campoStock = new JTextField(String.valueOf(stock));
         add(campoStock);
 
-        // Botones
+
         JButton botonGuardar = new JButton("Guardar cambios");
         JButton botonCancelar = new JButton("Cancelar");
 
